@@ -1,8 +1,21 @@
 $(document).ready(function(){
     var canvas;
     var convasContext;
-    console.log("Hello World!");
+   
 
     canvas = document.getElementById("gameCanvas");
-    convasContext = canvas.getContext("2d");
+    canvasContext = canvas.getContext("2d");
+    drawEverything();
+
+    function drawEverything(){
+        //clear the game view by filling with black
+        canvasContext.fillStyle = "black";
+        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+        //draw a white circle
+        canvasContext.fillStyle = "white";
+        canvasContext.beginPath();
+        canvasContext.arc(75, 75, 10, 0, Math.PI*2, true);
+        canvasContext.fill();
+    }
 });
