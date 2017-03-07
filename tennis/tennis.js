@@ -3,7 +3,9 @@ $(document).ready(function(){
     var ballY = 75;
     var ballSpeedX = 12;
     var ballSpeedY = 12;
+    var paddle1Y = 250;
     var framesPerSecond = 30;
+    const PADDLE_HEIGHT = 100;
     var canvas;
     var convasContext;
    
@@ -16,11 +18,19 @@ $(document).ready(function(){
     }, 1000/framesPerSecond);
 
     function moveEverything(){
-        if(ballX > canvas.width || ballX < 0){
+        if(ballX > canvas.width){
             ballSpeedX *= -1;
         }
         if(ballY > canvas.height || ballY < 0){
             ballSpeedY *= -1;
+        }
+        if(ballX < 0){
+            if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
+                ballSpeedX *= -1;
+            }
+            else{
+                ballReset();
+            }
         }
         ballX += ballSpeedX;
         ballY += ballSpeedY;
@@ -43,9 +53,38 @@ $(document).ready(function(){
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
         //draw left paddle
-        colorRect(0, 250, 10, 100, "white");
+        colorRect(0, paddle1Y, 10, 100, "white");
 
         //draw a white circle
         colorCircle(ballX, ballY, 10, "white");
     }
+
+    function calculateMousePos(evt){
+        var rect = canvas.getBoundingClientRect();
+        var root = document.documentElement;
+
+        //account for the margins, canvas position on page, scroll amount, etc.
+        var mouseX = evt.pageX - rect.left - root.scrollLeft;
+        var mouseY = evt.pageY - rect.top - root.scrollTop;
+        return{
+            x: mouseX,
+            y: mouseY
+        };
+    }
+
+    function ballReset(){
+        ballX = canvas.width/2;
+        ballY = canvas.height/2;
+    }
+
+    $(canvas).mousemove(function(evt){
+        var mousePos = calculateMousePos(evt);
+        paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
+    });
+
+    /*
+    canvas.addEventListener("mousemove", function(evt){
+        var mousePos = calculateMousePos(evt);
+        paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
+    });*/
 });
