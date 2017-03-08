@@ -4,8 +4,10 @@ $(document).ready(function(){
     var ballSpeedX = 12;
     var ballSpeedY = 12;
     var paddle1Y = 250;
+    var paddle2Y = 250;
     var framesPerSecond = 30;
     const PADDLE_HEIGHT = 100;
+    const PADDLE_THICKNESS = 10;
     var canvas;
     var convasContext;
    
@@ -24,11 +26,15 @@ $(document).ready(function(){
         if(ballY > canvas.height || ballY < 0){
             ballSpeedY *= -1;
         }
-        if(ballX < 0){
+        if(ballX < 0 || ballX > canvas.width - PADDLE_THICKNESS){
             if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
                 ballSpeedX *= -1;
             }
+            else if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT ){
+                ballSpeedX *= -1;
+            }
             else{
+                ballSpeedX *= -1;
                 ballReset();
             }
         }
@@ -53,7 +59,10 @@ $(document).ready(function(){
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
         //draw left paddle
-        colorRect(0, paddle1Y, 10, 100, "white");
+        colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+
+        //draw right paddle
+        colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
         //draw a white circle
         colorCircle(ballX, ballY, 10, "white");
@@ -79,12 +88,9 @@ $(document).ready(function(){
 
     $(canvas).mousemove(function(evt){
         var mousePos = calculateMousePos(evt);
-        paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
+        paddle2Y = mousePos.y - (PADDLE_HEIGHT/2);
     });
 
-    /*
-    canvas.addEventListener("mousemove", function(evt){
-        var mousePos = calculateMousePos(evt);
-        paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
-    });*/
+    
+   
 });
