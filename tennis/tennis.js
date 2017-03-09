@@ -26,6 +26,11 @@ $(document).ready(function(){
         if(ballX > canvas.width){
             if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){
                 ballSpeedX *= -1;
+                //point where the center of the paddle is located
+                var centerPaddle2 = (paddle2Y + PADDLE_HEIGHT/2);
+                //ball distance from center of paddle on collision
+                var centerDistance2 = ballY - centerPaddle2;
+                ballSpeedY = centerDistance2 * 0.35;
             }
             else{
                 leftScore++;
@@ -36,8 +41,12 @@ $(document).ready(function(){
         //if ball goes over left edge
         if(ballX < 0){
             if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
-                
                 ballSpeedX *= -1;
+                //point where the center of the paddle is located
+                var centerPaddle1 = (paddle1Y + PADDLE_HEIGHT/2);
+                //ball distance from center of paddle on collision
+                var centerDistance1 = ballY - centerPaddle1;
+                ballSpeedY = centerDistance1 * 0.35;
             }
             else{
                 rightScore++;
@@ -103,6 +112,7 @@ $(document).ready(function(){
     }
 
     function ballReset(){
+        //Changes direction of the ball when ball is served
         ballSpeedX *= -1;
         ballX = canvas.width/2;
         ballY = canvas.height/2;
