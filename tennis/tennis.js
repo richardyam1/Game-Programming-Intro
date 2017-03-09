@@ -1,13 +1,15 @@
 $(document).ready(function(){
     var ballX = 75;
     var ballY = 75;
-    var ballSpeedX = 12;
-    var ballSpeedY = 12;
+    var ballSpeedX = 6;
+    var ballSpeedY = 6;
     var paddle1Y = 250;
     var paddle2Y = 250;
     var framesPerSecond = 30;
     const PADDLE_HEIGHT = 100;
     const PADDLE_THICKNESS = 10;
+    var leftScore = 0;
+    var rightScore = 0;
     var canvas;
     var convasContext;
    
@@ -20,25 +22,38 @@ $(document).ready(function(){
     }, 1000/framesPerSecond);
 
     function moveEverything(){
+        //if ball goes over right edge
         if(ballX > canvas.width){
-            ballSpeedX *= -1;
-        }
-        if(ballY > canvas.height || ballY < 0){
-            ballSpeedY *= -1;
-        }
-        if(ballX < 0 || ballX > canvas.width - PADDLE_THICKNESS){
-            if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
-                ballSpeedX *= -1;
-            }
-            else if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT ){
+            if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){
                 ballSpeedX *= -1;
             }
             else{
-                ballSpeedX *= -1;
+                leftScore++;
                 ballReset();
             }
         }
+        
+        //if ball goes over left edge
+        if(ballX < 0){
+            if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
+                
+                ballSpeedX *= -1;
+            }
+            else{
+                rightScore++;
+                ballReset();
+            }
+        }
+
+        //redirects ball when it hits ceiling or floor
+        if(ballY > canvas.height || ballY < 0) {
+            ballSpeedY *= -1;
+        }
+
+        //Moves ball horizontally
         ballX += ballSpeedX;
+
+        //Moves ball Vertically
         ballY += ballSpeedY;
     }
 
@@ -66,6 +81,12 @@ $(document).ready(function(){
 
         //draw a white circle
         colorCircle(ballX, ballY, 10, "white");
+
+        //score for left side
+        canvasContext.fillText(leftScore, 100, 100);
+
+        //score for right side
+        canvasContext.fillText(rightScore, canvas.width - 100, 100);
     }
 
     function calculateMousePos(evt){
@@ -82,13 +103,15 @@ $(document).ready(function(){
     }
 
     function ballReset(){
+        ballSpeedX *= -1;
         ballX = canvas.width/2;
         ballY = canvas.height/2;
     }
 
+
     $(canvas).mousemove(function(evt){
         var mousePos = calculateMousePos(evt);
-        paddle2Y = mousePos.y - (PADDLE_HEIGHT/2);
+        paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
     });
 
     
