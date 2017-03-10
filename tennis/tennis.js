@@ -6,22 +6,28 @@ $(document).ready(function(){
     var paddle1Y = 250;
     var paddle2Y = 250;
     var framesPerSecond = 30;
-    const PADDLE_HEIGHT = 100;
-    const PADDLE_THICKNESS = 10;
     var leftScore = 0;
     var rightScore = 0;
+    var showingWinScreen = false;
     var canvas;
     var convasContext;
+    const PADDLE_HEIGHT = 100;
+    const PADDLE_THICKNESS = 10;
+    const cpuSpeed = 13;
    
 
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext("2d");
+    canvasContext.textAlign = "center";
     setInterval(function(){
         moveEverything();
         drawEverything();
     }, 1000/framesPerSecond);
 
     function moveEverything(){
+        //moves right paddle
+        moveComputerPaddle();
+
         //if ball goes over right edge
         if(ballX > canvas.width){
             if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){
@@ -112,10 +118,28 @@ $(document).ready(function(){
     }
 
     function ballReset(){
+        //checks if the maximum score is reached
+        if(leftScore >= 3 || rightScore >= 3){
+            clearinterval();
+            leftScore = 0;
+            rightScore = 0;
+        }
         //Changes direction of the ball when ball is served
         ballSpeedX *= -1;
         ballX = canvas.width/2;
         ballY = canvas.height/2;
+
+    }
+
+    function moveComputerPaddle(){
+        //if ball is below paddle center
+        if (ballY > (paddle2Y + PADDLE_HEIGHT/2) + 35){
+            paddle2Y += cpuSpeed;
+        }
+        //if ball is above paddle center
+        else if (ballY < (paddle2Y + PADDLE_HEIGHT/2 - 35)){
+            paddle2Y -= cpuSpeed;
+        }
     }
 
 
