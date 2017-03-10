@@ -25,6 +25,9 @@ $(document).ready(function(){
     }, 1000/framesPerSecond);
 
     function moveEverything(){
+        if(showingWinScreen){
+            return;
+        }
         //moves right paddle
         moveComputerPaddle();
 
@@ -84,24 +87,44 @@ $(document).ready(function(){
         canvasContext.fill();
     }
 
+    function colorText(words, textX, textY, fillColor){
+        canvasContext.fillStyle = fillColor;
+        canvasContext.fillText(words, textX, textY);
+    }
+
     function drawEverything(){
         //clear the game view by filling with black
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
-        //draw left paddle
-        colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+        if(showingWinScreen){
+            if(leftScore >= 1){
+                colorText("left side wins", canvas.width/2, canvas.height/2, "white");
+            }
+            else if(rightScore >=1){
+                colorText("Right side wins", canvas.width/2, canvas.height/2, "white");
+            }
+            colorText("Click to reset", canvas.width/2, canvas.height/2 + 50, "white");
+        }
 
-        //draw right paddle
-        colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+        else{
+            //draw left paddle
+            colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
-        //draw a white circle
-        colorCircle(ballX, ballY, 10, "white");
+            //draw right paddle
+            colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
+            //draw a white circle
+            colorCircle(ballX, ballY, 10, "white");
+   
+        }
         //score for left side
-        canvasContext.fillText(leftScore, 100, 100);
+        colorText(leftScore, 100, 100, "white");
 
         //score for right side
-        canvasContext.fillText(rightScore, canvas.width - 100, 100);
+        colorText(rightScore, canvas.width - 100, 100, "white");
+
+
+        
     }
 
     function calculateMousePos(evt){
@@ -118,12 +141,12 @@ $(document).ready(function(){
     }
 
     function ballReset(){
+     
         //checks if the maximum score is reached
-        if(leftScore >= 3 || rightScore >= 3){
-            clearinterval();
-            leftScore = 0;
-            rightScore = 0;
+        if(leftScore >= 1 || rightScore >=1){
+            showingWinScreen = true;
         }
+
         //Changes direction of the ball when ball is served
         ballSpeedX *= -1;
         ballX = canvas.width/2;
@@ -148,6 +171,12 @@ $(document).ready(function(){
         paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
     });
 
-    
-   
+    $(canvas).mousedown(function(){
+        if (showingWinScreen){
+            leftScore = 0;
+            rightScore = 0;
+            showingWinScreen = false;
+        }
+    });
+     
 });
