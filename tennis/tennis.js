@@ -8,6 +8,7 @@ $(document).ready(function(){
     var framesPerSecond = 30;
     var leftScore = 0;
     var rightScore = 0;
+    var winScore = 3;
     var showingWinScreen = false;
     var canvas;
     var convasContext;
@@ -96,17 +97,24 @@ $(document).ready(function(){
         //clear the game view by filling with black
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
+        
+
+
         if(showingWinScreen){
-            if(leftScore >= 1){
-                colorText("left side wins", canvas.width/2, canvas.height/2, "white");
+            if(leftScore >= winScore){
+                colorText("Left side wins", canvas.width/2, canvas.height/2, "white");
             }
-            else if(rightScore >=1){
+            else if(rightScore >= winScore){
                 colorText("Right side wins", canvas.width/2, canvas.height/2, "white");
             }
             colorText("Click to reset", canvas.width/2, canvas.height/2 + 50, "white");
         }
 
         else{
+            //draw net
+            for(var i = 0; i < canvas.height; i+= 40){
+                colorRect(canvas.width/2, i, 2, 20, "white");
+            }
             //draw left paddle
             colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
@@ -143,7 +151,7 @@ $(document).ready(function(){
     function ballReset(){
      
         //checks if the maximum score is reached
-        if(leftScore >= 1 || rightScore >=1){
+        if(leftScore >= winScore || rightScore >=winScore){
             showingWinScreen = true;
         }
 
