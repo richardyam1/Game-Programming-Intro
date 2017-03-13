@@ -9,6 +9,7 @@ $(document).ready(function(){
 	var convasContext;
 	const PADDLE_WIDTH = 100;
 	const PADDLE_HEIGHT = 10;
+	const PADDLE_Y = 540;
 
 
 	canvas = document.getElementById("gameCanvas");
@@ -35,7 +36,7 @@ $(document).ready(function(){
 		colorRect(0, 0, canvas.width, canvas.height, "black");
 
 		//paddle
-		colorRect(paddleX, canvas.height - PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT, "white");
+		colorRect(paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT, "white");
 
 		//draw ball
 		colorCircle(ballX, ballY, 10, "white");	
@@ -47,11 +48,14 @@ $(document).ready(function(){
 			ballSpeedX *= -1;
 		}
 
-		if(ballY > canvas.height){
+		if(ballY > PADDLE_Y - PADDLE_HEIGHT){
 			if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
 				ballSpeedY *= -1;
+				var centerPaddle = paddleX + PADDLE_WIDTH/2;
+				var centerDistance = ballX - centerPaddle;
+				ballSpeedX = centerDistance * 0.35; 
 			}
-			else{
+			else if (ballY > canvas.height){
 				ballReset();
 			}
 		}
