@@ -49,7 +49,7 @@ $(document).ready(function(){
 		}
 
 		//if ball hits paddle while moving downwards
-		if(ballSpeed > 0.0){
+		if(ballSpeedY > 0.0){
 			if(ballY >= PADDLE_Y && ballY <= PADDLE_Y + PADDLE_HEIGHT){
 				if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
 					ballSpeedY *= -1;
