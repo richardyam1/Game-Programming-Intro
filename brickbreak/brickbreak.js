@@ -10,6 +10,11 @@ $(document).ready(function(){
 	const PADDLE_WIDTH = 100;
 	const PADDLE_HEIGHT = 10;
 	const PADDLE_Y = 540;
+	const BRICK_W = 80;
+	const BRICK_H = 20;
+	const BRICK_GAP = 2;
+	const BRICK_COLS = 10;
+	const BRICK_ROWS = 14;
 
 
 	canvas = document.getElementById("gameCanvas");
@@ -35,11 +40,24 @@ $(document).ready(function(){
 		//game board
 		colorRect(0, 0, canvas.width, canvas.height, "black");
 
+		drawBricks();
+
 		//paddle
 		colorRect(paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT, "white");
 
 		//draw ball
 		colorCircle(ballX, ballY, 10, "white");	
+	}
+
+	function drawBricks(){
+		for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
+			for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
+				var brickLeftEdgeX = eachCol * BRICK_W;
+				var brickTopEdgeY = eachRow * BRICK_H;
+				colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, "blue");
+			}
+		}
+
 	}
 
 	function moveEverything(){
