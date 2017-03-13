@@ -48,16 +48,22 @@ $(document).ready(function(){
 			ballSpeedX *= -1;
 		}
 
-		if(ballY > PADDLE_Y - PADDLE_HEIGHT){
-			if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
-				ballSpeedY *= -1;
-				var centerPaddle = paddleX + PADDLE_WIDTH/2;
-				var centerDistance = ballX - centerPaddle;
-				ballSpeedX = centerDistance * 0.35; 
+		//if ball hits paddle while moving downwards
+		if(ballSpeed > 0.0){
+			if(ballY >= PADDLE_Y && ballY <= PADDLE_Y + PADDLE_HEIGHT){
+				if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
+					ballSpeedY *= -1;
+					var centerPaddle = paddleX + PADDLE_WIDTH/2;
+					var centerDistance = ballX - centerPaddle;
+					ballSpeedX = centerDistance * 0.35; 
+				}
+				
 			}
-			else if (ballY > canvas.height){
-				ballReset();
-			}
+		}
+
+		//if ball goes over bottom 
+		if (ballY > canvas.height){
+			ballReset();
 		}
 
 		else if(ballY < 0){
