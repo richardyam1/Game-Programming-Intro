@@ -47,7 +47,16 @@ $(document).ready(function(){
 			ballSpeedX *= -1;
 		}
 
-		if(ballY < 0){
+		if(ballY > canvas.height){
+			if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
+				ballSpeedY *= -1;
+			}
+			else{
+				ballReset();
+			}
+		}
+
+		else if(ballY < 0){
 			ballSpeedY *= -1;
 		}
 
@@ -56,6 +65,11 @@ $(document).ready(function(){
 
 		//moves ball vertically
 		ballY += ballSpeedY;
+	}
+
+	function ballReset(){
+		ballX = canvas.width/2;
+		ballY = canvas.height/2;
 	}
 
 	function calculateMousePos(evt){
