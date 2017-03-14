@@ -15,15 +15,14 @@ $(document).ready(function(){
 	const BRICK_GAP = 2;
 	const BRICK_COLS = 10;
 	const BRICK_ROWS = 14;
-
-
+	var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
 	setInterval(function(){
 		drawEverything(); 
 		moveEverything();
     }, 1000/framesPerSecond);
-
+	resetBricks();
 	function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor){
 		canvasContext.fillStyle = fillColor;
 		canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
@@ -52,9 +51,11 @@ $(document).ready(function(){
 	function drawBricks(){
 		for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
 			for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
-				var brickLeftEdgeX = eachCol * BRICK_W;
-				var brickTopEdgeY = eachRow * BRICK_H;
-				colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, "blue");
+				if(isBrickAtTileCoord(eachCol, eachRow)){
+					var brickLeftEdgeX = eachCol * BRICK_W;
+					var brickTopEdgeY = eachRow * BRICK_H;
+					colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, "blue");
+				}
 			}
 		}
 
@@ -93,6 +94,42 @@ $(document).ready(function(){
 
 		//moves ball vertically
 		ballY += ballSpeedY;
+
+		removeBrickAtPixelCoord(ballX, ballY);
+	}
+
+	
+
+	function resetBricks(){
+		for(var i = 0; i < BRICK_COLS * BRICK_ROWS; i++){
+			brickGrid[i] = 1;
+		}
+	}
+
+	function removeBrickAtPixelCoord(pixelX, pixelY){
+		var tileCol = pixelX/BRICK_W;
+		var tileRow = pixelY/BRICK_H;
+
+		//round down to nearest whole number
+		tileCol = Math.floor(tileCol);
+		tileRow = Math.floor(tileRow);
+
+		//first check whether the ball is within any part of the brick wall
+		if(tileCol < 0 || tileCol >= BRICK_COLS || tileRow < 0 || tileRow >= BRICK_ROWS){
+			return; // bail out of function to avoid illegal array position usage
+		}
+
+		var brickIndex = brickTileToIndex(tileCol, tileRow);
+		brickGrid[brickIndex] = 0;
+	}
+
+	function brickTileToIndex(tileCol, tileRow){
+		return(tileCol + BRICK_COLS*tileRow);
+	}
+
+	function isBrickAtTileCoord(brickTileCol, brickTileRow){
+		var brickIndex = brickTileCol + BRICK_COLS*brickTileRow;
+		return (brickGrid[brickIndex] == 1);
 	}
 
 	function ballReset(){
