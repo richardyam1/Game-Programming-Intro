@@ -1,6 +1,5 @@
 $(document).ready(function(){
-	var ballX = 75;
-	var ballY = 75;
+	
 	var ballSpeedX = 6;
 	var ballSpeedY = 6;
 	var framesPerSecond = 30;
@@ -18,11 +17,15 @@ $(document).ready(function(){
 	var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
+	var ballX = canvas.width/2;
+	var ballY = canvas.height - 250;
 	setInterval(function(){
 		drawEverything(); 
 		moveEverything();
     }, 1000/framesPerSecond);
+
 	resetBricks();
+	
 	function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor){
 		canvasContext.fillStyle = fillColor;
 		canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
@@ -95,7 +98,9 @@ $(document).ready(function(){
 		//moves ball vertically
 		ballY += ballSpeedY;
 
-		removeBrickAtPixelCoord(ballX, ballY);
+		if(checkForAndRemoveBrickAtPixelCoord(ballX, ballY)){
+			ballSpeedY *= -1;
+		}
 	}
 
 	
@@ -106,7 +111,7 @@ $(document).ready(function(){
 		}
 	}
 
-	function removeBrickAtPixelCoord(pixelX, pixelY){
+	function checkForAndRemoveBrickAtPixelCoord(pixelX, pixelY){
 		var tileCol = pixelX/BRICK_W;
 		var tileRow = pixelY/BRICK_H;
 
@@ -119,8 +124,11 @@ $(document).ready(function(){
 			return; // bail out of function to avoid illegal array position usage
 		}
 
-		var brickIndex = brickTileToIndex(tileCol, tileRow);
-		brickGrid[brickIndex] = 0;
+		if(isBrickAtTileCoord(tileCol, tileRow)){
+			var brickIndex = brickTileToIndex(tileCol, tileRow);
+			brickGrid[brickIndex] = 0;
+			return true;
+		}
 	}
 
 	function brickTileToIndex(tileCol, tileRow){
@@ -134,7 +142,7 @@ $(document).ready(function(){
 
 	function ballReset(){
 		ballX = canvas.width/2;
-		ballY = canvas.height/2;
+		ballY = canvas.height - 250;
 	}
 
 	function calculateMousePos(evt){
