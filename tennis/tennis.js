@@ -15,7 +15,6 @@ $(document).ready(function(){
     const PADDLE_HEIGHT = 100;
     const PADDLE_THICKNESS = 10;
     const cpuSpeed = 13;
-   
 
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext("2d");
@@ -97,9 +96,6 @@ $(document).ready(function(){
         //clear the game view by filling with black
         colorRect(0, 0, canvas.width, canvas.height, "black");
 
-        
-
-
         if(showingWinScreen){
             if(leftScore >= winScore){
                 colorText("Left side wins", canvas.width/2, canvas.height/2, "white");
@@ -172,7 +168,6 @@ $(document).ready(function(){
             paddle2Y -= cpuSpeed;
         }
     }
-
 
     $(canvas).mousemove(function(evt){
         var mousePos = calculateMousePos(evt);
