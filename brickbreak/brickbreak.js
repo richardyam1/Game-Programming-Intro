@@ -15,6 +15,7 @@ $(document).ready(function(){
 	const BRICK_COLS = 10;
 	const BRICK_ROWS = 14;
 	var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
+	var bricksLeft = BRICK_COLS * BRICK_ROWS;
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
 	var ballX = canvas.width/2;
@@ -78,6 +79,10 @@ $(document).ready(function(){
 					var centerPaddle = paddleX + PADDLE_WIDTH/2;
 					var centerDistance = ballX - centerPaddle;
 					ballSpeedX = centerDistance * 0.35; 
+					if(bricksLeft === 0){
+						bricksLeft = (BRICK_COLS * BRICK_ROWS);
+						resetBricks();
+					}
 				}
 				
 			}
@@ -145,6 +150,7 @@ $(document).ready(function(){
 				}
 			}
 
+			//must come in vertically
 			if(prevTileRow != tileRow){
 				var adjacentBrickIndex = brickTileToIndex(tileCol, prevtileRow);
 				//make sure the side we want to reflect off isn't blocked
@@ -161,6 +167,7 @@ $(document).ready(function(){
 			}
 
 			brickGrid[brickIndex] = 0;
+			bricksLeft--;
 		}
 
 		
