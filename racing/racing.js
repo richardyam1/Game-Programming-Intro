@@ -1,31 +1,27 @@
 $(document).ready(function(){
 	
-	var ballSpeedX = 6;
-	var ballSpeedY = 6;
+	var carSpeedX = 6;
+	var carSpeedY = 6;
 	var framesPerSecond = 30;
-	var paddleX = 350;
 	var canvas;
 	var convasContext;
-	const PADDLE_WIDTH = 100;
-	const PADDLE_HEIGHT = 10;
-	const PADDLE_Y = 540;
-	const BRICK_W = 80;
-	const BRICK_H = 20;
-	const BRICK_GAP = 2;
-	const BRICK_COLS = 10;
-	const BRICK_ROWS = 14;
-	var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
-	var bricksLeft = BRICK_COLS * (BRICK_ROWS - 3);
+	const TRACK_W = 40;
+	const TRACK_H = 40;
+	const TRACK_GAP = 1;
+	const TRACK_COLS = 20;
+	const TRACK_ROWS = 15;
+	var trackGrid = new Array(TRACK_COLS * TRACK_ROWS);
+	var tracksLeft = TRACK_COLS * (TRACK_ROWS - 3);
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
-	var ballX = canvas.width/2;
-	var ballY = canvas.height - 250;
+	var carX = canvas.width/2;
+	var carY = canvas.height - 250;
 	setInterval(function(){
 		drawEverything(); 
 		moveEverything();
     }, 1000/framesPerSecond);
 
-	resetBricks();
+	resetTracks();
 	
 	function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor){
 		canvasContext.fillStyle = fillColor;
@@ -43,22 +39,19 @@ $(document).ready(function(){
 		//game board
 		colorRect(0, 0, canvas.width, canvas.height, "black");
 
-		drawBricks();
+		drawTracks();
 
-		//paddle
-		colorRect(paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT, "white");
-
-		//draw ball
-		colorCircle(ballX, ballY, 10, "white");	
+		//draw car
+		colorCircle(carX, carY, 10, "white");	
 	}
 
-	function drawBricks(){
-		for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
-			for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
-				if(isBrickAtTileCoord(eachCol, eachRow)){
-					var brickLeftEdgeX = eachCol * BRICK_W;
-					var brickTopEdgeY = eachRow * BRICK_H;
-					colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, "blue");
+	function drawTracks(){
+		for(var eachCol = 0; eachCol < TRACK_COLS; eachCol++){
+			for(var eachRow = 0; eachRow < TRACK_ROWS; eachRow++){
+				if(isTrackAtTileCoord(eachCol, eachRow)){
+					var trackLeftEdgeX = eachCol * TRACK_W;
+					var trackTopEdgeY = eachRow * TRACK_H;
+					colorRect(trackLeftEdgeX, trackTopEdgeY, TRACK_W - TRACK_GAP, TRACK_H - TRACK_GAP, "blue");
 				}
 			}
 		}
@@ -66,126 +59,111 @@ $(document).ready(function(){
 	}
 
 	function moveEverything(){
-		//bounce ball off wall
-		if(ballX > canvas.width || ballX < 0){
-			ballSpeedX *= -1;
+		//bounce car off wall
+		if(carX > canvas.width || carX < 0){
+			carSpeedX *= -1;
 		}
 
-		//if ball hits paddle while moving downwards
-		if(ballSpeedY > 0.0){
-			if(ballY >= PADDLE_Y && ballY <= PADDLE_Y + PADDLE_HEIGHT){
-				if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
-					ballSpeedY *= -1;
-					var centerPaddle = paddleX + PADDLE_WIDTH/2;
-					var centerDistance = ballX - centerPaddle;
-					ballSpeedX = centerDistance * 0.35; 
-					if(bricksLeft === 0){
-						bricksLeft = (BRICK_COLS * (BRICK_ROWS - 3));
-						resetBricks();
-					}
-				}
-				
-			}
+		
+
+		//if car goes over bottom 
+		if (carY > canvas.height){
+			carReset();
 		}
 
-		//if ball goes over bottom 
-		if (ballY > canvas.height){
-			ballReset();
+		else if(carY < 0){
+			carSpeedY *= -1;
 		}
 
-		else if(ballY < 0){
-			ballSpeedY *= -1;
-		}
+		//moves car horizontally
+		carX += carSpeedX;
 
-		//moves ball horizontally
-		ballX += ballSpeedX;
+		//moves car vertically
+		carY += carSpeedY;
 
-		//moves ball vertically
-		ballY += ballSpeedY;
-
-		breakAndBounceOffBrickAtPixelCoord(ballX, ballY);
+		breakAndBounceOffTrackAtPixelCoord(carX, carY);
 			
 		
 	}
 
 	
 
-	function resetBricks(){
-		for(var i = BRICK_COLS * 3; i < BRICK_COLS * BRICK_ROWS; i++){
-			brickGrid[i] = 1;
+	function resetTracks(){
+		for(var i = 0; i < TRACK_COLS * TRACK_ROWS; i++){
+			trackGrid[i] = 1;
 		}
 	}
 
-	function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
-		var tileCol = pixelX/BRICK_W;
-		var tileRow = pixelY/BRICK_H;
+	function breakAndBounceOffTrackAtPixelCoord(pixelX, pixelY){
+		var tileCol = pixelX/TRACK_W;
+		var tileRow = pixelY/TRACK_H;
 
 		//round down to nearest whole number
 		tileCol = Math.floor(tileCol);
 		tileRow = Math.floor(tileRow);
 
-		//first check whether the ball is within any part of the brick wall
-		if(tileCol < 0 || tileCol >= BRICK_COLS || tileRow < 0 || tileRow >= BRICK_ROWS){
+		//first check whether the car is within any part of the track wall
+		if(tileCol < 0 || tileCol >= TRACK_COLS || tileRow < 0 || tileRow >= TRACK_ROWS){
 			return false; // bail out of function to avoid illegal array position usage
 		}
 
-		var brickIndex = brickTileToIndex(tileCol, tileRow);
+		var trackIndex = trackTileToIndex(tileCol, tileRow);
 
-		if(brickGrid[brickIndex] === 1){
-			//Checks the previous col or row of the ball
-			var prevBallX = ballX - ballSpeedX;
-			var prevBallY = ballY - ballSpeedY;
-			var prevTileCol = Math.floor(prevBallX / BRICK_W);
-			var prevTileRow = Math.floor(prevBallY / BRICK_H);
+		if(trackGrid[trackIndex] === 1){
+			//Checks the previous col or row of the car
+			var prevBallX = carX - carSpeedX;
+			var prevBallY = carY - carSpeedY;
+			var prevTileCol = Math.floor(prevBallX / TRACK_W);
+			var prevTileRow = Math.floor(prevBallY / TRACK_H);
 
 			var bothTestsFailed = true;
 
 			//must come in horizontally
 			if(prevTileCol != tileCol){
-				var adjacentBrickIndex = brickTileToIndex(prevTileCol, tileRow);
+				var adjacentTrackIndex = trackTileToIndex(prevTileCol, tileRow);
 				//make sure the side we want to reflect off isn't blocked
-				if(brickGrid[adjacentBrickIndex] != 1){
-					ballSpeedX *= -1;
+				if(trackGrid[adjacentTrackIndex] != 1){
+					carSpeedX *= -1;
 					bothTestsFailed = false;
 				}
 			}
 
 			//must come in vertically
 			if(prevTileRow != tileRow){
-				var adjacentBrickIndex = brickTileToIndex(tileCol, prevTileRow);
+				var adjacentTrackIndex = trackTileToIndex(tileCol, prevTileRow);
 				//make sure the side we want to reflect off isn't blocked
-				if(brickGrid[adjacentBrickIndex] != 1){
-					ballSpeedY *= -1;
+				if(trackGrid[adjacentTrackIndex] != 1){
+					carSpeedY *= -1;
 					bothTestsFailed = false;
 				}
 			}
 
 			// we hit an "armpit" on the inside corner, flip both to avoid going into it
 			if(bothTestsFailed){
-				ballSpeedX *= -1;
-				ballSpeedY *= -1;
+				carSpeedX *= -1;
+				carSpeedY *= -1;
 			}
 
-			brickGrid[brickIndex] = 0;
-			bricksLeft--;
-			console.log(bricksLeft);
+			trackGrid[trackIndex] = 0;
+			tracksLeft--;
+			console.log(tracksLeft);
 		}
 
 		
 	}
 
-	function brickTileToIndex(tileCol, tileRow){
-		return(tileCol + BRICK_COLS*tileRow);
+	function trackTileToIndex(tileCol, tileRow){
+		return(tileCol + TRACK_COLS*tileRow);
 	}
 
-	function isBrickAtTileCoord(brickTileCol, brickTileRow){
-		var brickIndex = brickTileCol + BRICK_COLS*brickTileRow;
-		return (brickGrid[brickIndex] == 1);
+	function isTrackAtTileCoord(trackTileCol, trackTileRow){
+		var trackIndex = trackTileCol + TRACK_COLS*trackTileRow;
+		return (trackGrid[trackIndex] == 1);
 	}
 
-	function ballReset(){
-		ballX = canvas.width/2;
-		ballY = canvas.height - 250;
+	function carReset(){
+		carX = canvas.width/2;
+		carY = canvas.height - 250;
 	}
 
 	function calculateMousePos(evt){
@@ -200,8 +178,5 @@ $(document).ready(function(){
 		};
 	}
 
-	$(canvas).mousemove(function(evt){
-		var mousePos = calculateMousePos(evt);
-		paddleX = mousePos.x - (PADDLE_WIDTH/2);
-	});
+	
 });
