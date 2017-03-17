@@ -14,7 +14,10 @@ $(document).ready(function(){
 	const KEY_UP_ARROW = 38;
 	const KEY_RIGHT_ARROW = 39;
 	const KEY_DOWN_ARROW = 40;
-
+	var keyHeld_Gas = false;
+	var keyHeld_Reverse = false;
+	var keyHeld_TurnLeft = false;
+	var keyHeld_TurnRight = false;
 	var	trackGrid	=		   [1,  1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
 								1,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,
 								1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,
@@ -99,12 +102,22 @@ $(document).ready(function(){
 	}
 
 	function moveEverything(){
+		if(keyHeld_TurnLeft){
+			carAng += -0.03*Math.PI;
+		}
+		if(keyHeld_TurnRight){
+			carAng += 0.03*Math.PI;
+		}
+		if(keyHeld_Gas){
+			carSpeed += 0.5;
+		}
+		if(keyHeld_Reverse){
+			carSpeed += -0.5;
+		}
 	    carX += Math.cos(carAng) * carSpeed;
 	    carY += Math.sin(carAng) * carSpeed;
-
 		bounceOffTrackAtPixelCoord(carX, carY);
-			
-		
+
 	}
 
 
@@ -191,30 +204,37 @@ $(document).ready(function(){
 	}
 
 	function keyPressed(evt){
-		document.getElementById("debugText").innerHTML = "KeyCode Pushed: " + evt.keyCode;
 		if(evt.keyCode === KEY_UP_ARROW){
-			carSpeed += 1.5;
+			keyHeld_Gas = true;
 		}
-		else if(evt.keyCode === KEY_DOWN_ARROW){
-			carSpeed -= 1.5;
+		if(evt.keyCode === KEY_DOWN_ARROW){
+			keyHeld_Reverse = true;
 		}
-		else if(evt.keyCode === KEY_LEFT_ARROW){
-			carAng -= (0.25*Math.PI);
+		if(evt.keyCode === KEY_LEFT_ARROW){
+			keyHeld_TurnLeft = true;
 		}
-		else if(evt.keyCode === KEY_RIGHT_ARROW){
-			carAng += (0.25*Math.PI);
+		if(evt.keyCode === KEY_RIGHT_ARROW){
+			keyHeld_TurnRight = true;
 		} 
 
 		evt.preventDefault();
 	}
 
 	function keyReleased(evt){
-		document.getElementById("debugText").innerHTML = "KeyCode Released: " + evt.keyCode;
+		if(evt.keyCode === KEY_UP_ARROW){
+			keyHeld_Gas = false;
+		}
+		if(evt.keyCode === KEY_DOWN_ARROW){
+			keyHeld_Reverse = false;
+		}
+		if(evt.keyCode === KEY_LEFT_ARROW){
+			keyHeld_TurnLeft = false;
+		}
+		if(evt.keyCode === KEY_RIGHT_ARROW){
+			keyHeld_TurnRight = false;
+		} 
 	}
 
-	document.getElementById("debugText").innerHTML = "replacement text";
 	document.addEventListener("keydown", keyPressed);
-	document.addEventListener("keyup", keyReleased);
-
-	
+	document.addEventListener("keyup", keyReleased);	
 });
