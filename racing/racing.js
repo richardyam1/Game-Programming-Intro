@@ -10,18 +10,30 @@ $(document).ready(function(){
 	const TRACK_GAP = 1;
 	const TRACK_COLS = 20;
 	const TRACK_ROWS = 15;
-	var trackGrid = new Array(TRACK_COLS * TRACK_ROWS);
-	var tracksLeft = TRACK_COLS * (TRACK_ROWS - 3);
+	var	trackGrid	=		   [1,  1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
+								1,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,
+								1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,
+								1,	0,	0,	0,	0,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	0,	0,	0,	1,
+								1,	0,	0,	0,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	0,	0,	1,
+								1,	0,	0,	1,	1,	0,	0,	1,	1,	1,	1,	1,	0,	0,	0,	1,	1,	0,	0,	1,
+								1,	0,	0,	1,	0,	0,	0,	0,	1,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,
+								1,	0,	0,	1,	0,	0,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,
+								1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	1,	0,	0,	1,
+								1,	0,	0,	1,	0,	0,	1,	0,	0,	0,	1,	0,	0,	1,	0,	0,	1,	0,	0,	1,
+								1,	0,	0,	1,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	1,
+								1,	1,	1,	1,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	1,
+								1,	0,	0,	0,	0,	0,	1,	1,	1,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,
+								1,	0,	0,	0,	0,	0,	1,	1,	1,	1,	1,	1,	1,	1,	1,	0,	0,	0,	1,	1,
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1];
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
-	var carX = canvas.width/2;
+	var carX = 50;
 	var carY = canvas.height - 250;
 	setInterval(function(){
 		drawEverything(); 
 		moveEverything();
     }, 1000/framesPerSecond);
 
-	resetTracks();
 	
 	function colorRect(topLeftX, topLeftY, boxWidth, boxHeight, fillColor){
 		canvasContext.fillStyle = fillColor;
@@ -81,20 +93,13 @@ $(document).ready(function(){
 		//moves car vertically
 		carY += carSpeedY;
 
-		breakAndBounceOffTrackAtPixelCoord(carX, carY);
+		bounceOffTrackAtPixelCoord(carX, carY);
 			
 		
 	}
 
-	
 
-	function resetTracks(){
-		for(var i = 0; i < TRACK_COLS * TRACK_ROWS; i++){
-			trackGrid[i] = 1;
-		}
-	}
-
-	function breakAndBounceOffTrackAtPixelCoord(pixelX, pixelY){
+	function bounceOffTrackAtPixelCoord(pixelX, pixelY){
 		var tileCol = pixelX/TRACK_W;
 		var tileRow = pixelY/TRACK_H;
 
@@ -144,9 +149,7 @@ $(document).ready(function(){
 				carSpeedY *= -1;
 			}
 
-			trackGrid[trackIndex] = 0;
-			tracksLeft--;
-			console.log(tracksLeft);
+			
 		}
 
 		
@@ -162,7 +165,7 @@ $(document).ready(function(){
 	}
 
 	function carReset(){
-		carX = canvas.width/2;
+		carX = 50;
 		carY = canvas.height - 250;
 	}
 
