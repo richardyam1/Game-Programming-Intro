@@ -1,8 +1,7 @@
 $(document).ready(function(){
 	var carX = 75;
 	var carY = 75;
-	var carSpeedX = 6;
-	var carSpeedY = 6;
+	var carSpeed = 0;
 	var framesPerSecond = 30;
 	var canvas;
 	var convasContext;
@@ -67,7 +66,6 @@ $(document).ready(function(){
 	}
 
 	function carDraw(){
-		carAng += 0.2;
 		if(carPicLoaded){
 			drawBitmapCenteredAtLocationWithRotation(carPic, carX, carY, carAng);
 		}
@@ -96,27 +94,10 @@ $(document).ready(function(){
 	}
 
 	function moveEverything(){
-		//bounce car off wall
-		if(carX > canvas.width || carX < 0){
-			carSpeedX *= -1;
-		}
-
-		
-
-		//if car goes over bottom 
-		if (carY > canvas.height){
-			carReset();
-		}
-
-		else if(carY < 0){
-			carSpeedY *= -1;
-		}
-
-		//moves car horizontally
-		carX += carSpeedX;
-
-		//moves car vertically
-		carY += carSpeedY;
+		carAng += 0.04;
+		carSpeed += 0.02;
+	    carX += Math.cos(carAng) * carSpeed;
+	    carY += Math.sin(carAng) * carSpeed;
 
 		bounceOffTrackAtPixelCoord(carX, carY);
 			
@@ -205,6 +186,18 @@ $(document).ready(function(){
 			y: mouseY
 		};
 	}
+
+	function keyPressed(evt){
+		document.getElementById("debugText").innerHTML = "KeyCode Pushed: " + evt.keyCode;
+	}
+
+	function keyReleased(evt){
+		document.getElementById("debugText").innerHTML = "KeyCode Released: " + evt.keyCode;
+	}
+
+	document.getElementById("debugText").innerHTML = "replacement text";
+	document.addEventListener("keydown", keyPressed);
+	document.addEventListener("keyup", keyReleased);
 
 	
 });
