@@ -69,13 +69,17 @@ $(document).ready(function(){
 	function carDraw(){
 		carAng += 0.2;
 		if(carPicLoaded){
-			canvasContext.save();//allows us to undo translate movement and rotate spin
-			canvasContext.translate(carX,carY); //sets the point where our graphic will go
-			canvasContext.rotate(carAng);//sets the rotation
-			canvasContext.drawImage(carPic, -carPic.width/2, -carPic.height/2); //center, draw
-			canvasContext.restore(); //undo the translation movement and rotation since save()
+			drawBitmapCenteredAtLocationWithRotation(carPic, carX, carY, carAng);
 		}
+	}
 
+	function drawBitmapCenteredAtLocationWithRotation(graphic, atX, atY, withAngle){
+		canvasContext.save();//allows us to undo translate movement and rotate spin
+		canvasContext.translate(atX,atY); //sets the point where our graphic will go
+		canvasContext.rotate(withAngle);//sets the rotation
+		canvasContext.drawImage(graphic, -graphic.width/2, -graphic.height/2); //center, draw
+		canvasContext.restore(); //undo the translation movement and rotation since save()
+		
 	}
 
 	function drawTracks(){
