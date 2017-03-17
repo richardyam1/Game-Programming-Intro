@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	
+	var carX = 75;
+	var carY = 75;
 	var carSpeedX = 6;
 	var carSpeedY = 6;
 	var framesPerSecond = 30;
@@ -27,8 +28,16 @@ $(document).ready(function(){
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1];
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
-	var carX = 50;
-	var carY = canvas.height - 250;
+	var carPic = document.createElement("img");
+	var carPicLoaded = false;
+	var carAng = 0;
+	carPic.onload = function(){
+		carPicLoaded = true;
+	}
+	carPic.src = "player1.png";
+	
+	carReset();
+
 	setInterval(function(){
 		drawEverything(); 
 		moveEverything();
@@ -54,7 +63,19 @@ $(document).ready(function(){
 		drawTracks();
 
 		//draw car
-		colorCircle(carX, carY, 10, "white");	
+		carDraw();	
+	}
+
+	function carDraw(){
+		carAng += 0.2;
+		if(carPicLoaded){
+			canvasContext.save();//allows us to undo translate movement and rotate spin
+			canvasContext.translate(carX,carY); //sets the point where our graphic will go
+			canvasContext.rotate(carAng);//sets the rotation
+			canvasContext.drawImage(carPic, -carPic.width/2, -carPic.height/2); //center, draw
+			canvasContext.restore(); //undo the translation movement and rotation since save()
+		}
+
 	}
 
 	function drawTracks(){
@@ -165,8 +186,8 @@ $(document).ready(function(){
 	}
 
 	function carReset(){
-		carX = 50;
-		carY = canvas.height - 250;
+		carX = canvas.width/2 + 50;
+		carY = canvas.height/2;
 	}
 
 	function calculateMousePos(evt){
