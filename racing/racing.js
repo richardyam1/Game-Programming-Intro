@@ -10,6 +10,11 @@ $(document).ready(function(){
 	const TRACK_GAP = 1;
 	const TRACK_COLS = 20;
 	const TRACK_ROWS = 15;
+	const KEY_LEFT_ARROW = 37;
+	const KEY_UP_ARROW = 38;
+	const KEY_RIGHT_ARROW = 39;
+	const KEY_DOWN_ARROW = 40;
+
 	var	trackGrid	=		   [1,  1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
 								1,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,
 								1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,
@@ -94,8 +99,6 @@ $(document).ready(function(){
 	}
 
 	function moveEverything(){
-		carAng += 0.04;
-		carSpeed += 0.02;
 	    carX += Math.cos(carAng) * carSpeed;
 	    carY += Math.sin(carAng) * carSpeed;
 
@@ -189,6 +192,20 @@ $(document).ready(function(){
 
 	function keyPressed(evt){
 		document.getElementById("debugText").innerHTML = "KeyCode Pushed: " + evt.keyCode;
+		if(evt.keyCode === KEY_UP_ARROW){
+			carSpeed += 1.5;
+		}
+		else if(evt.keyCode === KEY_DOWN_ARROW){
+			carSpeed -= 1.5;
+		}
+		else if(evt.keyCode === KEY_LEFT_ARROW){
+			carAng -= (0.25*Math.PI);
+		}
+		else if(evt.keyCode === KEY_RIGHT_ARROW){
+			carAng += (0.25*Math.PI);
+		} 
+
+		evt.preventDefault();
 	}
 
 	function keyReleased(evt){
