@@ -14,6 +14,11 @@ $(document).ready(function(){
 	const KEY_UP_ARROW = 38;
 	const KEY_RIGHT_ARROW = 39;
 	const KEY_DOWN_ARROW = 40;
+	const GROUNDSPEED_DECAY_MULT = 0.94;
+	const DRIVE_POWER = 0.5;
+	const REVERSE_POWER = 0.2;
+	const TURN_RATE = 0.03;
+	const MIN_TURN_SPEED = 0.5;
 	var keyHeld_Gas = false;
 	var keyHeld_Reverse = false;
 	var keyHeld_TurnLeft = false;
@@ -102,22 +107,25 @@ $(document).ready(function(){
 	}
 
 	function moveEverything(){
-		if(keyHeld_TurnLeft){
-			carAng += -0.03*Math.PI;
-		}
-		if(keyHeld_TurnRight){
-			carAng += 0.03*Math.PI;
+		if(Math.abs(carSpeed) >= 0.5){
+			if(keyHeld_TurnLeft){
+				carAng += -TURN_RATE*Math.PI;
+			}
+			if(keyHeld_TurnRight){
+				carAng += TURN_RATE*Math.PI;
+			}
 		}
 		if(keyHeld_Gas){
-			carSpeed += 0.5;
+			carSpeed += DRIVE_POWER;
 		}
 		if(keyHeld_Reverse){
-			carSpeed += -0.5;
+			carSpeed += -REVERSE_POWER;
 		}
 	    carX += Math.cos(carAng) * carSpeed;
 	    carY += Math.sin(carAng) * carSpeed;
 		bounceOffTrackAtPixelCoord(carX, carY);
 
+		carSpeed *= GROUNDSPEED_DECAY_MULT;
 	}
 
 
@@ -204,35 +212,27 @@ $(document).ready(function(){
 	}
 
 	function keyPressed(evt){
-		if(evt.keyCode === KEY_UP_ARROW){
-			keyHeld_Gas = true;
-		}
-		if(evt.keyCode === KEY_DOWN_ARROW){
-			keyHeld_Reverse = true;
-		}
-		if(evt.keyCode === KEY_LEFT_ARROW){
-			keyHeld_TurnLeft = true;
-		}
-		if(evt.keyCode === KEY_RIGHT_ARROW){
-			keyHeld_TurnRight = true;
-		} 
-
+		setKeyHoldState(evt.keyCode, true);
 		evt.preventDefault();
 	}
 
 	function keyReleased(evt){
-		if(evt.keyCode === KEY_UP_ARROW){
-			keyHeld_Gas = false;
+		setKeyHoldState(evt.keyCode, false);
+	}
+
+	function setKeyHoldState(thisKey, setTo){
+		if(thisKey === KEY_LEFT_ARROW){
+			keyHeld_TurnLeft = setTo;
 		}
-		if(evt.keyCode === KEY_DOWN_ARROW){
-			keyHeld_Reverse = false;
+		if(thisKey === KEY_RIGHT_ARROW){
+			keyHeld_TurnRight = setTo;
 		}
-		if(evt.keyCode === KEY_LEFT_ARROW){
-			keyHeld_TurnLeft = false;
+		if(thisKey === KEY_UP_ARROW){
+			keyHeld_Gas = setTo;
 		}
-		if(evt.keyCode === KEY_RIGHT_ARROW){
-			keyHeld_TurnRight = false;
-		} 
+		if(thisKey === KEY_DOWN_ARROW){
+			keyHeld_Reverse = setTo;
+		}
 	}
 
 	document.addEventListener("keydown", keyPressed);
