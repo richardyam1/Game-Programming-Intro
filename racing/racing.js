@@ -101,7 +101,7 @@ $(document).ready(function(){
 	function drawTracks(){
 		for(var eachCol = 0; eachCol < TRACK_COLS; eachCol++){
 			for(var eachRow = 0; eachRow < TRACK_ROWS; eachRow++){
-				if(isTrackAtTileCoord(eachCol, eachRow)){
+				if(isWallAtTileCoord(eachCol, eachRow)){
 					var trackLeftEdgeX = eachCol * TRACK_W;
 					var trackTopEdgeY = eachRow * TRACK_H;
 					colorRect(trackLeftEdgeX, trackTopEdgeY, TRACK_W - TRACK_GAP, TRACK_H - TRACK_GAP, "blue");
@@ -126,15 +126,21 @@ $(document).ready(function(){
 		if(keyHeld_Reverse){
 			carSpeed += -REVERSE_POWER;
 		}
-	    carX += Math.cos(carAng) * carSpeed;
-	    carY += Math.sin(carAng) * carSpeed;
-		bounceOffTrackAtPixelCoord(carX, carY);
+		var nextX = carX + Math.cos(carAng) * carSpeed;
+		var nextY = carY + Math.sin(carAng) * carSpeed
+		if(checkForTrackAtPixelCoord(nextX, nextY)){
+			carX = nextX;
+			carY = nextY;
+		}
+		else{
+			carSpeed = 0.0;
+		}
 
 		carSpeed *= GROUNDSPEED_DECAY_MULT;
 	}
 
 
-	function bounceOffTrackAtPixelCoord(pixelX, pixelY){
+	function checkForTrackAtPixelCoord(pixelX, pixelY){
 		var tileCol = pixelX/TRACK_W;
 		var tileRow = pixelY/TRACK_H;
 
@@ -148,6 +154,8 @@ $(document).ready(function(){
 		}
 
 		var trackIndex = trackTileToIndex(tileCol, tileRow);
+
+		return (trackGrid[trackIndex] === TRACK_ROAD);
 
 		if(trackGrid[trackIndex] === 1){
 			//Checks the previous col or row of the car
@@ -194,9 +202,9 @@ $(document).ready(function(){
 		return(tileCol + TRACK_COLS*tileRow);
 	}
 
-	function isTrackAtTileCoord(trackTileCol, trackTileRow){
+	function isWallAtTileCoord(trackTileCol, trackTileRow){
 		var trackIndex = trackTileCol + TRACK_COLS*trackTileRow;
-		return (trackGrid[trackIndex] == 1);
+		return (trackGrid[trackIndex] == TRACK_WALL);
 	}
 
 
@@ -209,7 +217,6 @@ $(document).ready(function(){
 				carY = tileRow * TRACK_H + 0.5*TRACK_H;
 				trackGrid[i] = TRACK_ROAD;
 				document.getElementById("debugText").innerHTML = "Car starting at tile: (" + tileCol + ", " + tileRow + ") " + "Pixel coordinate: (" + carX + ", " + carY + ")";
-
 				break;
 			}
 		}
