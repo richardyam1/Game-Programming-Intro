@@ -19,6 +19,7 @@ $(document).ready(function(){
 	const REVERSE_POWER = 0.2;
 	const TURN_RATE = 0.03;
 	const MIN_TURN_SPEED = 0.5;
+
 	var keyHeld_Gas = false;
 	var keyHeld_Reverse = false;
 	var keyHeld_TurnLeft = false;
@@ -33,21 +34,25 @@ $(document).ready(function(){
 								1,	0,	0,	1,	0,	0,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,
 								1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	1,	0,	0,	1,
 								1,	0,	0,	1,	0,	0,	1,	0,	0,	0,	1,	0,	0,	1,	0,	0,	1,	0,	0,	1,
-								1,	0,	0,	1,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	1,
+								1,	0,	2,	1,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	1,
 								1,	1,	1,	1,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	1,
 								1,	0,	0,	0,	0,	0,	1,	1,	1,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,
 								1,	0,	0,	0,	0,	0,	1,	1,	1,	1,	1,	1,	1,	1,	1,	0,	0,	0,	1,	1,
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1];
+	const TRACK_ROAD = 0;
+	const TRACK_WALL = 1;
+	const TRACK_PLAYER = 2;
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
 	var carPic = document.createElement("img");
 	var carPicLoaded = false;
-	var carAng = 0;
+	var carAng = (-0.5 * Math.PI);
 	carPic.onload = function(){
 		carPicLoaded = true;
-	}
+	};
 	carPic.src = "player1.png";
 	
+	//Position the car
 	carReset();
 
 	setInterval(function(){
@@ -194,9 +199,21 @@ $(document).ready(function(){
 		return (trackGrid[trackIndex] == 1);
 	}
 
+
 	function carReset(){
-		carX = canvas.width/2 + 50;
-		carY = canvas.height/2;
+		for(var i = 0; i < trackGrid.length; i++){
+			if(trackGrid[i] === TRACK_PLAYER){
+				var tileRow = Math.floor(i/TRACK_COLS);
+				var tileCol = i%TRACK_COLS;
+				carX = tileCol * TRACK_W + 0.5*TRACK_W;
+				carY = tileRow * TRACK_H + 0.5*TRACK_H;
+				trackGrid[i] = TRACK_ROAD;
+				document.getElementById("debugText").innerHTML = "Car starting at tile: (" + tileCol + ", " + tileRow + ") " + "Pixel coordinate: (" + carX + ", " + carY + ")";
+
+				break;
+			}
+		}
+		
 	}
 
 	function calculateMousePos(evt){
@@ -234,6 +251,7 @@ $(document).ready(function(){
 			keyHeld_Reverse = setTo;
 		}
 	}
+
 
 	document.addEventListener("keydown", keyPressed);
 	document.addEventListener("keyup", keyReleased);	
