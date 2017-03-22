@@ -1,6 +1,5 @@
 	const TRACK_W = 40;
 	const TRACK_H = 40;
-	const TRACK_GAP = 1;
 	const TRACK_COLS = 20;
 	const TRACK_ROWS = 15;
 
@@ -26,10 +25,13 @@
 	function drawTracks(){
 		for(var eachCol = 0; eachCol < TRACK_COLS; eachCol++){
 			for(var eachRow = 0; eachRow < TRACK_ROWS; eachRow++){
+				var trackLeftEdgeX = eachCol * TRACK_W;
+				var trackTopEdgeY = eachRow * TRACK_H;
 				if(isWallAtTileCoord(eachCol, eachRow)){
-					var trackLeftEdgeX = eachCol * TRACK_W;
-					var trackTopEdgeY = eachRow * TRACK_H;
-					colorRect(trackLeftEdgeX, trackTopEdgeY, TRACK_W - TRACK_GAP, TRACK_H - TRACK_GAP, "blue");
+					canvasContext.drawImage(trackPicWall, trackLeftEdgeX, trackTopEdgeY);
+				}
+				else{
+					canvasContext.drawImage(trackPicRoad, trackLeftEdgeX, trackTopEdgeY);
 				}
 			}
 		}
@@ -52,45 +54,6 @@
 		var trackIndex = trackTileToIndex(tileCol, tileRow);
 
 		return (trackGrid[trackIndex] === TRACK_ROAD);
-
-		if(trackGrid[trackIndex] === 1){
-			//Checks the previous col or row of the car
-			var prevBallX = carX - carSpeedX;
-			var prevBallY = carY - carSpeedY;
-			var prevTileCol = Math.floor(prevBallX / TRACK_W);
-			var prevTileRow = Math.floor(prevBallY / TRACK_H);
-
-			var bothTestsFailed = true;
-
-			//must come in horizontally
-			if(prevTileCol != tileCol){
-				var adjacentTrackIndex = trackTileToIndex(prevTileCol, tileRow);
-				//make sure the side we want to reflect off isn't blocked
-				if(trackGrid[adjacentTrackIndex] != 1){
-					carSpeedX *= -1;
-					bothTestsFailed = false;
-				}
-			}
-
-			//must come in vertically
-			if(prevTileRow != tileRow){
-				var adjacentTrackIndex = trackTileToIndex(tileCol, prevTileRow);
-				//make sure the side we want to reflect off isn't blocked
-				if(trackGrid[adjacentTrackIndex] != 1){
-					carSpeedY *= -1;
-					bothTestsFailed = false;
-				}
-			}
-
-			// we hit an "armpit" on the inside corner, flip both to avoid going into it
-			if(bothTestsFailed){
-				carSpeedX *= -1;
-				carSpeedY *= -1;
-			}
-
-			
-		}
-
 		
 	}
 
@@ -98,6 +61,7 @@
 		return(tileCol + TRACK_COLS*tileRow);
 	}
 
+	
 	function isWallAtTileCoord(trackTileCol, trackTileRow){
 		var trackIndex = trackTileCol + TRACK_COLS*trackTileRow;
 		return (trackGrid[trackIndex] == TRACK_WALL);

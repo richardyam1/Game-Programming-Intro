@@ -1,12 +1,7 @@
 	var carX = 75;
 	var carY = 75;
 	var carSpeed = 0;
-	var framesPerSecond = 30;
-	var carPic = document.createElement("img");
-	var carPicLoaded = false;
 	var carAng = (-0.5 * Math.PI);
-	
-
 	const GROUNDSPEED_DECAY_MULT = 0.94;
 	const DRIVE_POWER = 0.5;
 	const REVERSE_POWER = 0.2;
@@ -14,11 +9,36 @@
 	const MIN_TURN_SPEED = 0.5;
 
 	function carDraw(){
-		if(carPicLoaded){
-			drawBitmapCenteredAtLocationWithRotation(carPic, carX, carY, carAng);
-		}
+		drawBitmapCenteredAtLocationWithRotation(carPic, carX, carY, carAng );	
 	}
 
+	function carMove(){
+		if(Math.abs(carSpeed) >= 0.5){
+			if(keyHeld_TurnLeft){
+				carAng += -TURN_RATE*Math.PI;
+			}
+			if(keyHeld_TurnRight){
+				carAng += TURN_RATE*Math.PI;
+			}
+		}
+		if(keyHeld_Gas){
+			carSpeed += DRIVE_POWER;
+		}
+		if(keyHeld_Reverse){
+			carSpeed += -REVERSE_POWER;
+		}
+		var nextX = carX + Math.cos(carAng) * carSpeed;
+		var nextY = carY + Math.sin(carAng) * carSpeed
+		if(checkForTrackAtPixelCoord(nextX, nextY)){
+			carX = nextX;
+			carY = nextY;
+		}
+		else{
+			carSpeed = 0.0;
+		}
+
+		carSpeed *= GROUNDSPEED_DECAY_MULT;
+	}
 	function carReset(){
 		for(var i = 0; i < trackGrid.length; i++){
 			if(trackGrid[i] === TRACK_PLAYER){
@@ -35,9 +55,5 @@
 	}
 
 	function carInit(){
-		carPic.onload = function(){
-			carPicLoaded = true;
-		};
-		carPic.src = "player1.png";
 		carReset();
 	}
