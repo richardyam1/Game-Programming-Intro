@@ -1,4 +1,4 @@
-	var picsToLoad = 3;
+	var picsToLoad = 0;
 	var carPic = document.createElement("img");
 	var trackPicRoad = document.createElement("img");
 	var trackPicWall = document.createElement("img");
@@ -12,13 +12,22 @@
 	}
 
 	function loadImages(){
-		carPic.onload = countLoadedImageAndLaunchIfReady;
-		carPic.src = "player1.png";
+		var imageList = [
+			{varName: carPic, theFile: "player1.png"},
+			{varName: trackPicRoad, theFile: "track_road.png"},
+			{varName: trackPicWall, theFile: "track_wall.png"}
+		];
 
-		trackPicRoad.onload = countLoadedImageAndLaunchIfReady;
-		trackPicRoad.src = "track_road.png";
+		picsToLoad = imageList.length;
 
-		trackPicWall.onload = countLoadedImageAndLaunchIfReady;
-		trackPicWall.src = "track_wall.png";
+		for(var i = 0; i < imageList.length; i++){
+			beginLoadingImage(imageList[i].varName, imageList[i].theFile);
+		}
+		
+	}
 
+	function beginLoadingImage(imgVar, fileName){
+		//picsToLoad++;
+		imgVar.onload = countLoadedImageAndLaunchIfReady;
+		imgVar.src = fileName;
 	}
