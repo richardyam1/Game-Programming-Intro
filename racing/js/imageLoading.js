@@ -29,5 +29,5 @@
 	function beginLoadingImage(imgVar, fileName){
 		//picsToLoad++;
 		imgVar.onload = countLoadedImageAndLaunchIfReady;
-		imgVar.src = fileName;
+		imgVar.src = "images/" + fileName;
 	}
