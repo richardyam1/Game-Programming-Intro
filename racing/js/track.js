@@ -33,26 +33,7 @@
 				var trackTopEdgeY = eachRow * TRACK_H;
 				var trackIndex = trackTileToIndex(eachCol, eachRow);
 				var trackTypeHere = trackGrid[trackIndex];
-				var useImg;
-				switch(trackTypeHere){
-					case TRACK_ROAD:
-						useImg = trackPicRoad;
-						break;
-					case TRACK_WALL:
-						useImg = trackPicWall;
-						break;
-					case TRACK_GOAL:
-						useImg = trackPicGoal;
-						break;
-					case TRACK_TREE:
-						useImg = trackPicTree;
-						break;
-					case TRACK_FLAG:
-					default:
-					useImg = trackPicFlag;
-					break;
-				}
-				canvasContext.drawImage(useImg, trackLeftEdgeX, trackTopEdgeY);
+				canvasContext.drawImage(trackPics[trackTypeHere], trackLeftEdgeX, trackTopEdgeY);
 			}
 		}
 
