@@ -27,14 +27,22 @@
 	const TRACK_FLAG = 5;
 
 	function drawTracks(){
-		for(var eachCol = 0; eachCol < TRACK_COLS; eachCol++){
-			for(var eachRow = 0; eachRow < TRACK_ROWS; eachRow++){
-				var trackLeftEdgeX = eachCol * TRACK_W;
-				var trackTopEdgeY = eachRow * TRACK_H;
-				var trackIndex = trackTileToIndex(eachCol, eachRow);
-				var trackTypeHere = trackGrid[trackIndex];
+		var trackIndex = 0;
+		var trackLeftEdgeX = 0;
+		var trackTopEdgeY = 0;
+		for(var eachRow = 0; eachRow < TRACK_ROWS; eachRow++){ // deal with one row at a time
+
+			trackLeftEdgeX = 0; // resetting horizontal draw position for tiles to left edge
+
+			for(var eachCol = 0; eachCol < TRACK_COLS; eachCol++){ // left to right in each row
+				
+				var trackTypeHere = trackGrid[trackIndex];  //getting the track code here
 				canvasContext.drawImage(trackPics[trackTypeHere], trackLeftEdgeX, trackTopEdgeY);
+				trackIndex++; //increment which index we're going to next check in the track
+				trackLeftEdgeX += TRACK_W; // jump horizontal draw to next tile over by tile width
 			}
+
+			trackTopEdgeY += TRACK_H; // jump horizontal draw down by one tile height
 		}
 
 	}
