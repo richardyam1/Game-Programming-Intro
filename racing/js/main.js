@@ -1,4 +1,5 @@
 var p1 = new carClass();
+var p2 = new carClass();
 var canvas;
 var convasContext;
 
@@ -18,6 +19,7 @@ $(document).ready(function(){
 			moveEverything();
     	}, 1000/framesPerSecond);
     	p1.carInit();
+    	p2.carInit();
 		initInput();
 	}
 
@@ -26,12 +28,14 @@ $(document).ready(function(){
 		drawTracks();
 
 		//draw car
-		p1.carDraw();	
+		p1.carDraw();
+		p2.carDraw();	
 
 	}
 
 	function moveEverything(){
 		p1.carMove();
+		p2.carMove();
 	}
 
 	
