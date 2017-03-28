@@ -8,7 +8,17 @@
 		this.carY = 75;
 		this.carSpeed = 0;
 		this.carAng = (-0.5 * Math.PI);
-		
+		this.keyHeld_Gas = false;
+		this.keyHeld_Reverse = false;
+		this.keyHeld_TurnLeft = false;
+		this.keyHeld_TurnRight = false;
+
+		this.setupControls = function(forwardKey, backKey, leftKey, rightKey){
+				this.controlKeyForGas = forwardKey;
+				this.controlKeyForReverse = backKey;
+				this.controlKeyForTurnLeft = leftKey;
+				this.controlKeyForTurnRight = rightKey;
+			}
 
 		this.carDraw = function(){
 			drawBitmapCenteredAtLocationWithRotation(carPic, this.carX, this.carY, this.carAng );	
@@ -16,19 +26,22 @@
 
 		this.carMove = function(){
 			if(Math.abs(this.carSpeed) >= MIN_TURN_SPEED){
-				if(keyHeld_TurnLeft){
+				if(this.keyHeld_TurnLeft){
 					this.carAng += -TURN_RATE*Math.PI;
 				}
-				if(keyHeld_TurnRight){
+				if(this.keyHeld_TurnRight){
 					this.carAng += TURN_RATE*Math.PI;
 				}
 			}
-			if(keyHeld_Gas){
+			if(this.keyHeld_Gas){
 				this.carSpeed += DRIVE_POWER;
 			}
-			if(keyHeld_Reverse){
+			if(this.keyHeld_Reverse){
 				this.carSpeed += -REVERSE_POWER;
 			}
+
+			
+
 			var nextX = this.carX + Math.cos(this.carAng) * this.carSpeed;
 			var nextY = this.carY + Math.sin(this.carAng) * this.carSpeed;
 			if(checkForTrackAtPixelCoord(nextX, nextY)){
@@ -49,7 +62,6 @@
 					this.carX = tileCol * TRACK_W + 0.5*TRACK_W;
 					this.carY = tileRow * TRACK_H + 0.5*TRACK_H;
 					trackGrid[i] = TRACK_ROAD;
-					document.getElementById("debugText").innerHTML = "Car starting at tile: (" + tileCol + ", " + tileRow + ") " + "Pixel coordinate: (" + this.carX + ", " + this.carY + ")";
 					break;
 				}
 			}
