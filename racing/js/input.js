@@ -18,7 +18,6 @@
 	function keyReleased(evt){
 		setKeyHoldState(evt.keyCode, p1, false);
 		setKeyHoldState(evt.keyCode, p2, false);
-		document.getElementById("debugText").innerHTML	= "KeyCode	Released:	" +	evt.keyCode;
 
 	}
 
