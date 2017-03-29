@@ -6,8 +6,6 @@
 	function carClass (){
 		this.carX = 75;
 		this.carY = 75;
-		this.carSpeed = 0;
-		this.carAng = (-0.5 * Math.PI);
 		this.keyHeld_Gas = false;
 		this.keyHeld_Reverse = false;
 		this.keyHeld_TurnLeft = false;
@@ -52,7 +50,9 @@
 				this.carY = nextY;
 			}
 			else if(drivingIntoTileType === TRACK_GOAL){
-				document.getElementById("debugText").innerHTML = "someone hit the goal line";
+				document.getElementById("debugText").innerHTML = this.myName + " won the race";
+				p1.carReset();
+				p2.carReset();
 			}
 			
 			else{
@@ -62,21 +62,27 @@
 			this.carSpeed *= GROUNDSPEED_DECAY_MULT;
 		};
 		this.carReset = function(){
-			for(var i = 0; i < trackGrid.length; i++){
-				if(trackGrid[i] === TRACK_PLAYER){
-					var tileRow = Math.floor(i/TRACK_COLS);
-					var tileCol = i%TRACK_COLS;
-					this.carX = tileCol * TRACK_W + 0.5*TRACK_W;
-					this.carY = tileRow * TRACK_H + 0.5*TRACK_H;
-					trackGrid[i] = TRACK_ROAD;
-					break;
+			this.carSpeed = 0;
+			this.carAng = (-0.5 * Math.PI);
+			if(this.homeX === undefined){
+				for(var i = 0; i < trackGrid.length; i++){
+					if(trackGrid[i] === TRACK_PLAYER){
+						var tileRow = Math.floor(i/TRACK_COLS);
+						var tileCol = i%TRACK_COLS;
+						this.homeX = tileCol * TRACK_W + 0.5*TRACK_W;
+						this.homeY = tileRow * TRACK_H + 0.5*TRACK_H;
+						trackGrid[i] = TRACK_ROAD;
+						break;
+					}
 				}
 			}
-			
+			this.carX = this.homeX;
+			this.carY = this.homeY;
 		};
 
-		this.carInit = function(whichGraphic){
+		this.carInit = function(whichGraphic, whichName){
 			this.myBitmap = whichGraphic;
+			this.myName = whichName;
 			this.carReset();
 		};
 }
