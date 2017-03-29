@@ -18,8 +18,8 @@ $(document).ready(function(){
 			drawEverything(); 
 			moveEverything();
     	}, 1000/framesPerSecond);
-    	p1.carInit();
-    	p2.carInit();
+    	p2.carInit(car2Pic);
+    	p1.carInit(carPic);
 		initInput();
 	}
 
