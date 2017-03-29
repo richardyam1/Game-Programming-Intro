@@ -8,7 +8,7 @@
 								4,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,
 								1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,
 								1,	0,	0,	0,	0,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	0,	0,	0,	1,
-								1,	0,	0,	0,	1,	1,	1,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	0,	0,	1,
+								1,	3,	3,	0,	1,	1,	1,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	0,	0,	1,
 								1,	0,	0,	1,	1,	0,	0,	1,	4,	4,	1,	1,	0,	0,	0,	1,	1,	0,	0,	1,
 								1,	0,	0,	1,	0,	0,	0,	0,	1,	4,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,
 								1,	0,	0,	1,	0,	0,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,
@@ -47,7 +47,7 @@
 
 	}
 
-	function checkForTrackAtPixelCoord(pixelX, pixelY){
+	function getTrackAtPixelCoord(pixelX, pixelY){
 		var tileCol = pixelX/TRACK_W;
 		var tileRow = pixelY/TRACK_H;
 
@@ -57,12 +57,11 @@
 
 		//first check whether the car is within any part of the track wall
 		if(tileCol < 0 || tileCol >= TRACK_COLS || tileRow < 0 || tileRow >= TRACK_ROWS){
-			return false; // bail out of function to avoid illegal array position usage
+			return TRACK_WALL; // bail out of function to avoid illegal array position usage
 		}
 
 		var trackIndex = trackTileToIndex(tileCol, tileRow);
-
-		return (trackGrid[trackIndex] === TRACK_ROAD);
+		return trackGrid[trackIndex];
 		
 	}
 

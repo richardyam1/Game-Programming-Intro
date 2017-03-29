@@ -21,7 +21,7 @@
 			}
 
 		this.carDraw = function(){
-			drawBitmapCenteredAtLocationWithRotation(carPic, this.carX, this.carY, this.carAng );	
+			drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.carX, this.carY, this.carAng );	
 		};
 
 		this.carMove = function(){
@@ -44,10 +44,17 @@
 
 			var nextX = this.carX + Math.cos(this.carAng) * this.carSpeed;
 			var nextY = this.carY + Math.sin(this.carAng) * this.carSpeed;
-			if(checkForTrackAtPixelCoord(nextX, nextY)){
+
+			var drivingIntoTileType = getTrackAtPixelCoord(nextX, nextY);
+
+			if(drivingIntoTileType === TRACK_ROAD){
 				this.carX = nextX;
 				this.carY = nextY;
 			}
+			else if(drivingIntoTileType === TRACK_GOAL){
+				document.getElementById("debugText").innerHTML = "someone hit the goal line";
+			}
+			
 			else{
 				this.carSpeed = 0.0;
 			}
@@ -68,7 +75,8 @@
 			
 		};
 
-		this.carInit = function(){
+		this.carInit = function(whichGraphic){
+			this.myBitmap = whichGraphic;
 			this.carReset();
 		};
 }
