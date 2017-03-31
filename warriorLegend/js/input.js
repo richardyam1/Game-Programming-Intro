@@ -19,23 +19,27 @@
 
 	}
 
-	function setKeyHoldState(thisKey, thisCar, setTo){
-		if(thisKey === thisCar.controlKeyForTurnLeft){
-			thisCar.keyHeld_TurnLeft = setTo;
+	function setKeyHoldState(thisKey, thisPlayer, setTo){
+		if(thisKey === thisPlayer.controlKeyForNorth){
+			thisPlayer.keyHeld_North = setTo;
 		}
-		if(thisKey === thisCar.controlKeyForTurnRight){
-			thisCar.keyHeld_TurnRight = setTo;
+
+		if(thisKey === thisPlayer.controlKeyForEast){
+			thisPlayer.keyHeld_East = setTo;
 		}
-		if(thisKey === thisCar.controlKeyForGas){
-			thisCar.keyHeld_Gas = setTo;
+		
+		if(thisKey === thisPlayer.controlKeyForSouth){
+			thisPlayer.keyHeld_South = setTo;
 		}
-		if(thisKey === thisCar.controlKeyForReverse){
-			thisCar.keyHeld_Reverse = setTo;
+		
+		if(thisKey === thisPlayer.controlKeyForWest){
+			thisPlayer.keyHeld_West = setTo;
 		}
+		
 	}
 
 	function initInput(){
 		document.addEventListener("keydown", keyPressed);
 		document.addEventListener("keyup", keyReleased);
-		p1.setupControls(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
+		p1.setupControls(KEY_UP_ARROW, KEY_RIGHT_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW);
 	}

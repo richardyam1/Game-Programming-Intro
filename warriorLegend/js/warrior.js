@@ -6,16 +6,16 @@
 	function warriorClass (){
 		this.x = 75;
 		this.y = 75;
-		this.keyHeld_Gas = false;
-		this.keyHeld_Reverse = false;
-		this.keyHeld_TurnLeft = false;
-		this.keyHeld_TurnRight = false;
+		this.keyHeld_North;
+		this.keyHeld_East;
+		this.keyHeld_South;
+		this.keyHeld_West;
 
-		this.setupControls = function(forwardKey, backKey, leftKey, rightKey){
-				this.controlKeyForGas = forwardKey;
-				this.controlKeyForReverse = backKey;
-				this.controlKeyForTurnLeft = leftKey;
-				this.controlKeyForTurnRight = rightKey;
+		this.setupControls = function(northKey, eastKey, southKey, westKey){
+				this.controlKeyForNorth = northKey;
+				this.controlKeyForEast= eastKey;
+				this.controlKeyForSouth = southKey;
+				this.controlKeyForWest = westKey;
 			}
 
 		this.draw = function(){
@@ -24,17 +24,17 @@
 
 		this.move = function(){
 			if(Math.abs(this.speed) >= MIN_TURN_SPEED){
-				if(this.keyHeld_TurnLeft){
+				if(this.keyHeld_West){
 					this.ang += -TURN_RATE*Math.PI;
 				}
-				if(this.keyHeld_TurnRight){
+				if(this.keyHeld_East){
 					this.ang += TURN_RATE*Math.PI;
 				}
 			}
-			if(this.keyHeld_Gas){
+			if(this.keyHeld_North){
 				this.speed += DRIVE_POWER;
 			}
-			if(this.keyHeld_Reverse){
+			if(this.keyHeld_South){
 				this.speed += -REVERSE_POWER;
 			}
 
