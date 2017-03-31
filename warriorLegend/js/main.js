@@ -1,4 +1,4 @@
-var p1 = new class();
+var p1 = new warriorClass();
 var canvas;
 var convasContext;
 
