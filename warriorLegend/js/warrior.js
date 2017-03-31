@@ -1,8 +1,4 @@
-	const GROUNDSPEED_DECAY_MULT = 0.94;
-	const DRIVE_POWER = 0.5;
-	const REVERSE_POWER = 0.2;
-	const TURN_RATE = 0.03;
-	const MIN_TURN_SPEED = 0.5;
+	const PLAYER_MOVE_SPEED = 3.0;
 	function warriorClass (){
 		this.x = 75;
 		this.y = 75;
@@ -19,37 +15,34 @@
 			}
 
 		this.draw = function(){
-			drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.x, this.y, this.ang );	
+			drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.x, this.y, 0.0);	
 		};
 
 		this.move = function(){
-			if(Math.abs(this.speed) >= MIN_TURN_SPEED){
-				if(this.keyHeld_West){
-					this.ang += -TURN_RATE*Math.PI;
-				}
-				if(this.keyHeld_East){
-					this.ang += TURN_RATE*Math.PI;
-				}
-			}
+			var nextX = this.x;
+			var nextY = this.y;
+
 			if(this.keyHeld_North){
-				this.speed += DRIVE_POWER;
+				nextY -= PLAYER_MOVE_SPEED;
+			}
+			if(this.keyHeld_East){
+				nextX += PLAYER_MOVE_SPEED;
 			}
 			if(this.keyHeld_South){
-				this.speed += -REVERSE_POWER;
+				nextY += PLAYER_MOVE_SPEED;
+			}
+			if(this.keyHeld_West){
+				nextX -= PLAYER_MOVE_SPEED;
 			}
 
-			
 
-			var nextX = this.x + Math.cos(this.ang) * this.speed;
-			var nextY = this.y + Math.sin(this.ang) * this.speed;
+			var walkIntoTileType = getTrackAtPixelCoord(nextX, nextY);
 
-			var drivingIntoTileType = getTrackAtPixelCoord(nextX, nextY);
-
-			if(drivingIntoTileType === TRACK_ROAD){
+			if(walkIntoTileType === TRACK_ROAD){
 				this.x = nextX;
 				this.y = nextY;
 			}
-			else if(drivingIntoTileType === TRACK_GOAL){
+			else if(walkIntoTileType === TRACK_GOAL){
 				document.getElementById("debugText").innerHTML = this.myName + " won the race";
 				this.reset();
 			}
@@ -61,8 +54,7 @@
 			this.speed *= GROUNDSPEED_DECAY_MULT;
 		};
 		this.reset = function(){
-			this.speed = 0;
-			this.ang = (-0.5 * Math.PI);
+			
 			if(this.homeX === undefined){
 				for(var i = 0; i < trackGrid.length; i++){
 					if(trackGrid[i] === TRACK_PLAYER){
