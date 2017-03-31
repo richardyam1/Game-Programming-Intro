@@ -65,11 +65,12 @@
 		
 	}
 
+	//returns index for the trackGrid
 	function trackTileToIndex(tileCol, tileRow){
 		return(tileCol + TRACK_COLS*tileRow);
 	}
 
-	
+	//check if there's a wall
 	function isWallAtTileCoord(trackTileCol, trackTileRow){
 		var trackIndex = trackTileCol + TRACK_COLS*trackTileRow;
 		return (trackGrid[trackIndex] == TRACK_WALL);

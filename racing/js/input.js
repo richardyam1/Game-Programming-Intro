@@ -12,6 +12,7 @@
 	function keyPressed(evt){
 		setKeyHoldState(evt.keyCode, p1, true);
 		setKeyHoldState(evt.keyCode, p2, true);
+		//prevents keys from performing its normal function when pressed(scrolling, typing)
 		evt.preventDefault();
 	}
 
@@ -39,6 +40,8 @@
 	function initInput(){
 		document.addEventListener("keydown", keyPressed);
 		document.addEventListener("keyup", keyReleased);
+
+		//sets up control keys for p1 and p2
 		p1.setupControls(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
 		p2.setupControls(KEY_LETTER_W, KEY_LETTER_S, KEY_LETTER_A, KEY_LETTER_D);
 	}

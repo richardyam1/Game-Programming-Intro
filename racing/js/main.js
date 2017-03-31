@@ -7,7 +7,7 @@ $(document).ready(function(){
 
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
-	
+	//fully loads images before starting program	
 	loadImages();
 });
 
@@ -27,13 +27,14 @@ $(document).ready(function(){
 		//game board
 		drawTracks();
 
-		//draw car
+		//draw cars
 		p1.carDraw();
 		p2.carDraw();	
 
 	}
 
 	function moveEverything(){
+		//moves cares
 		p1.carMove();
 		p2.carMove();
 	}
