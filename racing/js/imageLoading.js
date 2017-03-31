@@ -1,12 +1,9 @@
 	var picsToLoad = 0;
 	var carPic = document.createElement("img");
 	var car2Pic = document.createElement("img");
+	//will contain all track tile images
 	var trackPics = [];
-	var trackPicRoad = document.createElement("img");
-	var trackPicWall = document.createElement("img");
-	var trackPicGoal = document.createElement("img");
-	var trackPicTree = document.createElement("img");
-	var trackPicFlag = document.createElement("img");
+	
 
 	function countLoadedImageAndLaunchIfReady(){
 		picsToLoad--;
