@@ -1,11 +1,7 @@
 	var picsToLoad = 0;
-	var carPic = document.createElement("img");
+	var playerPic = document.createElement("img");
 	var trackPics = [];
-	var trackPicRoad = document.createElement("img");
-	var trackPicWall = document.createElement("img");
-	var trackPicGoal = document.createElement("img");
-	var trackPicTree = document.createElement("img");
-	var trackPicFlag = document.createElement("img");
+	
 
 	function countLoadedImageAndLaunchIfReady(){
 		picsToLoad--;
@@ -16,7 +12,7 @@
 
 	function loadImages(){
 		var imageList = [
-			{varName: carPic, theFile: "player1.png"},
+			{varName: playerPic, theFile: "player1.png"},
 			{trackType: TRACK_ROAD, theFile: "track_road.png"},
 			{trackType: TRACK_WALL, theFile: "track_wall.png"},
 			{trackType: TRACK_GOAL, theFile: "track_goal.png"},
