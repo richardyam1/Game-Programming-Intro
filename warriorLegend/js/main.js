@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 	function drawEverything(){
 		//game board
-		drawTracks();
+		drawRoom();
 
 		//draw car
 		p1.draw();

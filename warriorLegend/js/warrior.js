@@ -2,17 +2,17 @@
 	function warriorClass (){
 		this.x = 75;
 		this.y = 75;
-		this.keyHeld_North;
-		this.keyHeld_East;
-		this.keyHeld_South;
-		this.keyHeld_West;
+		this.keyHeld_North = false;
+		this.keyHeld_East = false;
+		this.keyHeld_South = false;
+		this.keyHeld_West = false;
 
 		this.setupControls = function(northKey, eastKey, southKey, westKey){
 				this.controlKeyForNorth = northKey;
 				this.controlKeyForEast= eastKey;
 				this.controlKeyForSouth = southKey;
 				this.controlKeyForWest = westKey;
-			}
+			};
 
 		this.draw = function(){
 			drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.x, this.y, 0.0);	
@@ -36,13 +36,13 @@
 			}
 
 
-			var walkIntoTileType = getTrackAtPixelCoord(nextX, nextY);
+			var walkIntoTileType = getTileAtPixelCoord(nextX, nextY);
 
-			if(walkIntoTileType === TRACK_ROAD){
+			if(walkIntoTileType === TILE_GROUND){
 				this.x = nextX;
 				this.y = nextY;
 			}
-			else if(walkIntoTileType === TRACK_GOAL){
+			else if(walkIntoTileType === TILE_GOAL){
 				document.getElementById("debugText").innerHTML = this.myName + " won the race";
 				this.reset();
 			}
@@ -51,18 +51,18 @@
 				this.speed = 0.0;
 			}
 
-			this.speed *= GROUNDSPEED_DECAY_MULT;
+			
 		};
 		this.reset = function(){
 			
 			if(this.homeX === undefined){
-				for(var i = 0; i < trackGrid.length; i++){
-					if(trackGrid[i] === TRACK_PLAYER){
-						var tileRow = Math.floor(i/TRACK_COLS);
-						var tileCol = i%TRACK_COLS;
-						this.homeX = tileCol * TRACK_W + 0.5*TRACK_W;
-						this.homeY = tileRow * TRACK_H + 0.5*TRACK_H;
-						trackGrid[i] = TRACK_ROAD;
+				for(var i = 0; i < roomGrid.length; i++){
+					if(roomGrid[i] === TILE_PLAYER){
+						var tileRow = Math.floor(i/ROOM_COLS);
+						var tileCol = i%ROOM_COLS;
+						this.homeX = tileCol * TILE_W + 0.5*TILE_W;
+						this.homeY = tileRow * TILE_H + 0.5*TILE_H;
+						roomGrid[i] = TILE_GROUND;
 						break;
 					}
 				}
