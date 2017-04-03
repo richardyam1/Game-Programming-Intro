@@ -23,6 +23,12 @@
 	const TILE_KEY = 4;
 	const TILE_DOOR = 5;
 
+	function tileTypeHasTransparency(checkTileType){
+		return(checkTileType == TILE_GOAL ||
+			checkTileType == TILE_KEY ||
+			checkTileType == TILE_DOOR);
+	}
+
 	function drawRoom(){
 		var tileIndex = 0;
 		var tileLeftEdgeX = 0;
@@ -34,6 +40,9 @@
 			for(var eachCol = 0; eachCol < ROOM_COLS; eachCol++){ // left to right in each row
 				
 				var tileTypeHere = roomGrid[tileIndex];  //getting the track code here
+				if(tileTypeHasTransparency(tileTypeHere)){
+					canvasContext.drawImage(tilePics[TILE_GROUND], tileLeftEdgeX, tileTopEdgeY);
+				}
 				canvasContext.drawImage(tilePics[tileTypeHere], tileLeftEdgeX, tileTopEdgeY);
 				tileIndex++; //increment which index we're going to next check in the track
 				tileLeftEdgeX += TILE_W; // jump horizontal draw to next tile over by tile width
