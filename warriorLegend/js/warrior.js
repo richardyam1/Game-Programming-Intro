@@ -35,26 +35,49 @@
 				nextX -= PLAYER_MOVE_SPEED;
 			}
 
+			var walkIntoTileIndex = getTileIndexAtPixelCoord(nextX, nextY);
+			var walkIntoTileType = TILE_WALL;
 
-			var walkIntoTileType = getTileAtPixelCoord(nextX, nextY);
-
-			if(walkIntoTileType === TILE_GROUND){
-				this.x = nextX;
-				this.y = nextY;
+			if(walkIntoTileIndex !== undefined){
+				walkIntoTileType = roomGrid[walkIntoTileIndex];
 			}
-			else if(walkIntoTileType === TILE_GOAL){
-				document.getElementById("debugText").innerHTML = this.myName + " won the race";
-				this.reset();
+
+			switch(walkIntoTileType){
+				case TILE_GROUND:
+					this.x = nextX;
+					this.y = nextY;
+					break;
+
+				case TILE_GOAL:
+					document.getElementById("debugText").innerHTML = this.myName + " won";
+					this.reset();
+					break;
+
+				case TILE_DOOR:
+					if(this.keysHeld > 0){
+						this.keysHeld--;
+						document.getElementById("debugText").innerHTML = "Keys: " + this.keysHeld;
+						roomGrid[walkIntoTileIndex] = TILE_GROUND;
+					}
+					break;
+
+				case TILE_KEY:
+					this.keysHeld++;
+					document.getElementById("debugText").innerHTML = "Keys: " + this.keysHeld;
+					roomGrid[walkIntoTileIndex] = TILE_GROUND;
+					break;
+
+				case TILE_WALL:
+				default:
+					break;
+
 			}
 			
-			else{
-				this.speed = 0.0;
-			}
 
 			
 		};
 		this.reset = function(){
-			
+			this.keysHeld = 0;
 			if(this.homeX === undefined){
 				for(var i = 0; i < roomGrid.length; i++){
 					if(roomGrid[i] === TILE_PLAYER){

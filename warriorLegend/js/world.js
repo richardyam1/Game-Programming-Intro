@@ -53,7 +53,7 @@
 
 	}
 
-	function getTileAtPixelCoord(pixelX, pixelY){
+	function getTileIndexAtPixelCoord(pixelX, pixelY){
 		var tileCol = pixelX/TILE_W;
 		var tileRow = pixelY/TILE_H;
 
@@ -63,11 +63,12 @@
 
 		//first check whether the car is within any part of the track wall
 		if(tileCol < 0 || tileCol >= ROOM_COLS || tileRow < 0 || tileRow >= ROOM_ROWS){
-			return TILE_WALL; // bail out of function to avoid illegal array position usage
+			document.getElementById("debugText").innerHTML = "out of bounds:" + pixelX + "," + pixelY;
+			return undefined; // bail out of function to avoid illegal array position usage
 		}
 
 		var tileIndex = roomTileToIndex(tileCol, tileRow);
-		return roomGrid[tileIndex];
+		return tileIndex;
 		
 	}
 
