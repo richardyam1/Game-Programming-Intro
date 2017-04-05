@@ -30,9 +30,7 @@
 		if(thisKey === thisShip.controlKeyForGas){
 			thisShip.keyHeld_Gas = setTo;
 		}
-		if(thisKey === thisShip.controlKeyForReverse){
-			thisShip.keyHeld_Reverse = setTo;
-		}
+		
 	}
 
 	function initInput(){
