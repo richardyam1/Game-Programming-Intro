@@ -1,4 +1,4 @@
-var p1 = new warriorClass();
+var p1 = new shipClass();
 var canvas;
 var convasContext;
 
