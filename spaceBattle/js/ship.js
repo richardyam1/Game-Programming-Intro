@@ -45,6 +45,7 @@
 			
 			//slows down the car when key is not pressed
 			this.speed *= GROUNDSPEED_DECAY_MULT;
+			this.handleScreenWrap();
 		};
 		//reset car to starting position when goal line is reached
 		this.reset = function(){
@@ -60,5 +61,21 @@
 		this.init = function(whichGraphic){
 			this.myBitmap = whichGraphic;
 			this.reset();
+		};
+
+		this.handleScreenWrap = function(){
+			if (this.x < 0){
+				this.x += canvas.width;
+			}
+			else if(this.x > canvas.width){
+				this.x += -canvas.width;
+			}
+
+			if(this.y < 0){
+				this.y += canvas.height;
+			}
+			else if(this.y > canvas.height){
+				this.y += -canvas.height;
+			}
 		};
 }
