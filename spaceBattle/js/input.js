@@ -20,18 +20,18 @@
 
 	}
 
-	function setKeyHoldState(thisKey, thisCar, setTo){
-		if(thisKey === thisCar.controlKeyForTurnLeft){
-			thisCar.keyHeld_TurnLeft = setTo;
+	function setKeyHoldState(thisKey, thisShip, setTo){
+		if(thisKey === thisShip.controlKeyForTurnLeft){
+			thisShip.keyHeld_TurnLeft = setTo;
 		}
-		if(thisKey === thisCar.controlKeyForTurnRight){
-			thisCar.keyHeld_TurnRight = setTo;
+		if(thisKey === thisShip.controlKeyForTurnRight){
+			thisShip.keyHeld_TurnRight = setTo;
 		}
-		if(thisKey === thisCar.controlKeyForGas){
-			thisCar.keyHeld_Gas = setTo;
+		if(thisKey === thisShip.controlKeyForGas){
+			thisShip.keyHeld_Gas = setTo;
 		}
-		if(thisKey === thisCar.controlKeyForReverse){
-			thisCar.keyHeld_Reverse = setTo;
+		if(thisKey === thisShip.controlKeyForReverse){
+			thisShip.keyHeld_Reverse = setTo;
 		}
 	}
 
