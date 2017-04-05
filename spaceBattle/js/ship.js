@@ -1,7 +1,6 @@
 	const SPACESPEED_DECAY_MULT = 0.99;
 	const THRUST_POWER = 0.15;
 	const TURN_RATE = 0.03;
-	//Use class so both cars have access to code below.
 	function shipClass (){
 		this.x = 75;
 		this.y = 75;
@@ -29,29 +28,28 @@
 				}
 			
 			if(this.keyHeld_Gas){
-				this.speed += THRUST_POWER;
-			}
+				this.driftX += Math.cos(this.ang) * THRUST_POWER; ////
+     			this.driftY += Math.sin(this.ang) * THRUST_POWER;			
+     		}
 			
 
-			 this.x += Math.cos(this.ang) * this.speed;
-			 this.y += Math.sin(this.ang) * this.speed;
+			 this.x +=  this.driftX;
+			 this.y +=  this.driftY;
 
 			
-			//slows down the car when key is not pressed
-			this.speed *= SPACESPEED_DECAY_MULT;
+			this.driftX *= SPACESPEED_DECAY_MULT;
+			this.driftY *= SPACESPEED_DECAY_MULT;
 			this.handleScreenWrap();
 		};
-		//reset car to starting position when goal line is reached
 		this.reset = function(){
-			//reset speed so car resets to a complete stop
-			this.speed = 0;
+			this.driftX = 0;
+			this.driftY = 0;
 			this.ang = (-0.5 * Math.PI);
 			this.x = canvas.width/2;
     		this.y = canvas.height/2;
 			
 		};
 
-		//Initialize car for p1 and p2
 		this.init = function(whichGraphic){
 			this.myBitmap = whichGraphic;
 			this.reset();
