@@ -39,24 +39,10 @@
 				this.speed += -REVERSE_POWER;
 			}
 
-			var nextX = this.x + Math.cos(this.ang) * this.speed;
-			var nextY = this.y + Math.sin(this.ang) * this.speed;
+			 this.x += Math.cos(this.ang) * this.speed;
+			 this.y += Math.sin(this.ang) * this.speed;
 
-			var drivingIntoTileType = getTrackAtPixelCoord(nextX, nextY);
-			//check if next tile is a road.
-			if(drivingIntoTileType === TRACK_ROAD){
-				this.x = nextX;
-				this.y = nextY;
-			}
-			//check if next tile is the goal line
-			else if(drivingIntoTileType === TRACK_GOAL){
-				document.getElementById("debugText").innerHTML = this.myName + " won the race";
-				this.reset();
-			}
-			//if car hits a wall
-			else{
-				this.speed = 0.0;
-			}
+			
 			//slows down the car when key is not pressed
 			this.speed *= GROUNDSPEED_DECAY_MULT;
 		};
@@ -65,26 +51,13 @@
 			//reset speed so car resets to a complete stop
 			this.speed = 0;
 			this.ang = (-0.5 * Math.PI);
-			if(this.homeX === undefined){
-				for(var i = 0; i < trackGrid.length; i++){
-					if(trackGrid[i] === TRACK_PLAYER){
-						var tileRow = Math.floor(i/TRACK_COLS);
-						var tileCol = i%TRACK_COLS;
-						this.homeX = tileCol * TRACK_W + 0.5*TRACK_W;
-						this.homeY = tileRow * TRACK_H + 0.5*TRACK_H;
-						trackGrid[i] = TRACK_ROAD;
-						break;
-					}
-				}
-			}
-			this.x = this.homeX;
-			this.y = this.homeY;
+			
+			
 		};
 
 		//Initialize car for p1 and p2
-		this.init = function(whichGraphic, whichName){
+		this.init = function(whichGraphic){
 			this.myBitmap = whichGraphic;
-			this.myName = whichName;
 			this.reset();
 		};
 }

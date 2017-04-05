@@ -14,11 +14,7 @@
 	function loadImages(){
 		var imageList = [
 			{varName: playerPic, theFile: "player1.png"},
-			{trackType: TRACK_ROAD, theFile: "track_road.png"},
-			{trackType: TRACK_WALL, theFile: "track_wall.png"},
-			{trackType: TRACK_GOAL, theFile: "track_goal.png"},
-			{trackType: TRACK_TREE, theFile: "track_tree.png"},
-			{trackType: TRACK_FLAG, theFile: "track_flag.png"}
+			
 		];
 
 		picsToLoad = imageList.length;
