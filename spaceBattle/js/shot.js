@@ -1,54 +1,31 @@
 	const SHOT_SPEED = 6.0;
 	const SHOT_LIFE = 30;
 	const SHOT_DISPLAY_RADIUS = 2.0;
+
+	shotClass.prototype = new movingWrapPositionClass();
+
 	function shotClass (){
-		this.x = 75;
-		this.y = 75;
-		
 		this.draw = function(){
 			if(this.shotLife > 0){
 				colorCircle(this.x, this.y, SHOT_DISPLAY_RADIUS, "white");
 			}
 		};
 
+		this.superclassMove = this.move;
 		this.move = function(){
 			if(this.shotLife > 0){
 				this.shotLife--;
+				this.superclassMove();
+
 			}
-
-			 this.x +=  this.xv;
-			 this.y +=  this.yv;
-
-			
-	
-			this.handleScreenWrap();
 		};
-		
+
+		this.superClassReset = this.reset;
 		this.reset = function(){
+			this.superClassReset();
 			this.shotLife = 0;
-			this.driftX = 0;
-			this.driftY = 0;
-			this.ang = (-0.5 * Math.PI);
-			this.x = canvas.width/2;
-    		this.y = canvas.height/2;
 			
-		};
-
-
-		this.handleScreenWrap = function(){
-			if (this.x < 0){
-				this.x += canvas.width;
-			}
-			else if(this.x > canvas.width){
-				this.x += -canvas.width;
-			}
-
-			if(this.y < 0){
-				this.y += canvas.height;
-			}
-			else if(this.y > canvas.height){
-				this.y += -canvas.height;
-			}
+			
 		};
 
 		this.isShotReadyToFire = function(){
@@ -59,8 +36,8 @@
 			this.x = shipFiring.x;
 			this.y = shipFiring.y;
 
-			this.xv = Math.cos(shipFiring.ang) * SHOT_SPEED + shipFiring.driftX;
-			this.yv = Math.sin(shipFiring.ang) * SHOT_SPEED + shipFiring.driftY;
+			this.xv = Math.cos(shipFiring.ang) * SHOT_SPEED + shipFiring.xv;
+			this.yv = Math.sin(shipFiring.ang) * SHOT_SPEED + shipFiring.yv;
 
 			this.shotLife = SHOT_LIFE;
 		};
