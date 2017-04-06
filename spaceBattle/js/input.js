@@ -6,11 +6,15 @@
 	const KEY_LETTER_A = 65;
 	const KEY_LETTER_S = 83;
 	const KEY_LETTER_D = 68;
+	const KEY_SPACEBAR = 32;
 
 	
 
 	function keyPressed(evt){
 		setKeyHoldState(evt.keyCode, p1, true);
+		if(evt.keyCode == p1.controlKeyForShotFire){
+			p1.cannonFire();
+		}
 		//prevents keys from performing its normal function when pressed(scrolling, typing)
 		evt.preventDefault();
 	}
@@ -38,5 +42,5 @@
 		document.addEventListener("keyup", keyReleased);
 
 		//sets up control keys for p1 and p2
-		p1.setupControls(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
+		p1.setupControls(KEY_UP_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW, KEY_SPACEBAR);
 	}

@@ -8,24 +8,27 @@
 		this.keyHeld_TurnLeft = false;
 		this.keyHeld_TurnRight = false;
 
-		this.setupControls = function(forwardKey, backKey, leftKey, rightKey){
+		this.setupControls = function(forwardKey, leftKey, rightKey, shotKey){
 				this.controlKeyForGas = forwardKey;
 				this.controlKeyForTurnLeft = leftKey;
 				this.controlKeyForTurnRight = rightKey;
-			}
+				this.controlKeyForShotFire = shotKey;
+			} //end of setupControls
 
 		this.draw = function(){
+			this.myShot.draw();
 			drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.x, this.y, this.ang );	
-		};
+		}; // end of draw
 
 		this.move = function(){
 			
-				if(this.keyHeld_TurnLeft){
-					this.ang += -TURN_RATE*Math.PI;
-				}
-				if(this.keyHeld_TurnRight){
-					this.ang += TURN_RATE*Math.PI;
-				}
+			if(this.keyHeld_TurnLeft){
+				this.ang += -TURN_RATE*Math.PI;
+			}
+
+			if(this.keyHeld_TurnRight){
+				this.ang += TURN_RATE*Math.PI;
+			}
 			
 			if(this.keyHeld_Gas){
 				this.driftX += Math.cos(this.ang) * THRUST_POWER; ////
@@ -40,20 +43,24 @@
 			this.driftX *= SPACESPEED_DECAY_MULT;
 			this.driftY *= SPACESPEED_DECAY_MULT;
 			this.handleScreenWrap();
-		};
+			this.myShot.move();
+		}; //end of move()
+
 		this.reset = function(){
 			this.driftX = 0;
 			this.driftY = 0;
 			this.ang = (-0.5 * Math.PI);
 			this.x = canvas.width/2;
     		this.y = canvas.height/2;
+    		this.myShot.reset();
 			
-		};
+		};//end of reset()
 
 		this.init = function(whichGraphic){
+			this.myShot = new shotClass();
 			this.myBitmap = whichGraphic;
 			this.reset();
-		};
+		};//end of init
 
 		this.handleScreenWrap = function(){
 			if (this.x < 0){
@@ -69,5 +76,9 @@
 			else if(this.y > canvas.height){
 				this.y += -canvas.height;
 			}
+		};//end of handleScreenWrap
+
+		this.cannonFire = function(){
+			this.myShot.shootFrom(this);
 		};
 }
