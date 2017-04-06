@@ -23,6 +23,7 @@
 	
 			this.handleScreenWrap();
 		};
+		
 		this.reset = function(){
 			this.shotLife = 0;
 			this.driftX = 0;
@@ -33,7 +34,6 @@
 			
 		};
 
-		
 
 		this.handleScreenWrap = function(){
 			if (this.x < 0){
@@ -50,6 +50,10 @@
 				this.y += -canvas.height;
 			}
 		};
+
+		this.isShotReadyToFire = function(){
+			return(this.shotLife <= 0);
+		}
 
 		this.shootFrom = function(shipFiring){
 			this.x = shipFiring.x;
