@@ -9,6 +9,24 @@
 		this.keyHeld_TurnLeft = false;
 		this.keyHeld_TurnRight = false;
 
+		this.init = function(whichGraphic){
+			this.myShot = new shotClass();
+			this.myBitmap = whichGraphic;
+			this.reset();
+		};//end of init
+
+		this.superclassReset = this.reset;
+		this.reset = function(){
+			this.superclassReset();
+			this.ang = (-0.5 * Math.PI);
+			this.x = canvas.width/2;
+    		this.y = canvas.height/2;
+    		this.myShot.reset();
+			
+		};//end of reset()
+
+		
+
 		this.setupControls = function(forwardKey, leftKey, rightKey, shotKey){
 				this.controlKeyForGas = forwardKey;
 				this.controlKeyForTurnLeft = leftKey;
@@ -47,21 +65,7 @@
 			this.myShot.move();
 		}; //end of move()
 
-		this.superclassReset = this.reset;
-		this.reset = function(){
-			this.superclassReset();
-			this.ang = (-0.5 * Math.PI);
-			this.x = canvas.width/2;
-    		this.y = canvas.height/2;
-    		this.myShot.reset();
-			
-		};//end of reset()
-
-		this.init = function(whichGraphic){
-			this.myShot = new shotClass();
-			this.myBitmap = whichGraphic;
-			this.reset();
-		};//end of init
+	
 
 
 		this.cannonFire = function(){
