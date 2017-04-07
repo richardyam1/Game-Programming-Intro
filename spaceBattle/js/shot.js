@@ -5,6 +5,15 @@
 	shotClass.prototype = new movingWrapPositionClass();
 
 	function shotClass (){
+
+		this.superClassReset = this.reset;
+		this.reset = function(){
+			this.superClassReset();
+			this.shotLife = 0;
+			
+			
+		};
+		
 		this.draw = function(){
 			if(this.shotLife > 0){
 				colorCircle(this.x, this.y, SHOT_DISPLAY_RADIUS, "white");
@@ -20,13 +29,7 @@
 			}
 		};
 
-		this.superClassReset = this.reset;
-		this.reset = function(){
-			this.superClassReset();
-			this.shotLife = 0;
-			
-			
-		};
+		
 
 		this.isShotReadyToFire = function(){
 			return(this.shotLife <= 0);

@@ -1,4 +1,5 @@
 var p1 = new shipClass();
+var enemy = new ufoClass();
 var canvas;
 var convasContext;
 
@@ -17,7 +18,8 @@ $(document).ready(function(){
 			drawEverything(); 
 			moveEverything();
     	}, 1000/framesPerSecond);
-    	p1.init(playerPic, "Blue Car");
+    	p1.init(playerPic);
+    	enemy.init(ufoPic);
 		initInput();
 	}
 
@@ -27,12 +29,14 @@ $(document).ready(function(){
 
 		//draw cars
 		p1.draw();
+		enemy.draw();
 
 	}
 
 	function moveEverything(){
 		//moves cares
 		p1.move();
+		enemy.move();
 	}
 
 	
