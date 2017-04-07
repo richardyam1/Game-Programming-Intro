@@ -34,6 +34,7 @@ $(document).ready(function(){
 		//moves cares
 		p1.move();
 		enemy.move();
+		p1.checkMyShipAndShotCollisionAgainst(enemy);
 	}
 
 	

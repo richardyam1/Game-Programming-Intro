@@ -13,7 +13,7 @@
 			
 			
 		};
-		
+
 		this.draw = function(){
 			if(this.shotLife > 0){
 				colorCircle(this.x, this.y, SHOT_DISPLAY_RADIUS, "white");
@@ -29,7 +29,6 @@
 			}
 		};
 
-		
 
 		this.isShotReadyToFire = function(){
 			return(this.shotLife <= 0);
@@ -44,4 +43,11 @@
 
 			this.shotLife = SHOT_LIFE;
 		};
+
+		this.hitTest = function(thisEnemy){
+			if(this.shotLife <= 0){
+				return false;
+			}
+			return thisEnemy.isOverlappingPoint(this.x, this.y);
+		}
 }
