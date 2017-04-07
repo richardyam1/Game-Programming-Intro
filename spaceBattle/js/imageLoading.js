@@ -1,5 +1,6 @@
 	var picsToLoad = 0;
 	var playerPic = document.createElement("img");
+	var ufoPic = document.createElement("img");
 	//will contain all track tile images
 	var trackPics = [];
 	
@@ -14,7 +15,7 @@
 	function loadImages(){
 		var imageList = [
 			{varName: playerPic, theFile: "player1.png"},
-			
+			{varName: ufoPic, theFile: "ufo.png"}
 		];
 
 		picsToLoad = imageList.length;
