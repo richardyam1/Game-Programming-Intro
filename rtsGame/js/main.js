@@ -28,7 +28,11 @@ $(document).ready(function(){
 		document.getElementById("debugText").innerHTML = "(" + mousePos.x + "," + mousePos.y + ")";
 	});
 	
-	
+	$(canvas).click(function(evt){
+		var mousePos = calculateMousePos(evt);
+		testUnit.gotoX = mousePos.x;
+		testUnit.gotoY = mousePos.y;
+	})
 
 	function drawEverything(){
 		//game board
@@ -39,7 +43,7 @@ $(document).ready(function(){
 
 
 	function moveEverything(){
-	
+		testUnit.move();
 	}
 
 	testUnit.reset();
