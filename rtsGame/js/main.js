@@ -1,6 +1,6 @@
 var canvas;
 var convasContext;
-
+var testUnit = new unitClass();
 function calculateMousePos(evt){
 	var rect = canvas.getBoundingClientRect(), root = document.documentElement;
 
@@ -15,7 +15,6 @@ function calculateMousePos(evt){
 
 
 $(document).ready(function(){
-	
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
 	var framesPerSecond = 30;
@@ -35,7 +34,7 @@ $(document).ready(function(){
 		//game board
 		colorRect(0, 0, canvas.width, canvas.height, "black");
 
-		
+		testUnit.draw();
 	}
 
 
@@ -43,7 +42,7 @@ $(document).ready(function(){
 	
 	}
 
-
+	testUnit.reset();
 
 	
 });
