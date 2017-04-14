@@ -1,6 +1,7 @@
 function unitClass (){
 	const UNIT_PLACEHOLDER_RADIUS = 5;
 	const UNIT_PIXELS_MOVE_RATE = 2;
+	const UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50;
 	this.reset = function(){
 		this.x = Math.random() * canvas.width/4;
 		this.y = Math.random() * canvas.height/4;
@@ -30,4 +31,10 @@ function unitClass (){
 			this.y = this.gotoY;
 		}
 	}
+
+	this.gotoNear = function(aroundX, aroundY){
+		this.gotoX = aroundX + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
+		this.gotoY = aroundY + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
+	}
+
 } 

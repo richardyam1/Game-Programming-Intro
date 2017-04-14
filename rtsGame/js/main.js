@@ -32,9 +32,8 @@ $(document).ready(function(){
 	$(canvas).click(function(evt){
 		var mousePos = calculateMousePos(evt);
 		for(var i = 0; i < playerUnits.length; i++){
-			var eachUnit = playerUnits[i];
-			eachUnit.gotoX = mousePos.x;
-			eachUnit.gotoY = mousePos.y;
+			 playerUnits[i].gotoNear(mousePos.x, mousePos.y);
+			
 		}
 	})
 
