@@ -19,3 +19,10 @@
 		canvasContext.restore(); //undo the translation movement and rotation since save()
 		
 	}
+
+	function coloredOutlineRectCornerToCorner(corner1X, corner1Y, corner2X, corner2Y, lineColor){
+		canvasContext.strokeStyle = lineColor;
+		canvasContext.beginPath();
+		canvasContext.rect(corner1X, corner1Y, corner2X-corner1X, corner2Y-corner1Y);
+		canvasContext.stroke();
+	}

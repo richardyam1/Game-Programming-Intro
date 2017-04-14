@@ -2,6 +2,12 @@ var canvas;
 var convasContext;
 const PLAYER_START_UNITS = 8;
 var playerUnits = []; 
+var lassoX1 = 0;
+var lassoY1 = 0;
+var lassoX2 = 0;
+var lassoY2 = 0;
+var isMouseDragging = false;
+
 function calculateMousePos(evt){
 	var rect = canvas.getBoundingClientRect(), root = document.documentElement;
 
@@ -27,8 +33,12 @@ $(document).ready(function(){
 	$(canvas).mousemove(function(evt){
 		var mousePos = calculateMousePos(evt);
 		document.getElementById("debugText").innerHTML = "(" + mousePos.x + "," + mousePos.y + ")";
+		if(isMouseDragging){
+			lassoX2 = mousePos.x;
+			lassoY2 = mousePos.y;
+		}
 	});
-	
+	/*
 	$(canvas).click(function(evt){
 		var mousePos = calculateMousePos(evt);
 		for(var i = 0; i < playerUnits.length; i++){
@@ -36,12 +46,28 @@ $(document).ready(function(){
 			
 		}
 	})
+	*/
+	$(canvas).mousedown(function(evt){
+		var mousePos = calculateMousePos(evt);
+		lassoX1 = mousePos.x;
+		lassoY1 = mousePos.y;
+		lassoX2 = lassoX1;
+		lassoY2 = lassoY1;
+		isMouseDragging = true; 
+	});
+
+	$(canvas).mouseup(function(evt){
+		isMouseDragging = false;
+	});
 
 	function drawEverything(){
 		//game board
 		colorRect(0, 0, canvas.width, canvas.height, "black");
 		for(var i = 0; i < playerUnits.length; i++){
 			playerUnits[i].draw();
+		}
+		if(isMouseDragging){
+			coloredOutlineRectCornerToCorner(lassoX1, lassoY1, lassoX2, lassoY2, "yellow");
 		}
 	}
 
