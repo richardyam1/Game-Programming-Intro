@@ -1,6 +1,7 @@
 var canvas;
 var convasContext;
-var testUnit = new unitClass();
+const PLAYER_START_UNITS = 8;
+var playerUnits = []; 
 function calculateMousePos(evt){
 	var rect = canvas.getBoundingClientRect(), root = document.documentElement;
 
@@ -30,23 +31,33 @@ $(document).ready(function(){
 	
 	$(canvas).click(function(evt){
 		var mousePos = calculateMousePos(evt);
-		testUnit.gotoX = mousePos.x;
-		testUnit.gotoY = mousePos.y;
+		for(var i = 0; i < playerUnits.length; i++){
+			var eachUnit = playerUnits[i];
+			eachUnit.gotoX = mousePos.x;
+			eachUnit.gotoY = mousePos.y;
+		}
 	})
 
 	function drawEverything(){
 		//game board
 		colorRect(0, 0, canvas.width, canvas.height, "black");
-
-		testUnit.draw();
+		for(var i = 0; i < playerUnits.length; i++){
+			playerUnits[i].draw();
+		}
 	}
 
 
 	function moveEverything(){
-		testUnit.move();
+		for(var i = 0; i < playerUnits.length; i++){
+			playerUnits[i].move();
+		}
 	}
 
-	testUnit.reset();
+	for(var i = 0; i < PLAYER_START_UNITS; i++){
+		var spawnUnit = new unitClass();
+		spawnUnit.reset();
+		playerUnits.push(spawnUnit);
+	}
 
 	
 });
