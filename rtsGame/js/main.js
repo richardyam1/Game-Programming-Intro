@@ -2,6 +2,7 @@ var canvas;
 var convasContext;
 const PLAYER_START_UNITS = 8;
 var playerUnits = []; 
+var selectedUnits = [];
 var lassoX1 = 0;
 var lassoY1 = 0;
 var lassoX2 = 0;
@@ -32,7 +33,6 @@ $(document).ready(function(){
 
 	$(canvas).mousemove(function(evt){
 		var mousePos = calculateMousePos(evt);
-		document.getElementById("debugText").innerHTML = "(" + mousePos.x + "," + mousePos.y + ")";
 		if(isMouseDragging){
 			lassoX2 = mousePos.x;
 			lassoY2 = mousePos.y;
@@ -58,6 +58,15 @@ $(document).ready(function(){
 
 	$(canvas).mouseup(function(evt){
 		isMouseDragging = false;
+
+		selectedUnits = [];
+
+		for(var i = 0; i < playerUnits.length; i++){
+			if(playerUnits[i].isInBox(lassoX1, lassoY1, lassoX2, lassoY2)){
+				selectedUnits.push(playerUnits[i]);
+			}
+		}
+		document.getElementById("debugText").innerHTML = "Selected " + selectedUnits.length + " units";
 	});
 
 	function drawEverything(){
@@ -65,6 +74,10 @@ $(document).ready(function(){
 		colorRect(0, 0, canvas.width, canvas.height, "black");
 		for(var i = 0; i < playerUnits.length; i++){
 			playerUnits[i].draw();
+		}
+
+		for(var i = 0; i < selectedUnits.length; i++){
+			selectedUnits[i].drawSelectionBox();
 		}
 		if(isMouseDragging){
 			coloredOutlineRectCornerToCorner(lassoX1, lassoY1, lassoX2, lassoY2, "yellow");
