@@ -2,7 +2,7 @@ function unitClass (){
 	const UNIT_PLACEHOLDER_RADIUS = 5;
 	const UNIT_SELECT_DIM_HALF = UNIT_PLACEHOLDER_RADIUS + 3;
 	const UNIT_PIXELS_MOVE_RATE = 2;
-	const UNIT_MAX_RAND_DIST_FROM_WALK_TARGET = 50;
+	const UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3;
 	this.reset = function(){
 		this.x = Math.random() * canvas.width/4;
 		this.y = Math.random() * canvas.height/4;
@@ -40,9 +40,11 @@ function unitClass (){
 		}
 	}
 
-	this.gotoNear = function(aroundX, aroundY){
-		this.gotoX = aroundX + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
-		this.gotoY = aroundY + Math.random() * UNIT_MAX_RAND_DIST_FROM_WALK_TARGET;
+	this.gotoNear = function(aroundX, aroundY, formationPos, formationDim){
+		var colNum = formationPos % formationDim;
+		var rowNum = Math.floor(formationPos/formationDim);
+		this.gotoX = aroundX + colNum * UNIT_RANKS_SPACING;
+		this.gotoY = aroundY + rowNum * UNIT_RANKS_SPACING;
 	}
 
 	this.isInBox = function(x1, y1, x2, y2){
