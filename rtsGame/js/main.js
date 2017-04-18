@@ -2,6 +2,8 @@ var canvas;
 var convasContext;
 const PLAYER_START_UNITS = 20;
 const MIN_DIST_TO_COUNT_DRAG = 10;
+const ENEMY_START_UNITS = 15;
+var enemyUnits = [];
 var playerUnits = []; 
 var selectedUnits = [];
 var lassoX1 = 0;
@@ -94,6 +96,10 @@ $(document).ready(function(){
 			playerUnits[i].draw();
 		}
 
+		for(var i = 0; i < enemyUnits.length; i++){
+			enemyUnits[i].draw();
+		}
+
 		for(var i = 0; i < selectedUnits.length; i++){
 			selectedUnits[i].drawSelectionBox();
 		}
@@ -107,12 +113,22 @@ $(document).ready(function(){
 		for(var i = 0; i < playerUnits.length; i++){
 			playerUnits[i].move();
 		}
+
+		for(var i = 0; i < enemyUnits.length; i++){
+			enemyUnits[i].move();
+		}
 	}
 
 	for(var i = 0; i < PLAYER_START_UNITS; i++){
 		var spawnUnit = new unitClass();
-		spawnUnit.reset();
+		spawnUnit.resetAndSetPlayerTeam(true);
 		playerUnits.push(spawnUnit);
+	}
+
+	for(var i = 0; i < ENEMY_START_UNITS; i++){
+		var spawnUnit = new unitClass();
+		spawnUnit.resetAndSetPlayerTeam(false);
+		enemyUnits.push(spawnUnit);
 	}
 
 	

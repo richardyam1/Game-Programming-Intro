@@ -3,9 +3,19 @@ function unitClass (){
 	const UNIT_SELECT_DIM_HALF = UNIT_PLACEHOLDER_RADIUS + 3;
 	const UNIT_PIXELS_MOVE_RATE = 2;
 	const UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3;
-	this.reset = function(){
+	this.resetAndSetPlayerTeam = function(playerTeam){
+		this.playerControlled = playerTeam;
 		this.x = Math.random() * canvas.width/4;
 		this.y = Math.random() * canvas.height/4;
+
+		if(this.playerControlled == false){
+			this.x = canvas.width - this.x;
+			this.y = canvas.height  - this.y;
+			this.unitColor = "red";
+		}
+		else{
+			this.unitColor = "white";
+		}
 		this.gotoX = this.x;
 		this.gotoY = this.y;
 		this.isDead = false;
@@ -20,7 +30,7 @@ function unitClass (){
 
 	this.draw = function(){
 		if(this.isDead == false){
-			colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, "white");
+			colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, this.unitColor);
 		}
 	}
 
