@@ -1,6 +1,7 @@
 var canvas;
 var convasContext;
 const PLAYER_START_UNITS = 8;
+const MIN_DIST_TO_COUNT_DRAG = 10;
 var playerUnits = []; 
 var selectedUnits = [];
 var lassoX1 = 0;
@@ -21,6 +22,12 @@ function calculateMousePos(evt){
 	};
 }
 
+function mouseMovedEnoughToTreatAsDrag(){
+	var deltaX = lassoX1 - lassoX2;
+	var deltaY = lassoY1 - lassoY2;
+	var dragDist = Math.sqrt(deltaX*deltaY + deltaY*deltaY);
+	return(dragDist > MIN_DIST_TO_COUNT_DRAG);
+}
 
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
@@ -59,14 +66,24 @@ $(document).ready(function(){
 	$(canvas).mouseup(function(evt){
 		isMouseDragging = false;
 
-		selectedUnits = [];
+		if(mouseMovedEnoughToTreatAsDrag()){
+			selectedUnits = [];
 
-		for(var i = 0; i < playerUnits.length; i++){
-			if(playerUnits[i].isInBox(lassoX1, lassoY1, lassoX2, lassoY2)){
-				selectedUnits.push(playerUnits[i]);
+			for(var i = 0; i < playerUnits.length; i++){
+				if(playerUnits[i].isInBox(lassoX1, lassoY1, lassoX2, lassoY2)){
+					selectedUnits.push(playerUnits[i]);
+				}
 			}
-		}
 		document.getElementById("debugText").innerHTML = "Selected " + selectedUnits.length + " units";
+		} //end of mouseMovedEnoughToTreatAsDrag() if check
+
+		else{
+			var mousePos = calculateMousePos(evt);
+			for(var i = 0; i < selectedUnits.length; i++){
+				selectedUnits[i].gotoNear(mousePos.x, mousePos.y);
+			}
+			document.getElementById("debugText").innerHTML = "Moving to (" + mousePos.x + "," + mousePos.y + ")";
+		}
 	});
 
 	function drawEverything(){
