@@ -3,11 +3,12 @@ function unitClass (){
 	const UNIT_SELECT_DIM_HALF = UNIT_PLACEHOLDER_RADIUS + 3;
 	const UNIT_PIXELS_MOVE_RATE = 2;
 	const UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3;
+	const UNIT_ATTACK_RANGE = 55;
 	this.resetAndSetPlayerTeam = function(playerTeam){
 		this.playerControlled = playerTeam;
 		this.x = Math.random() * canvas.width/4;
 		this.y = Math.random() * canvas.height/4;
-
+		this.myTarget = null;
 		if(this.playerControlled == false){
 			this.x = canvas.width - this.x;
 			this.y = canvas.height  - this.y;
@@ -35,6 +36,22 @@ function unitClass (){
 	}
 
 	this.move = function(){
+		if(this.myTarget !== null){
+			if(this.myTarget.isDead){
+				this.myTarget = null;
+				this.gotoX = this.x;
+				this.gotoY = this.y;
+			}
+			else if(this.distFrom(this.myTarget.x, this.myTarget.y) > UNIT_ATTACK_RANGE){
+				this.gotoX = this.myTarget.x;
+				this.gotoY = this.myTarget.y;
+			}
+			else{
+				this.myTarget.isDead = true;
+				this.gotoX = this.x;
+				this.gotoY = this.y;
+			}
+		}
 		var deltaX = this.gotoX-this.x;
 		var deltaY = this.gotoY-this.y;
 		var distToGo = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
@@ -55,6 +72,10 @@ function unitClass (){
 		var rowNum = Math.floor(formationPos/formationDim);
 		this.gotoX = aroundX + colNum * UNIT_RANKS_SPACING;
 		this.gotoY = aroundY + rowNum * UNIT_RANKS_SPACING;
+	}
+
+	this.setTarget = function(newTarget){
+		this.myTarget = newTarget;
 	}
 
 	this.isInBox = function(x1, y1, x2, y2){
@@ -93,4 +114,12 @@ function unitClass (){
 		}
 		return true;
 	};
+
+	this.distFrom = function(otherX, otherY){
+		var deltaX = otherX - this.x;
+		var deltaY = otherY - this.y;
+		return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+	};
+
+
 }
