@@ -52,6 +52,12 @@ function unitClass (){
 				this.gotoY = this.y;
 			}
 		}
+		else if(this.playerControlled === false){
+			if(Math.random() < 0.02){
+				this.gotoX = this.x - Math.random() * 70;
+				this.gotoY = this.y - Math.random() * 70;
+			}
+		}
 		var deltaX = this.gotoX-this.x;
 		var deltaY = this.gotoY-this.y;
 		var distToGo = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
