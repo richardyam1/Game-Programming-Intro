@@ -4,12 +4,13 @@ function unitClass (){
 	const UNIT_PIXELS_MOVE_RATE = 2;
 	const UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3;
 	const UNIT_ATTACK_RANGE = 55;
+	const UNIT_AI_ATTACK_INITIATE = UNIT_ATTACK_RANGE + 10;
 	this.resetAndSetPlayerTeam = function(playerTeam){
 		this.playerControlled = playerTeam;
 		this.x = Math.random() * canvas.width/4;
 		this.y = Math.random() * canvas.height/4;
 		this.myTarget = null;
-		if(this.playerControlled == false){
+		if(this.playerControlled === false){
 			this.x = canvas.width - this.x;
 			this.y = canvas.height  - this.y;
 			this.unitColor = "red";
@@ -20,20 +21,20 @@ function unitClass (){
 		this.gotoX = this.x;
 		this.gotoY = this.y;
 		this.isDead = false;
-	}
+	};
 
 	this.drawSelectionBox  = function(){
 		coloredOutlineRectCornerToCorner(this.x - UNIT_SELECT_DIM_HALF, 
 										 this.y - UNIT_SELECT_DIM_HALF,
 										 this.x + UNIT_SELECT_DIM_HALF,
 										 this.y + UNIT_SELECT_DIM_HALF, "green");
-	}
+	};
 
 	this.draw = function(){
-		if(this.isDead == false){
+		if(this.isDead === false){
 			colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, this.unitColor);
 		}
-	}
+	};
 
 	this.move = function(){
 		if(this.myTarget !== null){
@@ -54,10 +55,17 @@ function unitClass (){
 		}
 		else if(this.playerControlled === false){
 			if(Math.random() < 0.02){
-				this.gotoX = this.x - Math.random() * 70;
-				this.gotoY = this.y - Math.random() * 70;
-			}
-		}
+				var nearestOpponentFound = findClosestUnitInRange(this.x, this.y, UNIT_AI_ATTACK_INITIATE, playerUnits);
+				
+				if(nearestOpponentFound !== null){
+					this.myTarget = nearestOpponentFound;
+				}
+				else{
+					this.gotoX = this.x - Math.random() * 70;
+					this.gotoY = this.y - Math.random() * 70;
+				}//end of else, no target found in attack radius
+			}//end of randomized ai response lag check
+		}//end of playerControlled === false
 		var deltaX = this.gotoX-this.x;
 		var deltaY = this.gotoY-this.y;
 		var distToGo = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
@@ -71,18 +79,18 @@ function unitClass (){
 			this.x = this.gotoX;
 			this.y = this.gotoY;
 		}
-	}
+	};
 
 	this.gotoNear = function(aroundX, aroundY, formationPos, formationDim){
 		var colNum = formationPos % formationDim;
 		var rowNum = Math.floor(formationPos/formationDim);
 		this.gotoX = aroundX + colNum * UNIT_RANKS_SPACING;
 		this.gotoY = aroundY + rowNum * UNIT_RANKS_SPACING;
-	}
+	};
 
 	this.setTarget = function(newTarget){
 		this.myTarget = newTarget;
-	}
+	};
 
 	this.isInBox = function(x1, y1, x2, y2){
 		var leftX, rightX;
