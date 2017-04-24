@@ -39,6 +39,7 @@ $(document).ready(function(){
 			allUnits[i].move();
 		}
 		removeDeadUnits();
+		checkAndHandleVictory();
 	}
 
 

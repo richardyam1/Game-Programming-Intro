@@ -5,6 +5,7 @@ function unitClass (){
 	const UNIT_RANKS_SPACING = UNIT_PLACEHOLDER_RADIUS * 3;
 	const UNIT_ATTACK_RANGE = 55;
 	const UNIT_AI_ATTACK_INITIATE = UNIT_ATTACK_RANGE + 10;
+	const UNIT_PLAYABLE_AREA_MARGIN = 20;
 	this.resetAndSetPlayerTeam = function(playerTeam){
 		this.playerControlled = playerTeam;
 		this.x = Math.random() * canvas.width/4;
@@ -70,6 +71,7 @@ function unitClass (){
 		}//end of playerControlled === false
 		var deltaX = this.gotoX-this.x;
 		var deltaY = this.gotoY-this.y;
+		this.keepInPlayableArea(); 
 		var distToGo = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 		var moveX = UNIT_PIXELS_MOVE_RATE * deltaX/distToGo;
 		var moveY = UNIT_PIXELS_MOVE_RATE * deltaY/distToGo;
@@ -103,8 +105,7 @@ function unitClass (){
 		else{
 			leftX = x2;
 			rightX = x1;
-		}
-	
+		}	
 
 		var topY, bottomY;
 		if(y1 < y2){
@@ -137,5 +138,19 @@ function unitClass (){
 		return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 	};
 
+	this.keepInPlayableArea = function(){
+		if(this.gotoX < UNIT_PLAYABLE_AREA_MARGIN){
+			this.gotoX = UNIT_PLAYABLE_AREA_MARGIN;
+		}
+		else if(this.gotoX > canvas.width - UNIT_PLAYABLE_AREA_MARGIN){
+			this.gotoX = canvas.width - UNIT_PLAYABLE_AREA_MARGIN;
+		}
 
+		if(this.gotoY < UNIT_PLAYABLE_AREA_MARGIN){
+			this.gotoY = UNIT_PLAYABLE_AREA_MARGIN;
+		}
+		else if(this.gotoY > canvas.height - UNIT_PLAYABLE_AREA_MARGIN){
+			this.gotoY = canvas.height - UNIT_PLAYABLE_AREA_MARGIN;
+		}
+	};
 }

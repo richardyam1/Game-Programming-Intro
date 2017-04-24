@@ -9,6 +9,18 @@ function soonCheckUnitsToClear(){
 	anyNewUnitsToClear = true;
 }
 
+function checkAndHandleVictory(){
+	if(playerUnits.length === 0 && enemyUnits.length === 0){
+		document.getElementById("debugText").innerHTML = "IT'S... A... DRAW?";
+	}
+	else if(playerUnits.length === 0){
+		document.getElementById("debugText").innerHTML = "ENEMY TEAM WON";
+	}
+
+	else if(enemyUnits.length === 0){
+		document.getElementById("debugText").innerHTML = "PLAYER TEAM WON";
+	}
+}
 
 function addNewUnitToTeam(spawnedUnit, fightsForTeam){
 	fightsForTeam.push(spawnedUnit);
