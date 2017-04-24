@@ -34,6 +34,7 @@ function unitClass (){
 		if(this.isDead === false){
 			colorCircle(this.x, this.y, UNIT_PLACEHOLDER_RADIUS, this.unitColor);
 		}
+
 	};
 
 	this.move = function(){
@@ -49,6 +50,7 @@ function unitClass (){
 			}
 			else{
 				this.myTarget.isDead = true;
+				soonCheckUnitsToClear();
 				this.gotoX = this.x;
 				this.gotoY = this.y;
 			}
