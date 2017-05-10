@@ -1,20 +1,20 @@
 $(document).ready(function(){
     var ballX = 75;
     var ballY = 75;
-    var ballSpeedX = 6;
-    var ballSpeedY = 6;
+    var ballSpeedX = 20;
+    var ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
     var paddle1Y = 250;
     var paddle2Y = 250;
     var framesPerSecond = 30;
     var leftScore = 0;
     var rightScore = 0;
-    var winScore = 3;
+    var winScore = 11;
     var showingWinScreen = false;
     var canvas;
     var convasContext;
-    const PADDLE_HEIGHT = 100;
+    const PADDLE_HEIGHT = 80;
     const PADDLE_THICKNESS = 10;
-    const cpuSpeed = 13;
+    const cpuSpeed = 10;
 
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext("2d");
@@ -155,7 +155,7 @@ $(document).ready(function(){
         ballSpeedX *= -1;
         ballX = canvas.width/2;
         ballY = canvas.height/2;
-
+        ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
     }
 
     function moveComputerPaddle(){
