@@ -15,3 +15,7 @@ function moveComputerPaddle(){
 	}
 }
 
+function paddleDraw(){
+	drawBitmapCenteredAtLocation(player1Paddle, 0, paddle1Y);
+	drawBitmapCenteredAtLocation(player2Paddle, canvas.width - PADDLE_THICKNESS, paddle2Y);
+}

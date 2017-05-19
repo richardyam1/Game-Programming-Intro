@@ -14,3 +14,10 @@
         canvasContext.fillStyle = fillColor;
         canvasContext.fillText(words, textX, textY);
     }
+
+    function drawBitmapCenteredAtLocation(graphic, graphicX, graphicY){
+        canvasContext.save();
+        canvasContext.translate(graphicX, graphicY);
+        canvasContext.drawImage(graphic, graphic.width/2, graphic.height/2); //center, draw
+        canvasContext.restore();
+    }

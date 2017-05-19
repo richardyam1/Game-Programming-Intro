@@ -81,6 +81,6 @@ function ballMove(){
 }
 
 function ballDraw(){
-    //draw a white circle
-    colorCircle(ballX, ballY, 10, "white");
+    //Insert Tennis ball image
+    drawBitmapCenteredAtLocation(ballPic, ballX, ballY);
 }

@@ -1,5 +1,5 @@
 var canvas;
-var convasContext;
+var canvasContext;
 var showingWinScreen = false;
 var leftScore = 0;
 var rightScore = 0;
@@ -9,17 +9,23 @@ var hitSound = new SoundOverlapsClass("audio/bloop");
 var missSound = new SoundOverlapsClass("audio/miss");
 
 $(document).ready(function(){
-    var framesPerSecond = 30;
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext("2d");
     canvasContext.textAlign = "center";
-    setInterval(function(){
-        moveEverything();
-        drawEverything();
-    }, 1000/framesPerSecond);
     $(canvas).mousemove(mousemoveHandler);
     $(canvas).mousedown(mousedownHandler);
+    loadImages();
 });
+
+
+function loadingDoneSoStartGame(){
+        var framesPerSecond = 30;
+        setInterval(function(){
+            drawEverything(); 
+            moveEverything();
+        }, 1000/framesPerSecond);
+       
+    }
 
 function moveEverything(){
     if(showingWinScreen){
@@ -31,13 +37,10 @@ function moveEverything(){
     
 }
 
-
-
-
 function drawEverything(){
     //clear the game view by filling with black
-    colorRect(0, 0, canvas.width, canvas.height, "black");
-
+    //colorRect(0, 0, canvas.width, canvas.height, "black");
+    canvasContext.drawImage(backgroundPic, 0, 0);
     if(showingWinScreen){
         if(leftScore >= winScore){
             colorText("Left side wins", canvas.width/2, canvas.height/2, "white");
@@ -49,15 +52,14 @@ function drawEverything(){
     }
 
     else{
-        //draw net
-        for(var i = 0; i < canvas.height; i+= 40){
-            colorRect(canvas.width/2, i, 2, 20, "white");
-        }
+
+        paddleDraw();
+
         //draw left paddle
-        colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+       // colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
         //draw right paddle
-        colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+        //colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
         ballDraw();
 
