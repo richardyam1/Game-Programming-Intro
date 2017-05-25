@@ -1,7 +1,9 @@
 var paddle1Y = 250;
 var paddle2Y = 250;
-const PADDLE_HEIGHT = 80;
-const PADDLE_THICKNESS = 10;
+const PADDLE_HEIGHT = 100;
+//Make thickness greater than ball possible maximum speed to prevent ball from passing through paddle
+const PADDLE_THICKNESS = (ballSpeedX + 8) + 2;
+const DIST_FROM_EDGE = 110;
 const cpuSpeed = 11;
 
 function moveComputerPaddle(){
@@ -16,6 +18,6 @@ function moveComputerPaddle(){
 }
 
 function paddleDraw(){
-	drawBitmapCenteredAtLocation(player1Paddle, 0, paddle1Y);
-	drawBitmapCenteredAtLocation(player2Paddle, canvas.width - PADDLE_THICKNESS, paddle2Y);
+	drawBitmapCenteredAtLocation(player1Paddle, DIST_FROM_EDGE, paddle1Y);
+	drawBitmapCenteredAtLocation(player2Paddle, canvas.width - player2Paddle.width - DIST_FROM_EDGE, paddle2Y);
 }

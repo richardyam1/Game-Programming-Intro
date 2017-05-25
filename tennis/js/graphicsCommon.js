@@ -15,9 +15,9 @@
         canvasContext.fillText(words, textX, textY);
     }
 
-    function drawBitmapCenteredAtLocation(graphic, graphicX, graphicY){
+    function drawBitmapCenteredAtLocation(graphic, graphicPositionX, graphicPositionY){
         canvasContext.save();
-        canvasContext.translate(graphicX, graphicY);
+        canvasContext.translate(graphicPositionX, graphicPositionY);
         canvasContext.drawImage(graphic, graphic.width/2, graphic.height/2); //center, draw
         canvasContext.restore();
     }

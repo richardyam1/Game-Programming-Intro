@@ -1,6 +1,6 @@
 var ballX = 75;
 var ballY = 75;
-var ballSpeedX = 20;
+var ballSpeedX = 10;
 var ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
 var ballBounceOffPaddle = 0;
 
@@ -11,7 +11,7 @@ function ballReset(){
     }
 
     //Changes direction of the ball when ball is served
-    ballSpeedX = 20;
+    ballSpeedX = 10;
     ballSpeedX *= -1;
     ballX = canvas.width/2;
     ballY = canvas.height/2;
@@ -19,52 +19,64 @@ function ballReset(){
     ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
 }
 
+function changeBallSpeed(){
+    if(ballBounceOffPaddle === 4 || ballBounceOffPaddle === 12){
+        ballSpeedX += 4;
+        ballSpeedX *= -1;
+    }
+    else{
+        ballSpeedX *= -1;
+    }
+}
+
 function ballMove(){
     //if ball goes over right edge
-    if(ballX > canvas.width){
+    document.getElementById("debugText").innerHTML = "paddle1Y top: " + paddle1Y + "<br>" +" paddle1Y bottom " + (paddle1Y + PADDLE_HEIGHT) + "<br>" +" ballY: " + ballY + "<br>" + "paddle1X left edge: " +DIST_FROM_EDGE + "<br>" + "paddle1X right edge: " + ((DIST_FROM_EDGE) + player1Paddle.width) + "<br>" + "ballX: " + ballX;
+    if(ballSpeedX > 0.0){
         if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){
-            hitSound.play();
-            ballBounceOffPaddle++;
-            if(ballBounceOffPaddle === 4 || ballBounceOffPaddle === 12){
-                ballSpeedX *= -1.2;
+             if(ballX < canvas.width - DIST_FROM_EDGE && ballX > canvas.width - (DIST_FROM_EDGE + PADDLE_THICKNESS)){
+                hitSound.play();
+                ballBounceOffPaddle++;
+                changeBallSpeed();
+                //point where the center of the paddle is located
+                var centerPaddle2 = (paddle2Y + PADDLE_HEIGHT/2);
+                //ball distance from center of paddle on collision
+                var centerDistance2 = ballY - centerPaddle2;
+                ballSpeedY = centerDistance2 * 0.35;
             }
-            else{
-                ballSpeedX *= -1;
-            }
-            //point where the center of the paddle is located
-            var centerPaddle2 = (paddle2Y + PADDLE_HEIGHT/2);
-            //ball distance from center of paddle on collision
-            var centerDistance2 = ballY - centerPaddle2;
-            ballSpeedY = centerDistance2 * 0.35;
         }
-        else{
-            missSound.play();
-            leftScore++;
-            ballReset();
-        }
+
+         else if(ballX > canvas.width){
+                    missSound.play();
+                    leftScore++;
+                    ballReset();
+                
+         }
     }
     
     //if ball goes over left edge
-    if(ballX < 0){
+    if(ballSpeedX < 0.0){
         if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
-            hitSound.play();
-            ballBounceOffPaddle++;
-             if(ballBounceOffPaddle === 4 || ballBounceOffPaddle === 12){
-                ballSpeedX * -1.2;
+            if(ballX > DIST_FROM_EDGE && ballX < DIST_FROM_EDGE + PADDLE_THICKNESS){
+
+                hitSound.play();
+                ballBounceOffPaddle++;
+                changeBallSpeed();
+
+                //point where the center of the paddle is located
+                var centerPaddle1 = (paddle1Y + PADDLE_HEIGHT/2);
+                //ball distance from center of paddle on collision
+                var centerDistance1 = ballY - centerPaddle1;
+                ballSpeedY = centerDistance1 * 0.35;
             }
-            else{
-                ballSpeedX *= -1;
-            }
-            //point where the center of the paddle is located
-            var centerPaddle1 = (paddle1Y + PADDLE_HEIGHT/2);
-            //ball distance from center of paddle on collision
-            var centerDistance1 = ballY - centerPaddle1;
-            ballSpeedY = centerDistance1 * 0.35;
+              
         }
-        else{
+
+        else if(ballX < 0) {
             missSound.play();
             rightScore++;
             ballReset();
+    
         }
     }
 

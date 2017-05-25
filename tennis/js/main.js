@@ -5,7 +5,7 @@ var leftScore = 0;
 var rightScore = 0;
 var winScore = 11;
 var backgroundMusic = new BackgroundMusicClass();
-var hitSound = new SoundOverlapsClass("audio/bloop");
+var hitSound = new SoundOverlapsClass("audio/hit");
 var missSound = new SoundOverlapsClass("audio/miss");
 
 $(document).ready(function(){
@@ -15,6 +15,7 @@ $(document).ready(function(){
     $(canvas).mousemove(mousemoveHandler);
     $(canvas).mousedown(mousedownHandler);
     loadImages();
+    
 });
 
 
@@ -65,9 +66,9 @@ function drawEverything(){
 
     }
     //score for left side
-    colorText(leftScore, 100, 100, "white");
+    colorText(leftScore, 110, 100, "white");
 
     //score for right side
-    colorText(rightScore, canvas.width - 100, 100, "white");   
+    colorText(rightScore, canvas.width - 110, 100, "white");   
 }
 
