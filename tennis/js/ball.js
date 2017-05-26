@@ -24,7 +24,7 @@ function ballReset(){
         direction = 1;
     }
     ballSpeedX = MIN_BALL_SPEED * direction;
-    
+    //Reset ball to center
     ballX = canvas.width/2;
     ballY = canvas.height/2;
     ballBounceOffPaddle = 0;

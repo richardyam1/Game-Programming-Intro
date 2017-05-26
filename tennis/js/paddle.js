@@ -18,6 +18,6 @@ function moveComputerPaddle(){
 }
 
 function paddleDraw(){
-	drawBitmapCenteredAtLocation(player1Paddle, DIST_FROM_EDGE, paddle1Y);
-	drawBitmapCenteredAtLocation(player2Paddle, canvas.width - player2Paddle.width - DIST_FROM_EDGE, paddle2Y);
+	drawBitmapPositionedByTopLeftCorner(player1Paddle, DIST_FROM_EDGE, paddle1Y);
+	drawBitmapPositionedByTopLeftCorner(player2Paddle, canvas.width - player2Paddle.width - DIST_FROM_EDGE, paddle2Y);
 }
