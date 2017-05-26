@@ -3,6 +3,10 @@ var ballY = 75;
 var ballSpeedX = 10;
 var ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
 var ballBounceOffPaddle = 0;
+var direction;
+const MIN_BALL_SPEED = 10;
+const MID_BALL_SPEED = 14;
+const MAX_BALL_SPEED = 18;
 
 function ballReset(){
     //checks if the maximum score is reached
@@ -11,33 +15,54 @@ function ballReset(){
     }
 
     //Changes direction of the ball when ball is served
-    ballSpeedX = 10;
-    ballSpeedX *= -1;
+    //Reflect ball to right if going left
+    if(ballSpeedX < 0){
+        direction = -1;
+    }
+    //Reflect ball to left if going right
+    else{
+        direction = 1;
+    }
+    ballSpeedX = MIN_BALL_SPEED * direction;
+    
     ballX = canvas.width/2;
     ballY = canvas.height/2;
     ballBounceOffPaddle = 0;
     ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
 }
 
-function changeBallSpeed(){
-    if(ballBounceOffPaddle === 4 || ballBounceOffPaddle === 12){
-        ballSpeedX += 4;
-        ballSpeedX *= -1;
+function changeBallSpeedAndDirection(){
+    
+    //Reflect ball to right if going left
+    if(ballSpeedX < 0){
+        direction = -1;
     }
+    //Reflect ball to left if going right
     else{
-        ballSpeedX *= -1;
+        direction = 1;
     }
+
+
+    if(ballBounceOffPaddle === 4){ 
+        ballSpeedX = MID_BALL_SPEED * direction;        
+    }
+
+    if (ballBounceOffPaddle === 12){
+        ballSpeedX = MAX_BALL_SPEED * direction;
+    }
+
+    ballSpeedX = -ballSpeedX;
 }
 
 function ballMove(){
-    //if ball goes over right edge
+    //bounce off paddle if going right
     document.getElementById("debugText").innerHTML = "paddle1Y top: " + paddle1Y + "<br>" +" paddle1Y bottom " + (paddle1Y + PADDLE_HEIGHT) + "<br>" +" ballY: " + ballY + "<br>" + "paddle1X left edge: " +DIST_FROM_EDGE + "<br>" + "paddle1X right edge: " + ((DIST_FROM_EDGE) + player1Paddle.width) + "<br>" + "ballX: " + ballX;
-    if(ballSpeedX > 0.0){
+    if(ballSpeedX > 0){
         if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){
              if(ballX < canvas.width - DIST_FROM_EDGE && ballX > canvas.width - (DIST_FROM_EDGE + PADDLE_THICKNESS)){
                 hitSound.play();
                 ballBounceOffPaddle++;
-                changeBallSpeed();
+                changeBallSpeedAndDirection();
                 //point where the center of the paddle is located
                 var centerPaddle2 = (paddle2Y + PADDLE_HEIGHT/2);
                 //ball distance from center of paddle on collision
@@ -46,22 +71,22 @@ function ballMove(){
             }
         }
 
-         else if(ballX > canvas.width){
-                    missSound.play();
-                    leftScore++;
-                    ballReset();
+         if(ballX > canvas.width){
+            missSound.play();
+            leftScore++;
+            ballReset();
                 
          }
     }
     
-    //if ball goes over left edge
-    if(ballSpeedX < 0.0){
+    //bounce off paddle if going left.  ballSpeedX is negative when going left
+    if(ballSpeedX < 0){
         if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
             if(ballX > DIST_FROM_EDGE && ballX < DIST_FROM_EDGE + PADDLE_THICKNESS){
 
                 hitSound.play();
                 ballBounceOffPaddle++;
-                changeBallSpeed();
+                changeBallSpeedAndDirection();
 
                 //point where the center of the paddle is located
                 var centerPaddle1 = (paddle1Y + PADDLE_HEIGHT/2);
@@ -72,7 +97,7 @@ function ballMove(){
               
         }
 
-        else if(ballX < 0) {
+        if(ballX < 0) {
             missSound.play();
             rightScore++;
             ballReset();
