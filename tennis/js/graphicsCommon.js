@@ -16,7 +16,7 @@
     }
 
     function drawBitmapPositionedByTopLeftCorner(graphic, graphicX, graphicY){
-        canvasContext.drawImage(graphic, graphicX, graphicY)
+        canvasContext.drawImage(graphic, graphicX, graphicY);
     }
 
     function drawBitmapCenteredAtLocation(graphic, graphicX, graphicY){

@@ -7,13 +7,12 @@ var winScore = 11;
 var backgroundMusic = new BackgroundMusicClass();
 var hitSound = new SoundOverlapsClass("audio/hit");
 var missSound = new SoundOverlapsClass("audio/miss");
+var twoPlayerMode = true;
 
 $(document).ready(function(){
     canvas = document.getElementById("gameCanvas");
     canvasContext = canvas.getContext("2d");
     canvasContext.textAlign = "center";
-    $(canvas).mousemove(mousemoveHandler);
-    $(canvas).mousedown(mousedownHandler);
     loadImages();
     
 });
@@ -22,10 +21,10 @@ $(document).ready(function(){
 function loadingDoneSoStartGame(){
         var framesPerSecond = 30;
         setInterval(function(){
-            drawEverything(); 
+            drawEverything();
             moveEverything();
         }, 1000/framesPerSecond);
-       
+        initInput();
     }
 
 function moveEverything(){
@@ -33,7 +32,12 @@ function moveEverything(){
         return;
     }
     //moves right paddle
-    moveComputerPaddle();
+    if(twoPlayerMode === false){
+        moveComputerPaddle();
+    }
+    else if(twoPlayerMode === true){
+        movePlayerPaddle();
+    }
     ballMove();
     
 }
@@ -71,4 +75,6 @@ function drawEverything(){
     //score for right side
     colorText(rightScore, canvas.width - 110, 100, "white");   
 }
+
+
 
