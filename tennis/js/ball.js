@@ -11,7 +11,7 @@ const MAX_BALL_SPEED = 18;
 function ballReset(){
     //checks if the maximum score is reached
     if(leftScore >= winScore || rightScore >=winScore){
-        showingWinScreen = true;
+        showingMenuScreen = true;
     }
 
     //Changes direction of the ball when ball is served
@@ -56,7 +56,6 @@ function changeBallSpeedAndDirection(){
 
 function ballMove(){
     //bounce off paddle if going right
-    document.getElementById("debugText").innerHTML = "paddle1Y top: " + paddle1Y + "<br>" +" paddle1Y bottom " + (paddle1Y + PADDLE_HEIGHT) + "<br>" +" ballY: " + ballY + "<br>" + "paddle1X left edge: " +DIST_FROM_EDGE + "<br>" + "paddle1X right edge: " + ((DIST_FROM_EDGE) + player1Paddle.width) + "<br>" + "ballX: " + ballX;
     if(ballSpeedX > 0){
         if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){
              if(ballX < canvas.width - DIST_FROM_EDGE && ballX > canvas.width - (DIST_FROM_EDGE + PADDLE_THICKNESS)){
