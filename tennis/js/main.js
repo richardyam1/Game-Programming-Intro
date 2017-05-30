@@ -1,9 +1,9 @@
 var canvas;
 var canvasContext;
-var showingWinScreen = false;
+var showingMenuScreen = true;
 var leftScore = 0;
 var rightScore = 0;
-var winScore = 11;
+var winScore = 1;
 var backgroundMusic = new BackgroundMusicClass();
 var hitSound = new SoundOverlapsClass("audio/hit");
 var missSound = new SoundOverlapsClass("audio/miss");
@@ -28,7 +28,7 @@ function loadingDoneSoStartGame(){
     }
 
 function moveEverything(){
-    if(showingWinScreen){
+    if(showingMenuScreen){
         return;
     }
     //moves right paddle
@@ -42,18 +42,23 @@ function moveEverything(){
     
 }
 
+
 function drawEverything(){
     //clear the game view by filling with black
     //colorRect(0, 0, canvas.width, canvas.height, "black");
     canvasContext.drawImage(backgroundPic, 0, 0);
-    if(showingWinScreen){
+    if(showingMenuScreen){
         if(leftScore >= winScore){
-            colorText("Left side wins", canvas.width/2, canvas.height/2, "white");
+            colorText("Left side wins", canvas.width/2, 100, "white");
         }
         else if(rightScore >= winScore){
-            colorText("Right side wins", canvas.width/2, canvas.height/2, "white");
+            colorText("Right side wins", canvas.width/2, 100, "white");
         }
-        colorText("Click to reset", canvas.width/2, canvas.height/2 + 50, "white");
+        colorText("Press the corresponding number key to choose what mode you want to play", canvas.width/2, 150, "white");
+        colorText("1: Single player.  Control the left paddle using the mouse", canvas.width/2, 200, "white");
+        colorText("2: Two-player.  Control the left paddle using the W/S key.  Control the right paddle with the Up/Down key", canvas.width/2, 250, "white");
+
+       
     }
 
     else{

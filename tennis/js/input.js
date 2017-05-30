@@ -2,12 +2,16 @@ const KEY_UP_ARROW = 38;
 const KEY_DOWN_ARROW = 40;
 const KEY_LETTER_W  = 87;
 const KEY_LETTER_S = 83;
+const KEY_NUMBER_1 = 49;
+const KEY_NUMBER_2 = 50;
+
 
 var upKeyPressed = false;
 var downKeyPressed = false;
 var wKeyPressed = false;
 var sKeyPressed = false;
-
+var number1KeyPressed = false;
+var number2KeyPressed = false;
 
 function calculateMousePos(evt){
     var rect = canvas.getBoundingClientRect();
@@ -29,23 +33,21 @@ function mousemoveHandler(evt){
     }
 }
 
-function mousedownHandler(){
-    if (showingWinScreen){
+function resetGame(){
+    if (showingMenuScreen){
         leftScore = 0;
         rightScore = 0;
-        showingWinScreen = false;
+        showingMenuScreen = false;
     }
 }
 
 function keyPressed(evt){
-    setKeyHoldState(evt.keyCode,  true);
-    setKeyHoldState(evt.keyCode,  true);
+    setKeyHoldState(evt.keyCode, true);
     evt.preventDefault();
 }
 
 function keyReleased(evt){
     setKeyHoldState(evt.keyCode, false);
-    setKeyHoldState(evt.keyCode,  false);
 }
 
 function setKeyHoldState(key,setTo){
@@ -60,6 +62,16 @@ function setKeyHoldState(key,setTo){
     }
     if(key === KEY_DOWN_ARROW){
         downKeyPressed = setTo;
+    }
+    if(key === KEY_NUMBER_1){
+        number1KeyPressed = setTo;
+        twoPlayerMode = false;
+        resetGame();
+    }
+    if(key === KEY_NUMBER_2){
+        number2KeyPressed = setTo;
+        twoPlayerMode = true;
+        resetGame();    
     }
 }
 
