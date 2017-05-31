@@ -4,6 +4,8 @@ var ballSpeedX = 10;
 var ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
 var ballBounceOffPaddle = 0;
 var direction;
+var ballTrailLength = 6;
+var ballPosition = [];
 const MIN_BALL_SPEED = 10;
 const MID_BALL_SPEED = 14;
 const MAX_BALL_SPEED = 18;
@@ -108,15 +110,30 @@ function ballMove(){
     if(ballY > canvas.height || ballY < 0) {
         ballSpeedY *= -1;
     }
-
+    storeLastPosition(ballX, ballY);
     //Moves ball horizontally
     ballX += ballSpeedX;
 
     //Moves ball Vertically
     ballY += ballSpeedY;
+
+
+}
+
+function storeLastPosition(xPos, yPos){
+    ballPosition.push({
+        x: xPos,
+        y: yPos
+    });
+
+    if(ballPosition.length > ballTrailLength){
+        ballPosition.shift();
+    }
 }
 
 function ballDraw(){
     //Insert Tennis ball image
-    drawBitmapCenteredAtLocation(ballPic, ballX, ballY);
+    for(var i = 0; i < ballPosition.length; i++){
+        drawBitmapCenteredAtLocation(ballPic, ballPosition[i].x, ballPosition[i].y);
+    }
 }

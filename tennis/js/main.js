@@ -48,6 +48,7 @@ function drawEverything(){
     //colorRect(0, 0, canvas.width, canvas.height, "black");
     canvasContext.drawImage(backgroundPic, 0, 0);
     if(showingMenuScreen){
+        ballPosition = [];
         if(leftScore >= winScore){
             colorText("Left side wins", canvas.width/2, 100, "white");
         }
