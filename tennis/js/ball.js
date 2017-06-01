@@ -132,8 +132,16 @@ function storeLastPosition(xPos, yPos){
 }
 
 function ballDraw(){
-    //Insert Tennis ball image
+    //Insert Tennis ball image 
+    drawBitmapCenteredAtLocation(ballPic, ballX, ballY);
+}
+
+function trailDraw(){
     for(var i = 0; i < ballPosition.length; i++){
-        drawBitmapCenteredAtLocation(ballPic, ballPosition[i].x, ballPosition[i].y);
+        var ratio = (i + 1)/ ballPosition.length;
+        canvasContext.beginPath();
+        canvasContext.arc(ballPosition[i].x, ballPosition[i].y, ballPic.width/((ballPosition.length-i) + 2), 0, 2 * Math.PI, true);
+        canvasContext.fillStyle = "rgba(204, 102, 153, " + ratio / 2 + ")";
+        canvasContext.fill();
     }
 }

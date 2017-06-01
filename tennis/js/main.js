@@ -71,7 +71,7 @@ function drawEverything(){
 
         //draw right paddle
         //colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
-
+        trailDraw();
         ballDraw();
 
     }
