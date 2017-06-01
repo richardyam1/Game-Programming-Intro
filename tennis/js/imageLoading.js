@@ -1,11 +1,7 @@
 	var picsToLoad = 0;
-
 	var player1Paddle = document.createElement("img");
-
 	var player2Paddle = document.createElement("img");
-
 	var backgroundPic = document.createElement("img");
-
 	var ballPic = document.createElement("img");
 		
 
@@ -17,8 +13,6 @@
 	}
 
 	function loadImages(){
-		//document.getElementById("gameCanvas").style.backgroundImage = "url('images/bg.png')";
-		
 		var imageList = [
 			{varName: player1Paddle, theFile: "paddleLeft.png"},
 			{varName: player2Paddle, theFile: "paddleRight.png"},
@@ -35,7 +29,6 @@
 	}
 
 	function beginLoadingImage(imgVar, fileName){
-		//picsToLoad++;
 		imgVar.onload = countLoadedImageAndLaunchIfReady;
 		imgVar.src = "images/" + fileName;
 	}

@@ -5,7 +5,7 @@ const PADDLE_HEIGHT = 100;
 const PADDLE_THICKNESS = MAX_BALL_SPEED + 2;
 const DIST_FROM_EDGE = 120;
 const CPU_SPEED = 11;
-const PLAYER_SPEED = 11;
+const PLAYER_SPEED = 15;
 
 function moveComputerPaddle(){
 	//if ball is below paddle center
@@ -21,18 +21,21 @@ function moveComputerPaddle(){
 function movePlayerPaddle(){
 	if(wKeyPressed === true){
 		paddle1Y -= PLAYER_SPEED;
+		//prevents paddle from going off screen
 		if(paddle1Y < 0){
 			paddle1Y = 0;
 		}
 	}
 	if(sKeyPressed === true){
 		paddle1Y += PLAYER_SPEED;
+		//prevents paddle from going off screen
 		if(paddle1Y + player1Paddle.height > canvas.height){
 			paddle1Y = canvas.height - player1Paddle.height;
 		}
 	}
 	if(upKeyPressed === true){
 		paddle2Y -= PLAYER_SPEED;
+		//prevents paddle from going off screen
 		if(paddle2Y < 0){
 			paddle2Y = 0;
 		}
@@ -40,6 +43,7 @@ function movePlayerPaddle(){
 
 	if(downKeyPressed === true){
 		paddle2Y += PLAYER_SPEED;
+		//prevents paddle from going off screen
 		if(paddle2Y + player2Paddle.height > canvas.height){
 			paddle2Y = canvas.height - player2Paddle.height;
 		}

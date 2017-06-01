@@ -4,7 +4,7 @@ var ballSpeedX = 10;
 var ballSpeedY = Math.floor(Math.random() * (9 - 5)) + 5;
 var ballBounceOffPaddle = 0;
 var direction;
-var ballTrailLength = 6;
+var ballTrailLength = 10;
 var ballPosition = [];
 const MIN_BALL_SPEED = 10;
 const MID_BALL_SPEED = 14;
@@ -16,8 +16,8 @@ function ballReset(){
         showingMenuScreen = true;
     }
 
-    //Changes direction of the ball when ball is served
-    //Reflect ball to right if going left
+    //changes direction of the ball when ball is served
+    //reflect ball to right if going left
     if(ballSpeedX < 0){
         direction = -1;
     }
@@ -44,7 +44,7 @@ function changeBallSpeedAndDirection(){
         direction = 1;
     }
 
-
+    //changes speed of the ball when it bounces a certain amount of times
     if(ballBounceOffPaddle === 4){ 
         ballSpeedX = MID_BALL_SPEED * direction;        
     }
@@ -110,6 +110,7 @@ function ballMove(){
     if(ballY > canvas.height || ballY < 0) {
         ballSpeedY *= -1;
     }
+    //stores position of the ball
     storeLastPosition(ballX, ballY);
     //Moves ball horizontally
     ballX += ballSpeedX;
@@ -125,7 +126,7 @@ function storeLastPosition(xPos, yPos){
         x: xPos,
         y: yPos
     });
-
+    //removes left most element in array
     if(ballPosition.length > ballTrailLength){
         ballPosition.shift();
     }
@@ -137,6 +138,7 @@ function ballDraw(){
 }
 
 function trailDraw(){
+    //draws out trail behind the ball that gets smaller
     for(var i = 0; i < ballPosition.length; i++){
         var ratio = (i + 1)/ ballPosition.length;
         canvasContext.beginPath();

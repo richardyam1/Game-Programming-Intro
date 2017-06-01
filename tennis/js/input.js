@@ -5,7 +5,7 @@ const KEY_LETTER_S = 83;
 const KEY_NUMBER_1 = 49;
 const KEY_NUMBER_2 = 50;
 
-
+//sets whether or not the key is being pressed
 var upKeyPressed = false;
 var downKeyPressed = false;
 var wKeyPressed = false;
@@ -27,6 +27,7 @@ function calculateMousePos(evt){
 }
 
 function mousemoveHandler(evt){
+    //game registers mouse position only in 1-player mode.
     if(twoPlayerMode === false){
         var mousePos = calculateMousePos(evt);
         paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
@@ -34,6 +35,7 @@ function mousemoveHandler(evt){
 }
 
 function resetGame(){
+    //resets the score and leaves the menu
     if (showingMenuScreen){
         leftScore = 0;
         rightScore = 0;
@@ -71,7 +73,7 @@ function setKeyHoldState(key,setTo){
     if(key === KEY_NUMBER_2){
         number2KeyPressed = setTo;
         twoPlayerMode = true;
-        resetGame();    
+        resetGame(); 
     }
 }
 

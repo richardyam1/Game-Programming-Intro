@@ -1,13 +1,15 @@
 var canvas;
 var canvasContext;
-var showingMenuScreen = true;
 var leftScore = 0;
 var rightScore = 0;
-var winScore = 1;
+var winScore = 11;
 var backgroundMusic = new BackgroundMusicClass();
 var hitSound = new SoundOverlapsClass("audio/hit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var twoPlayerMode = true;
+//have game start on the menu screen
+var showingMenuScreen = true;
+
 
 $(document).ready(function(){
     canvas = document.getElementById("gameCanvas");
@@ -28,13 +30,15 @@ function loadingDoneSoStartGame(){
     }
 
 function moveEverything(){
+    //immediately end the function if on the menu screen
     if(showingMenuScreen){
         return;
     }
-    //moves right paddle
+    //moves right paddle if 1-player mode is selected
     if(twoPlayerMode === false){
         moveComputerPaddle();
     }
+    //switches controls to keyboard when in 2-player mode
     else if(twoPlayerMode === true){
         movePlayerPaddle();
     }
@@ -44,10 +48,10 @@ function moveEverything(){
 
 
 function drawEverything(){
-    //clear the game view by filling with black
-    //colorRect(0, 0, canvas.width, canvas.height, "black");
+       
     canvasContext.drawImage(backgroundPic, 0, 0);
     if(showingMenuScreen){
+        //empty array to remove ball image when game is over
         ballPosition = [];
         if(leftScore >= winScore){
             colorText("Left side wins", canvas.width/2, 100, "white");
@@ -63,15 +67,13 @@ function drawEverything(){
     }
 
     else{
-
+        //inserts the images for paddles
         paddleDraw();
 
-        //draw left paddle
-       // colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
-
-        //draw right paddle
-        //colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+        //draw movement trail for ball
         trailDraw();
+
+        //call this last so ball image overlaps the front of the movement trail
         ballDraw();
 
     }
