@@ -4,6 +4,7 @@ var scoreBoard;
 var scoreBoardContext;
 var score = 0;
 var lives = 2;
+var ballSuspended= true;
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");

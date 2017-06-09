@@ -17,8 +17,11 @@ function mousemoveHandler(evt){
     paddleX = mousePos.x - (PADDLE_WIDTH/2);
 }
 
+function mouseupHandler(evt){
+    ballSuspended = false;
+}
 
 function initInput(){
     canvas.addEventListener("mousemove", mousemoveHandler);
-    canvas.addEventListener("mousemove", mousedownHandler);  
+    canvas.addEventListener("click", mouseupHandler);  
 }
