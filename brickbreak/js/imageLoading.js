@@ -18,7 +18,7 @@
 			{varName: paddlePic, theFile: "paddle.png"},
 			{varName: brickPic, theFile: "brick.png"},
 			{varName: lifePic, theFile: "life.png"},
-			{varName: backgroundPic, theFile: "bg.png"},
+			{varName: backgroundPic, theFile: "bg.jpg"},
 			{varName: ballPic, theFile: "ball.png"}
 		];
 
