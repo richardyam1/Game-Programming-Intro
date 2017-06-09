@@ -13,7 +13,7 @@ function drawBricks(){
 			if(isBrickAtTileCoord(eachCol, eachRow)){
 				var brickLeftEdgeX = eachCol * BRICK_W;
 				var brickTopEdgeY = eachRow * BRICK_H;
-				colorRect(brickLeftEdgeX, brickTopEdgeY, BRICK_W - BRICK_GAP, BRICK_H - BRICK_GAP, "blue");
+				drawBitmapPositionedByTopLeftCorner(brickPic, brickLeftEdgeX, brickTopEdgeY);
 			}
 		}
 	}
@@ -27,7 +27,7 @@ function resetBricks(){
 	}
 }
 
-	function brickTileToIndex(tileCol, tileRow){
+function brickTileToIndex(tileCol, tileRow){
 	return(tileCol + BRICK_COLS*tileRow);
 }
 
