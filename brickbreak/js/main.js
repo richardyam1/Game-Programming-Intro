@@ -1,9 +1,16 @@
 var canvas;
-var convasContext;
-
+var canvasContext;
+var scoreBoard;
+var scoreBoardContext;
+var score = 0;
+var lives = 2;
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
+	scoreBoard = document.getElementById("scoreCanvas");
+	scoreBoardContext = scoreBoard.getContext("2d");
+	loadImages();
+	canvasContext.textAlign = "center";
 	resetBricks();
 });
 
@@ -19,17 +26,25 @@ function loadingDoneSoStartGame(){
 
 function drawEverything(){
 	//game board
-	colorRect(0, 0, canvas.width, canvas.height, "black");
+    canvasContext.drawImage(backgroundPic, 0, 0);
+    //draw score board
+    colorRectScore(0, 0, scoreBoard.width, scoreBoard.height, "black");
+    colorTextScore(score, 100, 100, "white");
+    colorTextScore("Lives: " + lives, 100, 200, "white");
 
 	drawBricks();
 
 	//paddle
-	colorRect(paddleX, PADDLE_Y, PADDLE_WIDTH, PADDLE_HEIGHT, "white");
+	paddleDraw();
 
 	//draw ball
 	colorCircle(ballX, ballY, 10, "white");	
 }
 
+function moveEverything(){
+	ballMove();
+		
+}
 
 function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 	var tileCol = pixelX/BRICK_W;
@@ -83,10 +98,17 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 
 		brickGrid[brickIndex] = 0;
 		bricksLeft--;
+		score += 100;
 		console.log(bricksLeft);
 	}
 
 	
+}
+
+function resetGame(){
+	score = 0;
+	lives = 3;
+	resetBricks();
 }
 
 
