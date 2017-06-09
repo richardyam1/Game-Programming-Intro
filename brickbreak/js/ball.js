@@ -3,7 +3,7 @@ var ballSpeedY = 6;
 var ballX = 400;
 var ballY = 450;
 
-function moveEverything(){
+function ballMove(){
 	//bounce ball off wall
 	if(ballX > canvas.width || ballX < 0){
 		ballSpeedX *= -1;
@@ -49,4 +49,10 @@ function moveEverything(){
 function ballReset(){
 	ballX = canvas.width/2;
 	ballY = canvas.height - 250;
+	if(lives === 0){
+		resetGame();
+	}
+	else{
+		lives--;
+	}
 }
