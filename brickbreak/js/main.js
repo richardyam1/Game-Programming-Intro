@@ -39,12 +39,11 @@ function drawEverything(){
 	paddleDraw();
 
 	//draw ball
-	colorCircle(ballX, ballY, 10, "white");	
+	ballDraw();	
 }
 
 function moveEverything(){
-	ballMove();
-		
+	ballMove();		
 }
 
 function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
