@@ -22,3 +22,13 @@
     function drawBitmapCenteredAtLocation(graphic, graphicX, graphicY){
         canvasContext.drawImage(graphic, graphicX - graphic.width/2, graphicY - graphic.height/2); //center, draw 
     }
+
+    function colorRectScore(topLeftX, topLeftY, boxWidth, boxHeight, fillColor){
+        scoreBoardContext.fillStyle = fillColor;
+        scoreBoardContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+    }
+
+    function colorTextScore(words, textX, textY, fillColor){
+        scoreBoardContext.fillStyle = fillColor;
+        scoreBoardContext.fillText(words, textX, textY);
+    }
