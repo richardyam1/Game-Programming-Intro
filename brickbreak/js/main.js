@@ -29,9 +29,8 @@ function drawEverything(){
 	//game board
     canvasContext.drawImage(backgroundPic, 0, 0);
     //draw score board
-    colorRectScore(0, 0, scoreBoard.width, scoreBoard.height, "black");
+    colorRectScore(0, 0, scoreBoard.width, scoreBoard.height, "grey");
     colorTextScore(score, 100, 100, "white");
-    colorTextScore("Lives: " + lives, 100, 200, "white");
 
 	drawBricks();
 
@@ -40,6 +39,8 @@ function drawEverything(){
 
 	//draw ball
 	ballDraw();	
+
+	drawLives();
 }
 
 function moveEverything(){
@@ -107,9 +108,19 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 
 function resetGame(){
 	score = 0;
-	lives = 3;
+	lives = 2;
 	resetBricks();
 }
+
+
+function drawLives(){
+	for(var i = 0; i < lives; i++){
+		scoreBoardContext.drawImage(lifePic, 10 + (80 * i), 300);
+	}
+}
+
+
+
 
 
 
