@@ -6,7 +6,7 @@ var ballY = PADDLE_Y - 5;
 function ballMove(){
 	if(ballSuspended === false){
 		//bounce ball off wall
-		if(ballX > canvas.width || ballX < 0){
+		if((ballX > canvas.width && ballSpeedX > 0)|| (ballX < 0 && ballSpeedX < 0)){
 			ballSpeedX *= -1;
 		}
 
