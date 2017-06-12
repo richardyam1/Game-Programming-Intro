@@ -1,7 +1,7 @@
 var ballSpeedX = 6;
 var ballSpeedY = 6;
 var ballX = (paddleX + (PADDLE_WIDTH/2)) + 10;
-var ballY = PADDLE_Y - 10;
+var ballY = PADDLE_Y - 5;
 
 function ballMove(){
 	if(ballSuspended === false){
@@ -60,5 +60,5 @@ function ballReset(){
 }
 
 function ballDraw(){
-	drawBitmapCenteredAtLocation(ballPic, ballX, ballY)
+	drawBitmapCenteredAtLocation(ballPic, ballX, ballY);
 }

@@ -15,6 +15,9 @@ function calculateMousePos(evt){
 function mousemoveHandler(evt){
     var mousePos = calculateMousePos(evt);
     paddleX = mousePos.x - (PADDLE_WIDTH/2);
+    if(ballSuspended === true){
+        ballX = (paddleX + (PADDLE_WIDTH/2)) + 10;
+    }
 }
 
 function mouseupHandler(evt){
