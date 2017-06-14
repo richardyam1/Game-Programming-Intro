@@ -111,8 +111,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 
 		brickGrid[brickIndex] = 0;
 		bricksLeft--;
-		score += 100;
-		console.log(bricksLeft);
+		score += (100 * (BRICK_ROWS - tileRow));
 	}
 
 	
