@@ -21,7 +21,11 @@ function mousemoveHandler(evt){
 }
 
 function mouseupHandler(evt){
-    ballSuspended = false;
+    if(showTitleScreen === false){
+        ballSuspended = false;
+    }
+    showTitleScreen = false;
+    
 }
 
 function initInput(){

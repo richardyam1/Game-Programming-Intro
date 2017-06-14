@@ -3,8 +3,10 @@ var canvasContext;
 var scoreBoard;
 var scoreBoardContext;
 var score = 0;
+var finalScore;
 var lives = 2;
 var ballSuspended= true;
+var showTitleScreen = true;
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
@@ -41,6 +43,16 @@ function drawEverything(){
 	ballDraw();	
 
 	drawLives();
+
+	if(showTitleScreen === true){
+		colorRect(0, 0, canvas.width, canvas.height, "black");
+		colorText("Brick Breaker", canvas.width/2, 200, "white");
+		colorText("Click to start the game", canvas.width/2, 250, "white");
+		if(finalScore > 0){
+			colorText("Your Final Score: " + finalScore, canvas.width/2, 300, "white");
+		}
+	}
+	
 }
 
 function moveEverything(){
@@ -107,8 +119,11 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 }
 
 function resetGame(){
+	finalScore = score;
 	score = 0;
 	lives = 2;
+	ballSuspended= true;
+	showTitleScreen = true;
 	resetBricks();
 }
 
