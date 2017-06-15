@@ -2,11 +2,13 @@ var ballSpeedX = 6;
 var ballSpeedY = 6;
 var ballX = (paddleX + (PADDLE_WIDTH/2)) + 10;
 var ballY = PADDLE_Y - 5;
-
+var magnitude;
+var normalVectorX;
+var normalVectorY;
 function ballMove(){
 	if(ballSuspended === false){
 		//bounce ball off wall
-		if((ballX > canvas.width && ballSpeedX > 0)|| (ballX < 0 && ballSpeedX < 0)){
+		if((ballX > canvas.width && ballSpeedX > 0) || (ballX < 0 && ballSpeedX < 0)){
 			ballSpeedX *= -1;
 		}
 
@@ -15,9 +17,13 @@ function ballMove(){
 			if(ballY >= PADDLE_Y && ballY <= PADDLE_Y + PADDLE_HEIGHT){
 				if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
 					ballSpeedY *= -1;
+					paddleHit += 1;
 					var centerPaddle = paddleX + PADDLE_WIDTH/2;
 					var centerDistance = ballX - centerPaddle;
 					ballSpeedX = centerDistance * 0.35; 
+					if(paddleHit % 10 === 0){
+						ballSpeedY -= 3;
+					}
 					if(bricksLeft === 0){
 						bricksLeft = (BRICK_COLS * (BRICK_ROWS - 3));
 						resetBricks();
@@ -37,6 +43,7 @@ function ballMove(){
 			ballSpeedY *= -1;
 		}
 
+		
 		//moves ball horizontally
 		ballX += ballSpeedX;
 
@@ -57,8 +64,11 @@ function ballReset(){
 	else{
 		lives--;
 	}
+	ballSpeedY = 6;
+	paddleHit = 0;
 }
 
 function ballDraw(){
 	drawBitmapCenteredAtLocation(ballPic, ballX, ballY);
 }
+
