@@ -7,6 +7,10 @@ var finalScore;
 var lives = 2;
 var ballSuspended= true;
 var showTitleScreen = true;
+var paddleHit = 0;
+var extraLifeScore = 4000;
+var extraLifeCounter = 3;
+var extraLifeGained = false;
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
@@ -33,7 +37,10 @@ function drawEverything(){
     //draw score board
     colorRectScore(0, 0, scoreBoard.width, scoreBoard.height, "grey");
     colorTextScore(score, 100, 100, "white");
-
+    if(extraLifeGained === true){
+    	colorText("Extra Life!", canvas.width/2, canvas.height/2 + 100, "white");
+    	setTimeout(function(){extraLifeGained = false}, 1000);
+    }
 	drawBricks();
 
 	//paddle
@@ -112,8 +119,14 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 		brickGrid[brickIndex] = 0;
 		bricksLeft--;
 		score += (100 * (BRICK_ROWS - tileRow));
-	}
+		if(score >= extraLifeScore && extraLifeCounter > 0){
+			lives++;
+			extraLifeScore = (extraLifeScore + (extraLifeScore * 0.5));
+			extraLifeCounter--;
+			extraLifeGained = true;
+		}
 
+	}
 	
 }
 
@@ -129,7 +142,7 @@ function resetGame(){
 
 function drawLives(){
 	for(var i = 0; i < lives; i++){
-		scoreBoardContext.drawImage(lifePic, 10 + (80 * i), 300);
+		scoreBoardContext.drawImage(lifePic, 5 + (40 * i), 300);
 	}
 }
 
