@@ -5,6 +5,8 @@ var ballY = PADDLE_Y - 5;
 var magnitude;
 var normalVectorX;
 var normalVectorY;
+
+
 function ballMove(){
 	if(ballSuspended === false){
 		//bounce ball off wall
@@ -16,6 +18,7 @@ function ballMove(){
 		if(ballSpeedY > 0.0){
 			if(ballY >= PADDLE_Y && ballY <= PADDLE_Y + PADDLE_HEIGHT){
 				if(ballX > paddleX && ballX < paddleX+PADDLE_WIDTH){
+					hitPaddleSound.play();
 					ballSpeedY *= -1;
 					paddleHit += 1;
 					var centerPaddle = paddleX + PADDLE_WIDTH/2;
@@ -35,6 +38,7 @@ function ballMove(){
 
 		//if ball goes over bottom 
 		if (ballY > canvas.height){
+			missSound.play();
 			ballReset();
 			ballSuspended = true;
 		}

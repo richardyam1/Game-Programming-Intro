@@ -11,6 +11,11 @@ var paddleHit = 0;
 var extraLifeScore = 4000;
 var extraLifeCounter = 3;
 var extraLifeGained = false;
+var backgroundMusic = new BackgroundMusicClass();
+var hitPaddleSound = new SoundOverlapsClass("audio/paddleHit");
+var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
+var missSound = new SoundOverlapsClass("audio/miss");
+var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
@@ -115,11 +120,12 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 			ballSpeedX *= -1;
 			ballSpeedY *= -1;
 		}
-
+		hitBrickSound.play();
 		brickGrid[brickIndex] = 0;
 		bricksLeft--;
 		score += (100 * (BRICK_ROWS - tileRow));
 		if(score >= extraLifeScore && extraLifeCounter > 0){
+			extraLifeSound.play();
 			lives++;
 			extraLifeScore = (extraLifeScore + (extraLifeScore * 0.5));
 			extraLifeCounter--;
