@@ -16,6 +16,7 @@ var hitPaddleSound = new SoundOverlapsClass("audio/paddleHit");
 var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
+
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
@@ -23,6 +24,7 @@ $(document).ready(function(){
 	scoreBoardContext = scoreBoard.getContext("2d");
 	loadImages();
 	canvasContext.textAlign = "center";
+	countBricks();
 	resetBricks();
 });
 

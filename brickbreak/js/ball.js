@@ -28,8 +28,8 @@ function ballMove(){
 						ballSpeedY -= 3;
 					}
 					if(bricksLeft === 0){
-						bricksLeft = (BRICK_COLS * (BRICK_ROWS - 3));
 						resetBricks();
+						countBricks();
 					}
 				}
 				

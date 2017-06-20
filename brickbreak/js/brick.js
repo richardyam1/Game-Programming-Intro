@@ -3,9 +3,24 @@ const BRICK_H = 20;
 const BRICK_GAP = 2;
 const BRICK_COLS = 10;
 const BRICK_ROWS = 14;
+const GREY_BRICK = 1;
+var bricksLeft = 0;
+var	brickGrid	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1
+								];
 
-var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
-var bricksLeft = BRICK_COLS * (BRICK_ROWS - 3);
 
 function drawBricks(){
 	for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
@@ -19,6 +34,17 @@ function drawBricks(){
 	}
 
 }
+
+function countBricks(){	
+	for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
+		for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
+			if(isBrickAtTileCoord(eachCol, eachRow)){
+				bricksLeft++;
+			}
+		}
+	}
+}
+
 
 
 function resetBricks(){
