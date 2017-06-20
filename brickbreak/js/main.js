@@ -25,7 +25,7 @@ $(document).ready(function(){
 	loadImages();
 	canvasContext.textAlign = "center";
 	countBricks();
-	resetBricks();
+	//resetBricks();
 });
 
 function loadingDoneSoStartGame(){
@@ -88,7 +88,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 
 	var brickIndex = brickTileToIndex(tileCol, tileRow);
 
-	if(brickGrid[brickIndex] === 1){
+	if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3 || brickGrid[brickIndex] === 4){
 		//Checks the previous col or row of the ball
 		var prevBallX = ballX - ballSpeedX;
 		var prevBallY = ballY - ballSpeedY;

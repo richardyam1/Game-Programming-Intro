@@ -18,17 +18,24 @@ var	brickGrid	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
-								1,	1,	1,	1,	1,	1,	1,	1,	1,	1
+								3,	4,	1,	1,	2,	1,	1,	1,	1,	1
 								];
 
 
 function drawBricks(){
 	for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
 		for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
-			if(isBrickAtTileCoord(eachCol, eachRow)){
-				var brickLeftEdgeX = eachCol * BRICK_W;
-				var brickTopEdgeY = eachRow * BRICK_H;
-				drawBitmapPositionedByTopLeftCorner(brickPic, brickLeftEdgeX, brickTopEdgeY);
+			if(isBrickAtTileCoord(eachCol, eachRow) === 1){
+				setBrickType(greyBrickPic, eachCol, eachRow);
+			}
+			else if(isBrickAtTileCoord(eachCol, eachRow) === 2){
+				setBrickType(greenBrickPic, eachCol, eachRow);
+			}
+			else if(isBrickAtTileCoord(eachCol, eachRow) === 3){
+				setBrickType(yellowBrickPic, eachCol, eachRow);
+			}
+			else if(isBrickAtTileCoord(eachCol, eachRow) === 4){
+				setBrickType(redBrickPic, eachCol, eachRow);
 			}
 		}
 	}
@@ -59,5 +66,12 @@ function brickTileToIndex(tileCol, tileRow){
 
 function isBrickAtTileCoord(brickTileCol, brickTileRow){
 	var brickIndex = brickTileCol + BRICK_COLS*brickTileRow;
-	return (brickGrid[brickIndex] == 1);
+	var brickType = brickGrid[brickIndex];
+	return brickType;
+}
+
+function setBrickType(brick, col, row){
+	var brickLeftEdgeX = col * BRICK_W;
+	var brickTopEdgeY = row * BRICK_H;
+	drawBitmapPositionedByTopLeftCorner(brick, brickLeftEdgeX, brickTopEdgeY)
 }
