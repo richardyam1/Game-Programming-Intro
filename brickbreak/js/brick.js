@@ -4,6 +4,9 @@ const BRICK_GAP = 2;
 const BRICK_COLS = 10;
 const BRICK_ROWS = 14;
 const GREY_BRICK = 1;
+const GREEN_BRICK = 2;
+const RED_BRICK = 3;
+const YELLOW_BRICK = 4;
 var bricksLeft = 0;
 var	brickGrid	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
 								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
@@ -18,34 +21,34 @@ var	brickGrid	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
-								3,	4,	1,	1,	2,	1,	1,	1,	1,	1
+								3,	3,	3,	3,	3,	3,	3,	3,	3,	3,
 								];
 
 
 function drawBricks(){
 	for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
 		for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
-			if(isBrickAtTileCoord(eachCol, eachRow) === 1){
+			if(isBrickAtTileCoord(eachCol, eachRow) === GREY_BRICK){
 				setBrickType(greyBrickPic, eachCol, eachRow);
 			}
-			else if(isBrickAtTileCoord(eachCol, eachRow) === 2){
+			else if(isBrickAtTileCoord(eachCol, eachRow) === GREEN_BRICK){
 				setBrickType(greenBrickPic, eachCol, eachRow);
 			}
-			else if(isBrickAtTileCoord(eachCol, eachRow) === 3){
-				setBrickType(yellowBrickPic, eachCol, eachRow);
-			}
-			else if(isBrickAtTileCoord(eachCol, eachRow) === 4){
+			else if(isBrickAtTileCoord(eachCol, eachRow) === RED_BRICK){
 				setBrickType(redBrickPic, eachCol, eachRow);
+			}
+			else if(isBrickAtTileCoord(eachCol, eachRow) === YELLOW_BRICK){
+				setBrickType(yellowBrickPic, eachCol, eachRow);
 			}
 		}
 	}
-
+	document.getElementById("debugText").innerHTML = bricksLeft;
 }
 
-function countBricks(){	
+function countBricks(){
 	for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
 		for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
-			if(isBrickAtTileCoord(eachCol, eachRow)){
+			if(isBrickAtTileCoord(eachCol, eachRow) && isBrickAtTileCoord(eachCol, eachRow) !== 4){
 				bricksLeft++;
 			}
 		}

@@ -88,7 +88,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 
 	var brickIndex = brickTileToIndex(tileCol, tileRow);
 
-	if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3 || brickGrid[brickIndex] === 4){
+	if(brickGrid[brickIndex] >0){
 		//Checks the previous col or row of the ball
 		var prevBallX = ballX - ballSpeedX;
 		var prevBallY = ballY - ballSpeedY;
@@ -123,17 +123,22 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 			ballSpeedY *= -1;
 		}
 		hitBrickSound.play();
-		brickGrid[brickIndex] = 0;
-		bricksLeft--;
-		score += (100 * (BRICK_ROWS - tileRow));
-		if(score >= extraLifeScore && extraLifeCounter > 0){
-			extraLifeSound.play();
-			lives++;
-			extraLifeScore = (extraLifeScore + (extraLifeScore * 0.5));
-			extraLifeCounter--;
-			extraLifeGained = true;
-		}
+		if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
+			if(brickGrid[brickIndex] === 1){
+				bricksLeft--;
+				score += (100 * (BRICK_ROWS - tileRow));
+				if(score >= extraLifeScore && extraLifeCounter > 0){
+					extraLifeSound.play();
+					lives++;
+					extraLifeScore = (extraLifeScore + (extraLifeScore * 0.5));
+					extraLifeCounter--;
+					extraLifeGained = true;
+				}
+			}
+			brickGrid[brickIndex] -= 1;
 
+			
+		}
 	}
 	
 }
