@@ -11,11 +11,19 @@ var paddleHit = 0;
 var extraLifeScore = 4000;
 var extraLifeCounter = 3;
 var extraLifeGained = false;
+var powerFire = false;
+var powerCannon = false;
+var powerMulti = false;
+var powerSticky = false;
+
 var backgroundMusic = new BackgroundMusicClass();
 var hitPaddleSound = new SoundOverlapsClass("audio/paddleHit");
 var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
+
+
+
 
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
@@ -39,6 +47,7 @@ function loadingDoneSoStartGame(){
 
 
 function drawEverything(){
+	document.getElementById("debugText").innerHTML = paddleX + "     " + ballX;
 	//game board
     canvasContext.drawImage(backgroundPic, 0, 0);
     //draw score board
@@ -57,6 +66,11 @@ function drawEverything(){
 	ballDraw();	
 
 	drawLives();
+	
+	if(powerFire === true){
+		trailDraw();
+		setTimeout(function(){powerFire= false}, 1000);
+	}
 
 	if(showTitleScreen === true){
 		colorRect(0, 0, canvas.width, canvas.height, "black");
@@ -71,6 +85,7 @@ function drawEverything(){
 
 function moveEverything(){
 	ballMove();		
+
 }
 
 function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
@@ -87,8 +102,11 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 	}
 
 	var brickIndex = brickTileToIndex(tileCol, tileRow);
-
-	if(brickGrid[brickIndex] >0){
+	if(powerFire === true){
+		hitBrickSound.play();
+		brickGrid[brickIndex] = 0;
+	}
+	if(brickGrid[brickIndex] > 0 && powerFire === false){
 		//Checks the previous col or row of the ball
 		var prevBallX = ballX - ballSpeedX;
 		var prevBallY = ballY - ballSpeedY;
@@ -96,7 +114,8 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 		var prevTileRow = Math.floor(prevBallY / BRICK_H);
 
 		var bothTestsFailed = true;
-
+		
+		
 		//must come in horizontally
 		if(prevTileCol != tileCol){
 			var adjacentBrickIndex = brickTileToIndex(prevTileCol, tileRow);
@@ -122,6 +141,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 			ballSpeedX *= -1;
 			ballSpeedY *= -1;
 		}
+		
 		hitBrickSound.play();
 		if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
 			if(brickGrid[brickIndex] === 1){
@@ -130,7 +150,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 				if(score >= extraLifeScore && extraLifeCounter > 0){
 					extraLifeSound.play();
 					lives++;
-					extraLifeScore = (extraLifeScore + (extraLifeScore * 0.5));
+					extraLifeScore += (extraLifeScore + (extraLifeScore * 0.5));
 					extraLifeCounter--;
 					extraLifeGained = true;
 				}
@@ -159,6 +179,24 @@ function drawLives(){
 	}
 }
 
+
+/*
+
+Cannon:
+Have image of cannon/gun appear above paddle
+Clicking will shoot lasers
+
+
+Multiball:
+Create var for each of the 2 new balls
+Create var for amount of balls
+Lose life only if ball = 0
+Create function to draw extra balls
+
+Sticky Ball:
+Have ball stick to paddle on contact.  Ball get's released upon click
+Make ballSuspended = true when powerSticky = true && when ball contacts paddle
+*/
 
 
 
