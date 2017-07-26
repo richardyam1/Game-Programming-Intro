@@ -10,13 +10,14 @@ var number3KeyPressed = false;
 var number4KeyPressed = false;
 var number5KeyPressed = false;
 
-
+var mouseX;
+var mouseY;
 function calculateMousePos(evt){
     var rect = canvas.getBoundingClientRect(), root = document.documentElement;
 
     //account for the margins, canvas position on page, scroll amount, etc.
-    var mouseX = evt.clientX - rect.left - root.scrollLeft;
-    var mouseY = evt.clientY - rect.left - root.scrollTop;
+    mouseX = evt.clientX - rect.left - root.scrollLeft;
+    mouseY = evt.clientY - rect.left - root.scrollTop;
     return{
         x: mouseX, 
         y: mouseY
@@ -38,12 +39,18 @@ function mousemoveHandler(evt){
     }
 }
 
+function mousedownHandler(evt){
+    if(powerCannon === true){
+        createLaser();
+    }
+}
+
 function mouseupHandler(evt){
     if(showTitleScreen === false){
         ballSuspended = false;
     }
+   
     showTitleScreen = false;
-    
 }
 
 function keyPressed(evt){
@@ -63,7 +70,7 @@ function setKeyHoldState(key,setTo){
 
     if(key === KEY_NUMBER_2){
         number2KeyPressed = setTo;
-        powerCannon = true;
+        powerCannon = !powerCannon;
     }
 
     if(key === KEY_NUMBER_3){
@@ -85,7 +92,8 @@ function setKeyHoldState(key,setTo){
 
 function initInput(){
     canvas.addEventListener("mousemove", mousemoveHandler);
-    canvas.addEventListener("click", mouseupHandler);
+    canvas.addEventListener("mouseup", mouseupHandler);
+    canvas.addEventListener("mousedown", mousedownHandler);
     document.addEventListener("keyup", keyReleased);
     document.addEventListener("keydown", keyPressed);
 

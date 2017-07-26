@@ -13,9 +13,12 @@ var powerMultiPic = document.createElement("img");
 var powerStickyPic = document.createElement("img");
 var powerPointsPic = document.createElement("img");
 
+var cannonPic =  document.createElement("img");
+var laserPic = document.createElement("img");
+
 var backgroundPic = document.createElement("img");
 var ballPic = document.createElement("img");
-var brickPics = [];	
+var brickPics = [];
 
 function countLoadedImageAndLaunchIfReady(){
 	picsToLoad--;
@@ -38,7 +41,9 @@ function loadImages(){
 		{varName: powerCannonPic, theFile: "powerCannon.png"},
 		{varName: powerMultiPic, theFile: "powerMulti.png"},
 		{varName: powerStickyPic, theFile: "powerSticky.png"},
-		{varName: powerPointsPic, theFile: "powerPoints.png"}
+		{varName: powerPointsPic, theFile: "powerPoints.png"},
+		{varName: cannonPic, theFile: "cannon.png"},
+		{varName: laserPic, theFile: "laser.png"}
 
 	];
 

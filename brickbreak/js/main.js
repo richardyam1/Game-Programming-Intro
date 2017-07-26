@@ -15,13 +15,12 @@ var powerFire = false;
 var powerCannon = false;
 var powerMulti = false;
 var powerSticky = false;
-
 var backgroundMusic = new BackgroundMusicClass();
 var hitPaddleSound = new SoundOverlapsClass("audio/paddleHit");
 var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
-
+var laser = new laserClass();
 
 
 
@@ -47,7 +46,6 @@ function loadingDoneSoStartGame(){
 
 
 function drawEverything(){
-	document.getElementById("debugText").innerHTML = paddleX + "     " + ballX;
 	//game board
     canvasContext.drawImage(backgroundPic, 0, 0);
     //draw score board
@@ -72,6 +70,15 @@ function drawEverything(){
 		setTimeout(function(){powerFire= false}, 1000);
 	}
 
+	if(powerCannon === true){
+		cannonDraw();
+		if(laserShot === true){	
+			laser.laserDraw();
+		}
+			
+	}
+
+
 	if(showTitleScreen === true){
 		colorRect(0, 0, canvas.width, canvas.height, "black");
 		colorText("Brick Breaker", canvas.width/2, 200, "white");
@@ -80,11 +87,23 @@ function drawEverything(){
 			colorText("Your Final Score: " + finalScore, canvas.width/2, 300, "white");
 		}
 	}
+
+	laserFired.forEach(function(laser){
+			if(laser.y < 0){
+				laser.active = false;
+			}
+			laserFired = laserFired.filter(function(laser){
+				return laser.active;
+			});
+			laser.laserDraw();
+			laser.laserMove();
+
+	});
 	
 }
 
 function moveEverything(){
-	ballMove();		
+	ballMove();	
 
 }
 
@@ -180,6 +199,8 @@ function drawLives(){
 }
 
 
+
+
 /*
 
 Cannon:
@@ -191,7 +212,7 @@ Multiball:
 Create var for each of the 2 new balls
 Create var for amount of balls
 Lose life only if ball = 0
-Create function to draw extra balls
+Create function to draw extra balls around original ball
 
 Sticky Ball:
 Have ball stick to paddle on contact.  Ball get's released upon click
