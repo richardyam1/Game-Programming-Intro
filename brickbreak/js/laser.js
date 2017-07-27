@@ -3,7 +3,8 @@ var laserShot = false;
 var laserY;
 var laserLeftX;
 var laserRightX;
-var laserFired = [];
+var laser1Active = [];
+var laser2Active = [];
 
 
 /*
@@ -15,11 +16,14 @@ function shotClass(x, y, dx, dy){
 }*/
 
 function createLaser(){
-	var laser = new laserClass();
-	laserFired.push(laser);
+	var laser1 = new laser1Class();
+	laser1Active.push(laser1);
+
+	var laser2 = new laser2Class();
+	laser2Active.push(laser2);
 }
 
-function laserClass(){
+function laser1Class(){
 	//check if there's a laser in use.
 	this.active = true;
 	this.x = paddleX + 25;
@@ -28,22 +32,57 @@ function laserClass(){
 
 	this.laserMove = function(){
 		this.y -= this.ySpeed;
+		laserBreakBrick(this.x, this.y);
+
+	};
+
+
+	this.laserDraw = function(){
+		drawBitmapCenteredAtLocation(laserPic, this.x, this.y);		
+		document.getElementById("debugText").innerHTML = laserBreakBrick(this.x, this.y);
+		/*
+		for(var i in laser1Active){
+			if(laserBreakBrick(this.x, this.y)){
+				delete laser1Active[i];
+			}
+	
+		}
+		*/
+	};
+
+}
+
+function laser2Class(){
+	//check if there's a laser in use.
+	this.active = true;
+	this.x = paddleX + 75;
+	this.y = PADDLE_Y - 10;
+	this.ySpeed = 7;
+
+	this.laserMove = function(){
+		this.y -= this.ySpeed;
+		laserBreakBrick(this.x, this.y);
+
 	};
 
 
 	this.laserDraw = function(){
 		drawBitmapCenteredAtLocation(laserPic, this.x, this.y);
-		drawBitmapCenteredAtLocation(laserPic, this.x + 50, this.y);
 	};
-
-	
-
 
 }
 
-for(var i in laserFired){
+//removes the laser from array when it leaves the screen
+for(var i in laser1Active){
 	if(i.y < 0){
-		delete laserFired[i];
+		delete laser1Active[i];
+	}
+	
+}
+
+for(var j in laser2Active){
+	if(j.y < 0){
+		delete laser2Active[j];
 	}
 }
 
@@ -79,11 +118,9 @@ function laserBreakBrick(pixelX, pixelY){
 				}
 			}
 			brickGrid[brickIndex] -= 1;
-			laserShot = false;		
-			laserMoveAmount = 5;
 		}
-
 	}
+	return true;
 }
 
 
@@ -106,16 +143,16 @@ function laserClass(){
 	this.laserDraw = function(){
 		//this.laserY = PADDLE_Y - laserMoveAmount;
 		if(laserShot === true){
-			laserFired.push(new shotClass(paddleX + 25, PADDLE_Y - 10, dx, dy));
+			laser1Active.push(new shotClass(paddleX + 25, PADDLE_Y - 10, dx, dy));
 		}
-		if(laserFired.length === 0){
+		if(laser1Active.length === 0){
 			return;
 		}
 
 		var activeShot = [];
 
-		for(var i = 0; i < laserFired.length; i++){
-			var shot = laserFired[i];
+		for(var i = 0; i < laser1Active.length; i++){
+			var shot = laser1Active[i];
 
 			shot.x += shot.dx;
 			shot.y += shot.dy;
@@ -142,9 +179,9 @@ function laserClass(){
 
 
 
-		if(activeShot.length < laserFired.length){
-			laserFired.length = 0;
-			Array.prototype.push.apply(laserFired, activeShot);
+		if(activeShot.length < laser1Active.length){
+			laser1Active.length = 0;
+			Array.prototype.push.apply(laser1Active, activeShot);
 		}
 	
 	};

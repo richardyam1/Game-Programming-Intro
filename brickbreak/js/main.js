@@ -20,7 +20,8 @@ var hitPaddleSound = new SoundOverlapsClass("audio/paddleHit");
 var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
-var laser = new laserClass();
+var laser1 = new laser1Class();
+var laser2 = new laser2Class();
 
 
 
@@ -87,16 +88,30 @@ function drawEverything(){
 			colorText("Your Final Score: " + finalScore, canvas.width/2, 300, "white");
 		}
 	}
-
-	laserFired.forEach(function(laser){
-			if(laser.y < 0){
-				laser.active = false;
+	//goes through laser1Active array and draws the laser if it has not left the screen
+	laser1Active.forEach(function(laser1){
+			if(laser1.y < 0){
+				laser1.active = false;
 			}
-			laserFired = laserFired.filter(function(laser){
-				return laser.active;
+			laser1Active = laser1Active.filter(function(laser1){
+				return laser1.active;
 			});
-			laser.laserDraw();
-			laser.laserMove();
+					
+
+			laser1.laserDraw();
+			laser1.laserMove();
+
+	});
+
+	laser2Active.forEach(function(laser2){
+			if(laser2.y < 0){
+				laser2.active = false;
+			}
+			laser2Active = laser2Active.filter(function(laser2){
+				return laser2.active;
+			});
+			laser2.laserDraw();
+			laser2.laserMove();
 
 	});
 	
