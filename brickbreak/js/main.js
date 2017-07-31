@@ -73,9 +73,6 @@ function drawEverything(){
 
 	if(powerCannon === true){
 		cannonDraw();
-		if(laserShot === true){	
-			laser.laserDraw();
-		}
 			
 	}
 
@@ -88,12 +85,12 @@ function drawEverything(){
 			colorText("Your Final Score: " + finalScore, canvas.width/2, 300, "white");
 		}
 	}
-	//goes through laser1Active array and draws the laser if it has not left the screen
-	laser1Active.forEach(function(laser1){
+	//goes through laserActive array and draws the laser if it has not left the screen
+	laserActive.forEach(function(laser1){
 			if(laser1.y < 0){
 				laser1.active = false;
 			}
-			laser1Active = laser1Active.filter(function(laser1){
+			laserActive = laserActive.filter(function(laser1){
 				return laser1.active;
 			});
 					
@@ -103,17 +100,7 @@ function drawEverything(){
 
 	});
 
-	laser2Active.forEach(function(laser2){
-			if(laser2.y < 0){
-				laser2.active = false;
-			}
-			laser2Active = laser2Active.filter(function(laser2){
-				return laser2.active;
-			});
-			laser2.laserDraw();
-			laser2.laserMove();
-
-	});
+	
 	
 }
 

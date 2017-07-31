@@ -1,15 +1,14 @@
-var laserShot = false;
-var laser1Active = [];
-var laser2Active = [];
+var laserActive = [];
+
 
 function createLaser(){
 	var laser1 = new laserClass();
 	laser1.laserInitX(25);
-	laser1Active.push(laser1);
+	laserActive.push(laser1);
 
 	var laser2 = new laserClass();
 	laser2.laserInitX(75)
-	laser2Active.push(laser2);
+	laserActive.push(laser2);
 }
 
 function laserClass(){
@@ -20,8 +19,11 @@ function laserClass(){
 
 	this.laserMove = function(){
 		this.y -= this.ySpeed;
-		laserBreakBrick(this.x, this.y);
-
+		for(var i in laserActive){
+			if(i.y < 0 || laserBreakBrick(this.x, this.y) === true){
+				delete laserActive[i];
+			}	
+		}
 	};
 
 
@@ -35,39 +37,17 @@ function laserClass(){
 	}
 
 }
-/*
-function laser2Class(){
-	//check if there's a laser in use.
-	this.active = true;
-	this.x = paddleX + 75;
-	this.y = PADDLE_Y - 10;
-	this.ySpeed = 7;
 
-	this.laserMove = function(){
-		this.y -= this.ySpeed;
-		laserBreakBrick(this.x, this.y);
-	};
-
-
-	this.laserDraw = function(){
-		drawBitmapCenteredAtLocation(laserPic, this.x, this.y);
-	};
-
-}*/
 
 //removes the laser from array when it leaves the screen
-for(var i in laser1Active){
+for(var i in laserActive){
 	if(i.y < 0){
-		delete laser1Active[i];
+		delete laserActive[i];
 	}
 	
 }
 
-for(var j in laser2Active){
-	if(j.y < 0){
-		delete laser2Active[j];
-	}
-}
+
 
 function laserBreakBrick(pixelX, pixelY){
 	var tileCol = pixelX/BRICK_W;
@@ -87,6 +67,7 @@ function laserBreakBrick(pixelX, pixelY){
 	if(brickGrid[brickIndex] > 0){
 		//Checks the previous col or row of the ball
 		
+
 		hitBrickSound.play();
 		if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
 			if(brickGrid[brickIndex] === 1){
@@ -101,11 +82,9 @@ function laserBreakBrick(pixelX, pixelY){
 				}
 			}
 			brickGrid[brickIndex] -= 1;
+			return true;
 		}
-
 	}
-	return true;
-
 }
 
 
@@ -128,16 +107,16 @@ function laserClass(){
 	this.laserDraw = function(){
 		//this.laserY = PADDLE_Y - laserMoveAmount;
 		if(laserShot === true){
-			laser1Active.push(new shotClass(paddleX + 25, PADDLE_Y - 10, dx, dy));
+			laserActive.push(new shotClass(paddleX + 25, PADDLE_Y - 10, dx, dy));
 		}
-		if(laser1Active.length === 0){
+		if(laserActive.length === 0){
 			return;
 		}
 
 		var activeShot = [];
 
-		for(var i = 0; i < laser1Active.length; i++){
-			var shot = laser1Active[i];
+		for(var i = 0; i < laserActive.length; i++){
+			var shot = laserActive[i];
 
 			shot.x += shot.dx;
 			shot.y += shot.dy;
@@ -164,9 +143,9 @@ function laserClass(){
 
 
 
-		if(activeShot.length < laser1Active.length){
-			laser1Active.length = 0;
-			Array.prototype.push.apply(laser1Active, activeShot);
+		if(activeShot.length < laserActive.length){
+			laserActive.length = 0;
+			Array.prototype.push.apply(laserActive, activeShot);
 		}
 	
 	};
