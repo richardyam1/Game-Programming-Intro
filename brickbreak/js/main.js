@@ -20,8 +20,8 @@ var hitPaddleSound = new SoundOverlapsClass("audio/paddleHit");
 var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
-var laser1 = new laser1Class();
-var laser2 = new laser2Class();
+var laser1 = new laserClass();
+var laser2 = new laserClass();
 
 
 

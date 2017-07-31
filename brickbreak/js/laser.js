@@ -1,33 +1,21 @@
-var laserMoveAmount = 5;
 var laserShot = false;
-var laserY;
-var laserLeftX;
-var laserRightX;
 var laser1Active = [];
 var laser2Active = [];
 
-
-/*
-function shotClass(x, y, dx, dy){
-	this.x = x;
-	this.y = y;
-	this.dx = dx;
-	this.dy = dy;
-}*/
-
 function createLaser(){
-	var laser1 = new laser1Class();
+	var laser1 = new laserClass();
+	laser1.laserInitX(25);
 	laser1Active.push(laser1);
 
-	var laser2 = new laser2Class();
+	var laser2 = new laserClass();
+	laser2.laserInitX(75)
 	laser2Active.push(laser2);
 }
 
-function laser1Class(){
+function laserClass(){
 	//check if there's a laser in use.
 	this.active = true;
-	this.x = paddleX + 25;
-	this.y = PADDLE_Y - 10;
+	this.y = (PADDLE_Y - 10);
 	this.ySpeed = 7;
 
 	this.laserMove = function(){
@@ -39,19 +27,15 @@ function laser1Class(){
 
 	this.laserDraw = function(){
 		drawBitmapCenteredAtLocation(laserPic, this.x, this.y);		
-		document.getElementById("debugText").innerHTML = laserBreakBrick(this.x, this.y);
-		/*
-		for(var i in laser1Active){
-			if(laserBreakBrick(this.x, this.y)){
-				delete laser1Active[i];
-			}
-	
-		}
-		*/
+		document.getElementById("debugText").innerHTML = laserBreakBrick(this.x, this.y);	
 	};
 
-}
+	this.laserInitX = function(x){
+		this.x = paddleX + x;
+	}
 
+}
+/*
 function laser2Class(){
 	//check if there's a laser in use.
 	this.active = true;
@@ -62,7 +46,6 @@ function laser2Class(){
 	this.laserMove = function(){
 		this.y -= this.ySpeed;
 		laserBreakBrick(this.x, this.y);
-
 	};
 
 
@@ -70,7 +53,7 @@ function laser2Class(){
 		drawBitmapCenteredAtLocation(laserPic, this.x, this.y);
 	};
 
-}
+}*/
 
 //removes the laser from array when it leaves the screen
 for(var i in laser1Active){
@@ -119,8 +102,10 @@ function laserBreakBrick(pixelX, pixelY){
 			}
 			brickGrid[brickIndex] -= 1;
 		}
+
 	}
 	return true;
+
 }
 
 
