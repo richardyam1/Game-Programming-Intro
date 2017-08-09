@@ -22,8 +22,9 @@ var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
 var laser1 = new laserClass();
 var laser2 = new laserClass();
-
-
+var currentBallAmount = 0;
+//var ball = new ballClass();
+	//ball.ballInit((paddleX + (PADDLE_WIDTH/2)) + 10);
 
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
@@ -62,8 +63,14 @@ function drawEverything(){
 	paddleDraw();
 
 	//draw ball
-	ballDraw();	
-
+	//ball1.ballDraw();	
+	/*
+	if(currentBallAmount < ballCount){
+		createBall();
+		currentBallAmount++;
+	}*/
+	//createBall();
+	ballDraw();
 	drawLives();
 	
 	if(powerFire === true){
@@ -98,15 +105,24 @@ function drawEverything(){
 			laser1.laserDraw();
 			laser1.laserMove();
 
-	});
+	});		
+	
+	ballActive.forEach(function(ball1){
+		if(ball1.y > canvas.height){
+			ball1.active = false;
+		}
+		ballActive = ballActive.filter(function(ball1){
+			return ball1.active;
+		});
 
-	
-	
+		ball1.ballDraw();
+		ball1.ballMove();
+	})
 }
 
 function moveEverything(){
-	ballMove();	
-
+	//ball1.ballMove();	
+	//ballMove();
 }
 
 function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
