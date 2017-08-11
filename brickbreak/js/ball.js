@@ -9,7 +9,7 @@ var ballPosition = [];
 var ballTrailLength = 10;
 var ballDistanceFromLeftPaddleEdge;
 var ballActive = [];
-var numBalls = 3;
+var numBalls = 1;
 var balls = [];
 
 
@@ -199,15 +199,25 @@ for(var i in ballActive){
 */
 
 function ballClass(x){
-	this.x = paddleX + (PADDLE_WIDTH/2) + 10 + x;
+	this.x = ballX + x;
 	this.y = PADDLE_Y - 5;
 	this.dx = 6;
 	this.dy = 6;
 }
+balls[0] = new ballClass(5);
+//createBalls();
 
-for(var i = 0; i < numBalls; i++){
-	balls[i] = new ballClass(5 * i);
+function createBalls(){
+	if(numBalls > 1){
+		for(var i = 1; i < numBalls; i++){
+			balls[i] = new ballClass(5 + i);
+			balls[i].dy = 3 * i;
+		}
+
+	}
+	
 }
+
 
 function ballDraw(){
 	for(var j = 0; j < numBalls; j++){
