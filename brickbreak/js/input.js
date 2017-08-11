@@ -43,6 +43,7 @@ function mousedownHandler(evt){
     if(powerCannon === true){
         createLaser();
     }
+    
 }
 
 function mouseupHandler(evt){
@@ -70,21 +71,24 @@ function setKeyHoldState(key,setTo){
 
     if(key === KEY_NUMBER_2){
         number2KeyPressed = setTo;
-        powerCannon = !powerCannon;
+        powerCannon = true;
     }
 
     if(key === KEY_NUMBER_3){
-        number1KeyPressed = setTo;
-        powerMulti = true;
+        number3KeyPressed = setTo;
+        numBalls = 3;
+        createBalls();
+        //powerMulti = true;
+        //createBall();
     }
 
     if(key === KEY_NUMBER_4){
-        number2KeyPressed = setTo;
+        number4KeyPressed = setTo;
         powerSticky = true;
     }
 
     if(key === KEY_NUMBER_5){
-        number1KeyPressed = setTo;
+        number5KeyPressed = setTo;
         score += 1000;
        
     }
