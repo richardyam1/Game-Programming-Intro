@@ -199,19 +199,23 @@ for(var i in ballActive){
 */
 
 function ballClass(x){
-	this.x = ballX + x;
+	this.x = (paddleX + (PADDLE_WIDTH/2)) + x;
 	this.y = PADDLE_Y - 5;
 	this.dx = 6;
 	this.dy = 6;
 }
-balls[0] = new ballClass(5);
+
+function createFirstBall(){
+	balls[0] = new ballClass(5);
+
+}
 //createBalls();
 
-function createBalls(){
+function createExtraBalls(){
 	if(numBalls > 1){
 		for(var i = 1; i < numBalls; i++){
 			balls[i] = new ballClass(5 + i);
-			balls[i].dy = 3 * i;
+			balls[i].dy = 4 * i;
 		}
 
 	}
@@ -260,20 +264,24 @@ function ballDraw(){
 					}
 					
 				}
-				/*
+				
 				//if ball goes over bottom 
 				if (ball.y > canvas.height){
 					missSound.play();
 					numBalls--;
-
+					if(numBalls === 0){
+						ballSuspended = true;
+						//numBalls = 1;
+						createFirstBall();
+					}
 					//ballReset();
 					//ballSuspended = true;
-				}*/	
+				}
 			}
 			ball.x += ball.dx;
 			ball.y += ball.dy;
 		}
-		document.getElementById("debugText").innerHTML = ball.x + " " + ball.y;
+		document.getElementById("debugText").innerHTML = numBalls;
 		drawBitmapCenteredAtLocation(ballPic, ball.x, ball.y);
 		breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
 
@@ -304,4 +312,7 @@ function trailDraw(){
         canvasContext.fill();
     }
 }
+
+
+
 
