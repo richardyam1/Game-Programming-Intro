@@ -70,6 +70,9 @@ function drawEverything(){
 		currentBallAmount++;
 	}*/
 	//createBall();
+	if(ballSuspended === true){
+		createFirstBall();
+	}
 	ballDraw();
 	drawLives();
 	
@@ -106,7 +109,7 @@ function drawEverything(){
 			laser1.laserMove();
 
 	});		
-	
+	/*
 	ballActive.forEach(function(ball1){
 		if(ball1.y > canvas.height){
 			ball1.active = false;
@@ -117,7 +120,7 @@ function drawEverything(){
 
 		ball1.ballDraw();
 		ball1.ballMove();
-	})
+	})*/
 }
 
 function moveEverything(){
@@ -221,20 +224,13 @@ function drawLives(){
 
 /*
 
-Cannon:
-Have image of cannon/gun appear above paddle
-Clicking will shoot lasers
 
 
-Multiball:
-Create var for each of the 2 new balls
-Create var for amount of balls
-Lose life only if ball = 0
-Create function to draw extra balls around original ball
+Multiball issues:
+In multiball, game resets when 2 balls go below canvas instead of all 3.
+Have ball bounce off bricks  
 
-Sticky Ball:
-Have ball stick to paddle on contact.  Ball get's released upon click
-Make ballSuspended = true when powerSticky = true && when ball contacts paddle
+
 */
 
 
