@@ -268,10 +268,13 @@ function ballDraw(){
 				//if ball goes over bottom 
 				if (ball.y > canvas.height){
 					missSound.play();
+					balls.splice(j, 1);
+
 					numBalls--;
 					if(numBalls === 0){
+						//delete balls[j];
+						numBalls = 1;
 						ballSuspended = true;
-						//numBalls = 1;
 						createFirstBall();
 					}
 					//ballReset();
@@ -281,7 +284,7 @@ function ballDraw(){
 			ball.x += ball.dx;
 			ball.y += ball.dy;
 		}
-		document.getElementById("debugText").innerHTML = numBalls;
+		document.getElementById("debugText").innerHTML = balls;
 		drawBitmapCenteredAtLocation(ballPic, ball.x, ball.y);
 		breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
 
