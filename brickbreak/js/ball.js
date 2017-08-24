@@ -1,5 +1,5 @@
-var ballSpeedX = 6;
-var ballSpeedY = 6;
+var ballSpeedX = 1;
+var ballSpeedY = 1;
 var ballX = (paddleX + (PADDLE_WIDTH/2)) + 10;
 var ballY = PADDLE_Y - 5;
 var magnitude;
@@ -229,6 +229,7 @@ function ballDraw(){
 		//if(ballSuspended === true){
 			//ball.x = paddleX + (PADDLE_WIDTH/2) + 10;
 		//}
+
 		if(ballSuspended === false){
 
 			if(ball.x < 0 || ball.x > canvas.width){
@@ -238,13 +239,14 @@ function ballDraw(){
 			if(ball.y < 0){
 				ball.dy *= -1;
 			}
+
 			if(ball.dy > 0.0){
 				if(ball.y >= PADDLE_Y && ball.y <= PADDLE_Y + PADDLE_HEIGHT){
 					if(ball.x > paddleX && ball.x < paddleX + PADDLE_WIDTH){
 						if(powerSticky === true){
 							ballSuspended = true;
 							//Calculate distance of ball from left paddle edge is it stays there when paddle is moved
-							ballDistanceFromLeftPaddleEdge = ballX - paddleX;
+							ballDistanceFromLeftPaddleEdge = ball.x - paddleX;
 						}
 					
 						hitPaddleSound.play();
@@ -268,6 +270,7 @@ function ballDraw(){
 				//if ball goes over bottom 
 				if (ball.y > canvas.height){
 					missSound.play();
+					//remove ball from array
 					balls.splice(j, 1);
 
 					numBalls--;
@@ -280,14 +283,24 @@ function ballDraw(){
 					//ballReset();
 					//ballSuspended = true;
 				}
+
+				
+			}
+
+			if(breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y) === true){
+				ball.dx *= ballSpeedX;
+				ball.dy *= ballSpeedY;
 			}
 			ball.x += ball.dx;
 			ball.y += ball.dy;
 		}
-		document.getElementById("debugText").innerHTML = balls;
+		//document.getElementById("debugText").innerHTML = ball.y + " " + PADDLE_Y + " " + (PADDLE_Y + PADDLE_HEIGHT);
+		//document.getElementById("debugText").innerHTML = ball.x + " " + paddleX + " " + (paddleX + PADDLE_WIDTH);
+		document.getElementById("debugText").innerHTML = ball.dy;
 		drawBitmapCenteredAtLocation(ballPic, ball.x, ball.y);
-		breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
-
+		//breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
+		
+		storeLastPosition(ball.x, ball.y);
 	}
 
 }
