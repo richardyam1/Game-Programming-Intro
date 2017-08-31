@@ -163,6 +163,8 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 			if(brickGrid[adjacentBrickIndex] != 1){
 				ballSpeedX *= -1;
 				bothTestsFailed = false;
+				brickIndexDecrease();
+				return "changeX";
 			}
 		}
 
@@ -173,6 +175,8 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 			if(brickGrid[adjacentBrickIndex] != 1){
 				ballSpeedY *= -1;
 				bothTestsFailed = false;
+				brickIndexDecrease();
+				return "changeY";
 			}
 		}
 
@@ -180,24 +184,28 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 		if(bothTestsFailed){
 			ballSpeedX *= -1;
 			ballSpeedY *= -1;
+			brickIndexDecrease();
+			return "changeBoth";
 		}
-		
-		hitBrickSound.play();
-		if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
-			if(brickGrid[brickIndex] === 1){
-				bricksLeft--;
-				score += (100 * (BRICK_ROWS - tileRow));
-				if(score >= extraLifeScore && extraLifeCounter > 0){
-					extraLifeSound.play();
-					lives++;
-					extraLifeScore += (extraLifeScore + (extraLifeScore * 0.5));
-					extraLifeCounter--;
-					extraLifeGained = true;
+		return false;
+		function brickIndexDecrease(){
+			hitBrickSound.play();
+			if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
+				if(brickGrid[brickIndex] === 1){
+					bricksLeft--;
+					score += (100 * (BRICK_ROWS - tileRow));
+					if(score >= extraLifeScore && extraLifeCounter > 0){
+						extraLifeSound.play();
+						lives++;
+						extraLifeScore += (extraLifeScore + (extraLifeScore * 0.5));
+						extraLifeCounter--;
+						extraLifeGained = true;
+					}
 				}
+				brickGrid[brickIndex] -= 1;
+				//return true;
+				
 			}
-			brickGrid[brickIndex] -= 1;
-
-			
 		}
 	}
 	
@@ -227,8 +235,11 @@ function drawLives(){
 
 
 Multiball issues:
-In multiball, game resets when 2 balls go below canvas instead of all 3.
 Have ball bounce off bricks  
+Have each ball have it's own speed
+change ball.dy when it hits paddle and brick
+	1.  Change ball.dy to positive when it hits the brick
+	2.  Changing ballSpeedY does not work.  It's a global variable and would affect the other 2 balls when 1 bounces off the brick
 
 
 */

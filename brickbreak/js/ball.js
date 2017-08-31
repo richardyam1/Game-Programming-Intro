@@ -1,5 +1,7 @@
 var ballSpeedX = 1;
 var ballSpeedY = 1;
+var changeDirectionX = false;
+var changeDirectionY = false;
 var ballX = (paddleX + (PADDLE_WIDTH/2)) + 10;
 var ballY = PADDLE_Y - 5;
 var magnitude;
@@ -203,6 +205,7 @@ function ballClass(x){
 	this.y = PADDLE_Y - 5;
 	this.dx = 6;
 	this.dy = 6;
+	
 }
 
 function createFirstBall(){
@@ -234,10 +237,12 @@ function ballDraw(){
 
 			if(ball.x < 0 || ball.x > canvas.width){
 				ball.dx *= -1;
+				//ballSpeedX *= -1;
 			}
 
 			if(ball.y < 0){
 				ball.dy *= -1;
+				//ballSpeedY *= -1;
 			}
 
 			if(ball.dy > 0.0){
@@ -251,6 +256,7 @@ function ballDraw(){
 					
 						hitPaddleSound.play();
 						ball.dy *= -1;
+						//ballSpeedY *= -1;
 						paddleHit += 1;
 						var centerPaddle = paddleX + PADDLE_WIDTH/2;
 						var centerDistance = ball.x - centerPaddle;
@@ -286,17 +292,33 @@ function ballDraw(){
 
 				
 			}
+			
+			var changeDirection = breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
 
+			if(changeDirection === "changeX"){
+				ball.dx *= -1;
+			}
+			else if(changeDirection === "changeY"){
+				ball.dy *= -1;
+			}
+			else if(changeDirection === "changeBoth"){
+				ball.dx *= -1;
+				ball.dy *= -1;
+			}
+			
+			
+			
+			/*
 			if(breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y) === true){
 				ball.dx *= ballSpeedX;
 				ball.dy *= ballSpeedY;
-			}
+			}*/
 			ball.x += ball.dx;
 			ball.y += ball.dy;
 		}
 		//document.getElementById("debugText").innerHTML = ball.y + " " + PADDLE_Y + " " + (PADDLE_Y + PADDLE_HEIGHT);
 		//document.getElementById("debugText").innerHTML = ball.x + " " + paddleX + " " + (paddleX + PADDLE_WIDTH);
-		document.getElementById("debugText").innerHTML = ball.dy;
+		//document.getElementById("debugText").innerHTML = changeDirection;
 		drawBitmapCenteredAtLocation(ballPic, ball.x, ball.y);
 		//breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
 		
