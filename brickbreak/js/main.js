@@ -70,7 +70,7 @@ function drawEverything(){
 		currentBallAmount++;
 	}*/
 	//createBall();
-	if(ballSuspended === true){
+	if(ballSuspended === true && powerSticky === false){
 		createFirstBall();
 	}
 	ballDraw();
@@ -164,7 +164,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 				ballSpeedX *= -1;
 				bothTestsFailed = false;
 				brickIndexDecrease();
-				return "changeX";
+				changeDirectionX = true;
 			}
 		}
 
@@ -176,7 +176,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 				ballSpeedY *= -1;
 				bothTestsFailed = false;
 				brickIndexDecrease();
-				return "changeY";
+				changeDirectionY = true;
 			}
 		}
 
@@ -185,7 +185,9 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 			ballSpeedX *= -1;
 			ballSpeedY *= -1;
 			brickIndexDecrease();
-			return "changeBoth";
+			changeDirectionX = true;
+			changeDirectionY = true;
+			//return "changeBoth";
 		}
 		return false;
 		function brickIndexDecrease(){
