@@ -143,7 +143,7 @@ function ballDraw(){
 							//Calculate distance of ball from left paddle edge is it stays there when paddle is moved
 							//ball.x = ballX;
 							ballDistanceFromLeftPaddleEdge = ball.x - paddleX;
-							ball.x = ballX;
+							
 						}
 					
 						hitPaddleSound.play();
@@ -178,6 +178,7 @@ function ballDraw(){
 						ballSuspended = true;
 						createFirstBall();
 					}
+					powerSticky = false;
 					//ballReset();
 					//ballSuspended = true;
 				}
@@ -211,6 +212,10 @@ function ballDraw(){
 			}*/
 			ball.x += ball.dx;
 			ball.y += ball.dy;
+		}
+
+		else if(ballSuspended  === true && powerSticky === true){
+			ball.x = paddleX + ballDistanceFromLeftPaddleEdge;
 		}
 		//document.getElementById("debugText").innerHTML = ball.y + " " + PADDLE_Y + " " + (PADDLE_Y + PADDLE_HEIGHT);
 		//document.getElementById("debugText").innerHTML = ball.x + " " + paddleX + " " + (paddleX + PADDLE_WIDTH);
