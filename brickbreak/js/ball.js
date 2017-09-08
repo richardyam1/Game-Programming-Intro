@@ -95,7 +95,8 @@ function ballClass(x){
 	this.y = PADDLE_Y - 5;
 	this.dx = 6;
 	this.dy = 6;
-	
+	this.suspended = false;
+	this.ballDistanceFromLeftPaddleEdge;
 }
 
 function createFirstBall(){
@@ -116,14 +117,14 @@ function createExtraBalls(){
 }
 
 
-function ballDraw(){
+function ballDrawAndMove(){
 	for(var j = 0; j < numBalls; j++){
 		var ball = balls[j];
 		//if(ballSuspended === true){
 			//ball.x = paddleX + (PADDLE_WIDTH/2) + 10;
 		//}
-
-		if(ballSuspended === false){
+		
+		if(ball.suspended === false){
 
 			if(ball.x < 0 || ball.x > canvas.width){
 				ball.dx *= -1;
@@ -139,11 +140,14 @@ function ballDraw(){
 				if(ball.y >= PADDLE_Y && ball.y <= PADDLE_Y + PADDLE_HEIGHT){
 					if(ball.x > paddleX && ball.x < paddleX + PADDLE_WIDTH){
 						if(powerSticky === true){
-							ballSuspended = true;
+							//ballSuspended = true;
 							//Calculate distance of ball from left paddle edge is it stays there when paddle is moved
 							//ball.x = ballX;
-							ballDistanceFromLeftPaddleEdge = ball.x - paddleX;
-							
+							ball.suspended = true;
+							ballSuspended = true;
+							ball.ballDistanceFromLeftPaddleEdge = ball.x - paddleX;
+							ball.x = paddleX + ball.ballDistanceFromLeftPaddleEdge;
+
 						}
 					
 						hitPaddleSound.play();
@@ -187,7 +191,7 @@ function ballDraw(){
 			}
 			
 			//var changeDirection = breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
-			breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y)
+			breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
 			if(changeDirectionX === true && changeDirectionY === false){
 				ball.dx *= -1;
 				changeDirectionX = false;
@@ -213,9 +217,9 @@ function ballDraw(){
 			ball.x += ball.dx;
 			ball.y += ball.dy;
 		}
-
-		else if(ballSuspended  === true && powerSticky === true){
-			ball.x = paddleX + ballDistanceFromLeftPaddleEdge;
+		
+		else if(ball.suspended === true){
+			ball.x = paddleX + ball.ballDistanceFromLeftPaddleEdge;
 		}
 		//document.getElementById("debugText").innerHTML = ball.y + " " + PADDLE_Y + " " + (PADDLE_Y + PADDLE_HEIGHT);
 		//document.getElementById("debugText").innerHTML = ball.x + " " + paddleX + " " + (paddleX + PADDLE_WIDTH);

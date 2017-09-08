@@ -29,6 +29,7 @@ function calculateMousePos(evt){
 function mousemoveHandler(evt){
     var mousePos = calculateMousePos(evt);
     paddleX = mousePos.x - (PADDLE_WIDTH/2);
+    
     if(ballSuspended === true){
         if(powerSticky === false){
             ballX = (paddleX + (PADDLE_WIDTH/2)) + 10;
@@ -50,7 +51,12 @@ function mouseupHandler(evt){
     if(showTitleScreen === false){
         ballSuspended = false;
     }
-   
+   for(var j = 0; j < numBalls; j++){
+        var ball = balls[j];
+        if(ball.suspended === true){
+            ball.suspended = false;
+        } 
+    }
     showTitleScreen = false;
 }
 
@@ -77,7 +83,7 @@ function setKeyHoldState(key,setTo){
     if(key === KEY_NUMBER_3){
         number3KeyPressed = setTo;
         numBalls = 3;
-        createBalls();
+        createExtraBalls();
         //powerMulti = true;
         //createBall();
     }
