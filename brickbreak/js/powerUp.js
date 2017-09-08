@@ -1,0 +1,5 @@
+var activePowers = [];
+
+function powerClass(){
+	
+}
