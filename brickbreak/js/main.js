@@ -34,6 +34,7 @@ $(document).ready(function(){
 	loadImages();
 	canvasContext.textAlign = "center";
 	countBricks();
+	setPowers();
 	//resetBricks();
 });
 
@@ -58,10 +59,10 @@ function drawEverything(){
     	setTimeout(function(){extraLifeGained = false}, 1000);
     }
 	drawBricks();
+    drawPower();
 
 	//paddle
 	paddleDraw();
-
 	//draw ball
 	//ball1.ballDraw();	
 	/*
@@ -73,7 +74,7 @@ function drawEverything(){
 	if(ballSuspended === true && powerSticky === false){
 		createFirstBall();
 	}
-	ballDraw();
+	ballDrawAndMove();
 	drawLives();
 	
 	if(powerFire === true){
@@ -126,6 +127,11 @@ function drawEverything(){
 function moveEverything(){
 	//ball1.ballMove();	
 	//ballMove();
+	/*
+	if(powerReveal === true){
+		powerMove();
+	}*/
+	movePower();
 }
 
 function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
@@ -146,6 +152,8 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 		hitBrickSound.play();
 		brickGrid[brickIndex] = 0;
 	}
+
+
 	if(brickGrid[brickIndex] > 0 && powerFire === false){
 		//Checks the previous col or row of the ball
 		var prevBallX = ballX - ballSpeedX;
@@ -189,7 +197,8 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 			changeDirectionY = true;
 			//return "changeBoth";
 		}
-		return false;
+		powerReveal = true;
+		//return false;
 		function brickIndexDecrease(){
 			hitBrickSound.play();
 			if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
@@ -203,6 +212,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 						extraLifeCounter--;
 						extraLifeGained = true;
 					}
+					breakAndCreatePowerAtPixelCoord(tileCol, tileRow);
 				}
 				brickGrid[brickIndex] -= 1;
 				//return true;
@@ -232,19 +242,7 @@ function drawLives(){
 
 
 
-/*
 
-
-
-Multiball issues:
-Have ball bounce off bricks  
-Have each ball have it's own speed
-change ball.dy when it hits paddle and brick
-	1.  Change ball.dy to positive when it hits the brick
-	2.  Changing ballSpeedY does not work.  It's a global variable and would affect the other 2 balls when 1 bounces off the brick
-
-
-*/
 
 
 

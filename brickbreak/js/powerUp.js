@@ -36,6 +36,8 @@ var powerGrid = [	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 function powerClass(col, row){
 	this.x = col * BRICK_W + 35;
 	this.y = row * BRICK_H + 10;
+	this.col = Math.floor(col);
+	this.row = Math.floor(row);
 	this.dy = 6;
 	this.powerTypePic;
 	this.active = false;
@@ -77,6 +79,33 @@ function drawPower(){
 	for(var i = 0; i < activePowers.length; i++){
 		setPowerType(activePowers[i].powerTypePic, activePowers[i].x, activePowers[i].y);
 	}
+}
+
+
+
+function makeActive(col, row){
+	for(var j = 0; j < activePowers.length; j++){
+		if(activePowers[j].col === col && activePowers[j].row === row){
+			activePowers[j].active = true;
+		}
+		
+	}
+}
+
+function movePower(){
+	for(var k = 0; k < activePowers.length; k++){
+		if(activePowers[k].active === true){
+			activePowers[k].y += 5;
+		}
+	}
+}
+
+function breakAndCreatePowerAtPixelCoord(powerCol, powerRow){
+	var powerIndex = brickTileToIndex(powerCol, powerRow);
+	if(powerGrid[powerIndex] > 0){
+		makeActive(powerCol, powerRow);
+
+	}	
 }
 
 /*
