@@ -11,15 +11,12 @@ var paddleHit = 0;
 var extraLifeScore = 4000;
 var extraLifeCounter = 3;
 var extraLifeGained = false;
-var powerFire = false;
-var powerCannon = false;
-var powerMulti = false;
-var powerSticky = false;
 var backgroundMusic = new BackgroundMusicClass();
 var hitPaddleSound = new SoundOverlapsClass("audio/paddleHit");
 var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
+var powerGet = new SoundOverlapsClass("audio/powerGet");
 var laser1 = new laserClass();
 var laser2 = new laserClass();
 var currentBallAmount = 0;
@@ -79,7 +76,7 @@ function drawEverything(){
 	
 	if(powerFire === true){
 		trailDraw();
-		setTimeout(function(){powerFire= false}, 1000);
+		setTimeout(function(){powerFire= false}, 5000);
 	}
 
 	if(powerCannon === true){
@@ -212,7 +209,7 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 						extraLifeCounter--;
 						extraLifeGained = true;
 					}
-					breakAndCreatePowerAtPixelCoord(tileCol, tileRow);
+					createPowerAtPixelCoord(tileCol, tileRow);
 				}
 				brickGrid[brickIndex] -= 1;
 				//return true;

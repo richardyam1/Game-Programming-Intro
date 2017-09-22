@@ -3,7 +3,10 @@ var powerReveal = false;
 var currentPowerAmount = 0;
 var powerLimit = 15;
 var powerCapsuleLimit;
-var powerDrop = 0;
+var powerFire = false;
+var powerCannon = false;
+var powerMulti = false;
+var powerSticky = false;
 const FIRE= 1;
 const CANNON = 2;
 const MULTI = 3;
@@ -39,6 +42,7 @@ function powerClass(col, row){
 	this.col = Math.floor(col);
 	this.row = Math.floor(row);
 	this.dy = 6;
+	this.powerType;
 	this.powerTypePic;
 	this.active = false;
 }
@@ -53,18 +57,23 @@ function setPowers(){
 				//document.getElementById("debugText").innerHTML = power.x + " " + power.y;
 				
 				if(isPowerAtTileCoord(eachCol, eachRow) === FIRE){
+					power.powerType = FIRE;
 					power.powerTypePic = powerFirePic;
 				}
 				else if(isPowerAtTileCoord(eachCol, eachRow) === CANNON){
+					power.powerType = CANNON;
 					power.powerTypePic = powerCannonPic;
 				}
 				else if(isPowerAtTileCoord(eachCol, eachRow) === MULTI){
+					power.powerType = MULTI;
 					power.powerTypePic = powerMultiPic;
 				}
 				else if(isPowerAtTileCoord(eachCol, eachRow) === STICKY){
+					power.powerType = STICKY;
 					power.powerTypePic = powerStickyPic;
 				}
 				else if(isPowerAtTileCoord(eachCol, eachRow) === POINTS){
+					power.powerType = POINTS;
 					power.powerTypePic = powerPointsPic;
 				}
 
@@ -96,11 +105,33 @@ function movePower(){
 	for(var k = 0; k < activePowers.length; k++){
 		if(activePowers[k].active === true){
 			activePowers[k].y += 5;
+			if(activePowers[k].y >= PADDLE_Y && activePowers[k].y <= PADDLE_Y + PADDLE_HEIGHT){
+				if(activePowers[k].x > paddleX && activePowers[k].x < paddleX + PADDLE_WIDTH){
+					powerGet.play();
+					if(activePowers[k].powerType === FIRE){
+						powerFire = true;
+					}
+					else if(activePowers[k].powerType === CANNON){
+						powerCannon = true;
+					}
+					else if(activePowers[k].powerType === MULTI){
+						numBalls = 3;
+        				createExtraBalls();
+					}
+					else if(activePowers[k].powerType === STICKY){
+						powerSticky = true;
+					}
+					else if(activePowers[k].powerType === POINTS){
+						score += 1000;
+					}
+					activePowers.splice(k, 1);
+				}
+			}
 		}
 	}
 }
 
-function breakAndCreatePowerAtPixelCoord(powerCol, powerRow){
+function createPowerAtPixelCoord(powerCol, powerRow){
 	var powerIndex = brickTileToIndex(powerCol, powerRow);
 	if(powerGrid[powerIndex] > 0){
 		makeActive(powerCol, powerRow);
