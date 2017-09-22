@@ -7,7 +7,7 @@ function createLaser(){
 	laserActive.push(laser1);
 
 	var laser2 = new laserClass();
-	laser2.laserInitX(75)
+	laser2.laserInitX(75);
 	laserActive.push(laser2);
 }
 
@@ -20,22 +20,23 @@ function laserClass(){
 	this.laserMove = function(){
 		this.y -= this.ySpeed;
 		for(var i in laserActive){
-			if(i.y < 0 || laserBreakBrick(this.x, this.y) === true){
+			if(laserBreakBrick(this.x, this.y) === true){
 				delete laserActive[i];
-			}	
+			}
 		}
 	};
 
 
 	this.laserDraw = function(){
 		drawBitmapCenteredAtLocation(laserPic, this.x, this.y);		
-		document.getElementById("debugText").innerHTML = laserBreakBrick(this.x, this.y);	
+		//document.getElementById("debugText").innerHTML 	
 	};
 
 	this.laserInitX = function(x){
 		this.x = paddleX + x;
 	}
 
+	
 }
 
 
@@ -80,6 +81,7 @@ function laserBreakBrick(pixelX, pixelY){
 					extraLifeCounter--;
 					extraLifeGained = true;
 				}
+				createPowerAtPixelCoord(tileCol, tileRow);
 			}
 			brickGrid[brickIndex] -= 1;
 			return true;
