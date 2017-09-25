@@ -145,13 +145,13 @@ function breakAndBounceOffBrickAtPixelCoord(pixelX, pixelY){
 	}
 
 	var brickIndex = brickTileToIndex(tileCol, tileRow);
-	if(powerFire === true){
+	if(brickGrid[brickIndex] > 0 && powerFire === true){
 		hitBrickSound.play();
 		brickGrid[brickIndex] = 0;
 	}
 
 
-	if(brickGrid[brickIndex] > 0 && powerFire === false){
+	else if(brickGrid[brickIndex] > 0 && powerFire === false){
 		//Checks the previous col or row of the ball
 		var prevBallX = ballX - ballSpeedX;
 		var prevBallY = ballY - ballSpeedY;
