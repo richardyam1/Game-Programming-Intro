@@ -1,7 +1,6 @@
 var activePowers = [];
 var powerReveal = false;
 var currentPowerAmount = 0;
-var powerLimit = 15;
 var powerCapsuleLimit;
 var powerFire = false;
 var powerCannon = false;
@@ -17,7 +16,7 @@ const POWER_ROWS = 14;
 const POWER_W = 50;
 const POWER_H = 28;
 
-var powerGrid = [	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+/*var powerGrid = [	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
 				    0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
 					0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
 					0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
@@ -32,9 +31,21 @@ var powerGrid = [	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 					1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 					1,	2,	3,	4,	5,	1,	1,	1,	1,	1,
 					];
+*/
 
+var powerGrid = brickGrid.slice();
 
-//var powerGrid = brickGrid.slice();
+for(var i = 0; i < powerGrid.length; i++){
+	powerGrid[i] = 0;
+}
+
+for(var j = 0; j < brickGrid.length; j++){
+	if(brickGrid[j] > 0){
+		if(Math.round(Math.random() * 2) === 0){
+			powerGrid[j] = Math.round(Math.random() * 5);
+		}
+	}
+}
 
 function powerClass(col, row){
 	this.x = col * BRICK_W + 35;
@@ -50,7 +61,7 @@ function powerClass(col, row){
 function setPowers(){
 	for(var eachCol = 0; eachCol < POWER_COLS; eachCol++){
 		for(var eachRow = 0; eachRow < POWER_ROWS; eachRow++){
-			if(isPowerAtTileCoord(eachCol, eachRow) > 0 && activePowers.length < powerLimit){
+			if(isPowerAtTileCoord(eachCol, eachRow) > 0){
 				var power = new powerClass(eachCol, eachRow);
 
 				//document.getElementById("debugText").innerHTML = activePowers[0].x + " " + activePowers[0].y + " "+ activePowers[1].x + " " + activePowers[1].y + " "+ activePowers[2].x + " " + activePowers[2].y;
@@ -86,7 +97,9 @@ function setPowers(){
 
 function drawPower(){
 	for(var i = 0; i < activePowers.length; i++){
-		setPowerType(activePowers[i].powerTypePic, activePowers[i].x, activePowers[i].y);
+		//if(activePowers[i].active === true){
+			setPowerType(activePowers[i].powerTypePic, activePowers[i].x, activePowers[i].y);
+		//}
 	}
 }
 
