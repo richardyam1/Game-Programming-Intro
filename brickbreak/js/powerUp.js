@@ -97,9 +97,9 @@ function setPowers(){
 
 function drawPower(){
 	for(var i = 0; i < activePowers.length; i++){
-		//if(activePowers[i].active === true){
+		if(activePowers[i].active === true){
 			setPowerType(activePowers[i].powerTypePic, activePowers[i].x, activePowers[i].y);
-		//}
+		}
 	}
 }
 
@@ -109,6 +109,9 @@ function makeActive(col, row){
 	for(var j = 0; j < activePowers.length; j++){
 		if(activePowers[j].col === col && activePowers[j].row === row){
 			activePowers[j].active = true;
+		}
+		if(activePowers[j].powerType === MULTI && powerMulti === true){
+			activePowers[j].active = false;
 		}
 		
 	}
@@ -130,6 +133,7 @@ function movePower(){
 					else if(activePowers[k].powerType === MULTI){
 						numBalls = 3;
         				createExtraBalls();
+        				powerMulti = true;
 					}
 					else if(activePowers[k].powerType === STICKY){
 						powerSticky = true;
