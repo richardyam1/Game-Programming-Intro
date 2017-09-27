@@ -8,7 +8,27 @@ const GREEN_BRICK = 2;
 const RED_BRICK = 3;
 const YELLOW_BRICK = 4;
 var bricksLeft = 0;
+var stageNumber = 1;
+/*
 var	brickGrid	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
+								];
+*/
+
+
+var	brickStage1	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
 								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
 								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
@@ -21,10 +41,45 @@ var	brickGrid	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
-								3,	3,	3,	3,	3,	3,	3,	3,	3,	3,
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
+								];
+
+var	brickStage2	=       	[	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	
+								2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	
+								2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
+								0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	
+								3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	
+								2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	1,
 								];
 
 
+var	brickStage3	=       	[	0,	0,	4,	0,	0,	0,	4,	0,	0,	0,	
+								0,	0,	0,	4,	0,	4,	0,	0,	0,	0,	
+								0,	0,	0,	4,	0,	4,	0,	0,	0,	0,	
+								0,	0,	1,	1,	1,	1,	1,	0,	0,	0,	
+								0,	0,	1,	1,	1,	1,	1,	0,	0,	0,	
+								0,	1,	1,	3,	1,	3,	1,	1,	0,	0,	
+								0,	1,	1,	3,	1,	3,	1,	1,	0,	0,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	0,	
+								1,	1,	1,	1,	1,	1,	1,	1,	1,	0,
+								1,	0,	1,	1,	1,	1,	1,	0,	1,	0,	
+								1,	0,	1,	0,	0,	0,	1,	0,	1,	0,	
+								1,	0,	1,	0,	0,	0,	1,	0,	1,	0,	
+								0,	0,	0,	1,	0,	1,	0,	0,	0,	0,	
+								0,	0,	0,	1,	0,	1,	0,	0,	0,	0,
+								];
+
+
+
+var brickGrid = (eval("brickStage" + stageNumber.toString())).slice();
 function drawBricks(){
 	for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
 		for(var eachRow = 0; eachRow < BRICK_ROWS; eachRow++){
@@ -42,7 +97,6 @@ function drawBricks(){
 			}
 		}
 	}
-	document.getElementById("debugText").innerHTML = bricksLeft;
 }
 
 function countBricks(){
@@ -58,9 +112,7 @@ function countBricks(){
 
 
 function resetBricks(){
-	for(var i = BRICK_COLS * 3; i < BRICK_COLS * BRICK_ROWS; i++){
-		brickGrid[i] = 1;
-	}
+	brickGrid = (eval("brickStage" + stageNumber.toString())).slice();
 }
 
 function brickTileToIndex(tileCol, tileRow){
@@ -76,5 +128,5 @@ function isBrickAtTileCoord(brickTileCol, brickTileRow){
 function setBrickType(brick, col, row){
 	var brickLeftEdgeX = col * BRICK_W;
 	var brickTopEdgeY = row * BRICK_H;
-	drawBitmapPositionedByTopLeftCorner(brick, brickLeftEdgeX, brickTopEdgeY)
+	drawBitmapPositionedByTopLeftCorner(brick, brickLeftEdgeX, brickTopEdgeY);
 }
