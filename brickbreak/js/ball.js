@@ -101,7 +101,6 @@ function ballClass(x){
 
 function createFirstBall(){
 	balls[0] = new ballClass(5);
-
 }
 //createBalls();
 
@@ -116,7 +115,7 @@ function createExtraBalls(){
 	
 }
 
-
+/*
 function ballDrawAndMove(){
 	for(var j = 0; j < numBalls; j++){
 		var ball = balls[j];
@@ -172,6 +171,7 @@ function ballDrawAndMove(){
 				//if ball goes over bottom 
 				if (ball.y > canvas.height){
 					missSound.play();
+					lives--;
 					//remove ball from array
 					balls.splice(j, 1);
 
@@ -213,7 +213,7 @@ function ballDrawAndMove(){
 			if(breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y) === true){
 				ball.dx *= ballSpeedX;
 				ball.dy *= ballSpeedY;
-			}*/
+			}
 			ball.x += ball.dx;
 			ball.y += ball.dy;
 		}
@@ -232,7 +232,131 @@ function ballDrawAndMove(){
 	}
 
 }
+*/
 
+function ballDraw(){
+	for(var l = 0; l < balls.length; l++ ){
+		drawBitmapCenteredAtLocation(ballPic, balls[l].x, balls[l].y);
+	}
+}
+
+function ballMove(){
+	for(var j = 0; j < numBalls; j++){
+		var ball = balls[j];
+		//if(ballSuspended === true){
+			//ball.x = paddleX + (PADDLE_WIDTH/2) + 10;
+		//}
+		
+		if(ball.suspended === false){
+
+			if(ball.x < 0 || ball.x > canvas.width){
+				ball.dx *= -1;
+				//ballSpeedX *= -1;
+			}
+
+			if(ball.y < 0){
+				ball.dy *= -1;
+				//ballSpeedY *= -1;
+			}
+
+			if(ball.dy > 0.0){
+				if(ball.y >= PADDLE_Y && ball.y <= PADDLE_Y + PADDLE_HEIGHT){
+					if(ball.x > paddleX && ball.x < paddleX + PADDLE_WIDTH){
+						if(powerSticky === true){
+							//ballSuspended = true;
+							//Calculate distance of ball from left paddle edge is it stays there when paddle is moved
+							//ball.x = ballX;
+							ball.suspended = true;
+							ballSuspended = true;
+							ball.ballDistanceFromLeftPaddleEdge = ball.x - paddleX;
+							ball.x = paddleX + ball.ballDistanceFromLeftPaddleEdge;
+
+						}
+					
+						hitPaddleSound.play();
+						ball.dy *= -1;
+						//ballSpeedY *= -1;
+						paddleHit += 1;
+						var centerPaddle = paddleX + PADDLE_WIDTH/2;
+						var centerDistance = ball.x - centerPaddle;
+						ball.dx = centerDistance * 0.35;
+						if(paddleHit % 10 === 0){
+							ball.dy -= 3;
+						}
+						if(bricksLeft === 0){
+							resetBricks();
+							countBricks();
+						}
+						
+					}
+					
+				}
+				
+				//if ball goes over bottom 
+				if (ball.y > canvas.height){
+					missSound.play();
+					lives--;
+					//remove ball from array
+					balls.splice(j, 1);
+
+					numBalls--;
+					if(numBalls === 0){
+						//delete balls[j];
+						numBalls = 1;
+						ballSuspended = true;
+						createFirstBall();
+					}
+					powerSticky = false;
+					//ballReset();
+					//ballSuspended = true;
+				}
+
+				
+			}
+			
+			//var changeDirection = breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
+			breakAndBounceOffBrickAtPixelCoord(j);
+			/*
+			if(changeDirectionX === true && changeDirectionY === false){
+				ball.dx *= -1;
+				changeDirectionX = false;
+			}
+			else if(changeDirectionX === false && changeDirectionY === true){
+				ball.dy *= -1;
+				changeDirectionY = false;
+			}
+			else if(changeDirectionX === true && changeDirectionY === true){
+				ball.dx *= -1;
+				ball.dy *= -1;
+				changeDirectionX = false;
+				changeDirectionY = false;
+			}*/
+			
+			
+			
+			/*
+			if(breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y) === true){
+				ball.dx *= ballSpeedX;
+				ball.dy *= ballSpeedY;
+			}*/
+			ball.x += ball.dx;
+			ball.y += ball.dy;
+		}
+		
+		else if(ball.suspended === true){
+			ball.x = paddleX + ball.ballDistanceFromLeftPaddleEdge;
+		}
+		//document.getElementById("debugText").innerHTML = ball.y + " " + PADDLE_Y + " " + (PADDLE_Y + PADDLE_HEIGHT);
+		//document.getElementById("debugText").innerHTML = ball.x + " " + paddleX + " " + (paddleX + PADDLE_WIDTH);
+		//document.getElementById("debugText").innerHTML = changeDirection;
+
+		//drawBitmapCenteredAtLocation(ballPic, ball.x, ball.y);
+		//breakAndBounceOffBrickAtPixelCoord(ball.x, ball.y);
+		
+		storeLastPosition(ball.x, ball.y);
+	}
+
+}
 
 function storeLastPosition(xPos, yPos){
     ballPosition.push({
