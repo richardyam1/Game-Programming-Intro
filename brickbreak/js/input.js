@@ -43,6 +43,7 @@ function mousemoveHandler(evt){
 function mousedownHandler(evt){
     if(powerCannon === true){
         createLaser();
+        laserShoot.play();
     }
     
 }
@@ -58,6 +59,7 @@ function mouseupHandler(evt){
         } 
     }
     showTitleScreen = false;
+    gameClear = false;
 }
 
 function keyPressed(evt){
@@ -84,7 +86,7 @@ function setKeyHoldState(key,setTo){
         number3KeyPressed = setTo;
         numBalls = 3;
         createExtraBalls();
-        //powerMulti = true;
+        powerMulti = true;
         //createBall();
     }
 
