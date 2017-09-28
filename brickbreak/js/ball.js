@@ -238,6 +238,8 @@ function ballDraw(){
 	for(var l = 0; l < balls.length; l++ ){
 		drawBitmapCenteredAtLocation(ballPic, balls[l].x, balls[l].y);
 	}
+					document.getElementById("debugText").innerHTML = bricksLeft;
+
 }
 
 function ballMove(){
@@ -283,10 +285,7 @@ function ballMove(){
 						if(paddleHit % 10 === 0){
 							ball.dy -= 3;
 						}
-						if(bricksLeft === 0){
-							resetBricks();
-							countBricks();
-						}
+						
 						
 					}
 					
@@ -295,7 +294,12 @@ function ballMove(){
 				//if ball goes over bottom 
 				if (ball.y > canvas.height){
 					missSound.play();
-					lives--;
+					if(lives === 0){
+						resetGame();
+					}
+					else{
+						lives--;
+					}
 					//remove ball from array
 					balls.splice(j, 1);
 
@@ -306,6 +310,7 @@ function ballMove(){
 						ballSuspended = true;
 						createFirstBall();
 					}
+
 					powerSticky = false;
 					//ballReset();
 					//ballSuspended = true;
@@ -367,6 +372,16 @@ function storeLastPosition(xPos, yPos){
     if(ballPosition.length > ballTrailLength){
         ballPosition.shift();
     }
+}
+
+function resetBall(){
+	ballSuspended = true;
+	powerFire = false;
+	powerCannon = false;
+	powerMulti = false;
+	powerSticky = false;
+	numBalls = 1;
+	createFirstBall();
 }
 
 function trailDraw(){
