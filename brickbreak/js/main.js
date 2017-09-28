@@ -7,6 +7,7 @@ var finalScore;
 var lives = 2;
 var ballSuspended= true;
 var showTitleScreen = true;
+var gameClear = false;
 var paddleHit = 0;
 var extraLifeScore = 4000;
 var extraLifeCounter = 3;
@@ -17,6 +18,7 @@ var hitBrickSound = new SoundOverlapsClass("audio/brickHit");
 var missSound = new SoundOverlapsClass("audio/miss");
 var extraLifeSound = new SoundOverlapsClass("audio/extraLife");
 var powerGet = new SoundOverlapsClass("audio/powerGet");
+var laserShoot = new SoundOverlapsClass("audio/laser");
 var laser1 = new laserClass();
 var laser2 = new laserClass();
 var currentBallAmount = 0;
@@ -30,7 +32,6 @@ $(document).ready(function(){
 	scoreBoardContext = scoreBoard.getContext("2d");
 	loadImages();
 	canvasContext.textAlign = "center";
-	countBricks();
 	powerReset();
 	setPowers();
 	//resetBricks();
@@ -93,6 +94,9 @@ function drawEverything(){
 		if(finalScore > 0){
 			colorText("Your Final Score: " + finalScore, canvas.width/2, 300, "white");
 		}
+		if(gameClear === true){
+			colorText("Congratulation!  You've have cleared all the levels", canvas.width/2, 350, "white");
+		}
 	}
 	//goes through laserActive array and draws the laser if it has not left the screen
 	laserActive.forEach(function(laser1){
@@ -145,8 +149,9 @@ function breakAndBounceOffBrickAtPixelCoord(index){
 	}
 
 	var brickIndex = brickTileToIndex(tileCol, tileRow);
-	if(powerFire === true){
+	if(brickGrid[brickIndex] > 0 && powerFire === true){
 		hitBrickSound.play();
+		bricksLeft--;
 		brickGrid[brickIndex] = 0;
 	}
 	if(brickGrid[brickIndex] > 0 && powerFire === false){
@@ -184,7 +189,8 @@ function breakAndBounceOffBrickAtPixelCoord(index){
 			balls[index].dx *= -1;
 			balls[index].dy *= -1;
 		}
-		
+		powerReveal = true;
+
 		hitBrickSound.play();
 		if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
 			if(brickGrid[brickIndex] === 1){
@@ -197,6 +203,7 @@ function breakAndBounceOffBrickAtPixelCoord(index){
 					extraLifeCounter--;
 					extraLifeGained = true;
 				}
+
 			}
 			brickGrid[brickIndex] -= 1;
 			return true;
@@ -299,9 +306,11 @@ function resetGame(){
 	finalScore = score;
 	score = 0;
 	lives = 2;
-	ballSuspended= true;
+	stageNumber = 1;
+	ballSuspended = true;
 	showTitleScreen = true;
 	resetBricks();
+	countBricks();
 }
 
 
