@@ -44,6 +44,7 @@ function mousedownHandler(evt){
     if(powerCannon === true){
         createLaser();
         laserShoot.play();
+        laserAmmo--;
     }
     
 }
@@ -58,6 +59,7 @@ function mouseupHandler(evt){
             ball.suspended = false;
         } 
     }
+
     showTitleScreen = false;
     gameClear = false;
 }
@@ -80,6 +82,7 @@ function setKeyHoldState(key,setTo){
     if(key === KEY_NUMBER_2){
         number2KeyPressed = setTo;
         powerCannon = true;
+        laserAmmo = 10;
     }
 
     if(key === KEY_NUMBER_3){
@@ -93,6 +96,7 @@ function setKeyHoldState(key,setTo){
     if(key === KEY_NUMBER_4){
         number4KeyPressed = setTo;
         powerSticky = true;
+        ballSuspendedAmount = 3;
     }
 
     if(key === KEY_NUMBER_5){

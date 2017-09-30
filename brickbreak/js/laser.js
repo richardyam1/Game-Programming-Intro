@@ -1,6 +1,5 @@
 var laserActive = [];
 
-
 function createLaser(){
 	var laser1 = new laserClass();
 	laser1.laserInitX(25);
