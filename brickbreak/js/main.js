@@ -75,7 +75,11 @@ function drawEverything(){
 
 	if(powerCannon === true){
 		cannonDraw();
-			
+		colorText(laserAmmo, paddleX + PADDLE_WIDTH, PADDLE_Y - 50, "blue");
+	}
+
+	if(laserAmmo === 0){
+		powerCannon = false;
 	}
 
 
