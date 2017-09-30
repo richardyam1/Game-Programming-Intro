@@ -4,7 +4,12 @@ const PADDLE_Y = 540;
 var paddleX = 350;
 
 function paddleDraw(){
-	drawBitmapPositionedByTopLeftCorner(paddlePic, paddleX, PADDLE_Y);
+	if(powerSticky === true){
+		drawBitmapPositionedByTopLeftCorner(paddleStickyPic, paddleX, PADDLE_Y);
+	}
+	else{
+		drawBitmapPositionedByTopLeftCorner(paddlePic, paddleX, PADDLE_Y);
+	}
 }
 
 function cannonDraw(){

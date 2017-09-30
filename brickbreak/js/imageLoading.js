@@ -1,5 +1,6 @@
 var picsToLoad = 0;
 var paddlePic = document.createElement("img");
+var paddleStickyPic = document.createElement("img");
 var lifePic = document.createElement("img");
 
 var greyBrickPic = document.createElement("img");
@@ -30,6 +31,7 @@ function countLoadedImageAndLaunchIfReady(){
 function loadImages(){
 	var imageList = [
 		{varName: paddlePic, theFile: "paddle.png"},
+		{varName: paddleStickyPic, theFile: "paddleSticky.png"},
 		{varName: lifePic, theFile: "life.png"},
 		{varName: backgroundPic, theFile: "bg.jpg"},
 		{varName: ballPic, theFile: "ball.png"},
