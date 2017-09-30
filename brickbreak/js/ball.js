@@ -13,6 +13,7 @@ var ballDistanceFromLeftPaddleEdge;
 var ballActive = [];
 var numBalls = 1;
 var balls = [];
+var ballSuspendedAmount;
 
 function ballClass(x){
 	this.x = (paddleX + (PADDLE_WIDTH/2)) + x;
@@ -26,7 +27,6 @@ function ballClass(x){
 function createFirstBall(){
 	balls[0] = new ballClass(5);
 }
-//createBalls();
 
 function createExtraBalls(){
 	if(numBalls > 1){
@@ -49,9 +49,7 @@ function ballDraw(){
 
 function ballMove(){
 	for(var j = 0; j < numBalls; j++){
-		var ball = balls[j];
-		
-		
+		var ball = balls[j];	
 		if(ball.suspended === false){
 
 			if(ball.x < 0 || ball.x > canvas.width){
@@ -67,10 +65,14 @@ function ballMove(){
 			if(ball.dy > 0.0){
 				if(ball.y >= PADDLE_Y && ball.y <= PADDLE_Y + PADDLE_HEIGHT){
 					if(ball.x > paddleX && ball.x < paddleX + PADDLE_WIDTH){
-						if(powerSticky === true){
+						if(powerSticky === true && ballSuspendedAmount > 0){
 							
 							ball.suspended = true;
 							ballSuspended = true;
+							ballSuspendedAmount--;
+							if(ballSuspendedAmount === 0){
+								powerSticky = false;
+							}
 							ball.ballDistanceFromLeftPaddleEdge = ball.x - paddleX;
 							ball.x = paddleX + ball.ballDistanceFromLeftPaddleEdge;
 
