@@ -4,6 +4,7 @@ const PADDLE_Y = 540;
 var paddleX = 350;
 
 function paddleDraw(){
+	//Turns paddle green to signify that powerSticky is active
 	if(powerSticky === true){
 		drawBitmapPositionedByTopLeftCorner(paddleStickyPic, paddleX, PADDLE_Y);
 	}
@@ -12,6 +13,7 @@ function paddleDraw(){
 	}
 }
 
+//Draws the cannons
 function cannonDraw(){
 	drawBitmapCenteredAtLocation(cannonPic, paddleX + 25, PADDLE_Y - 10);
 	drawBitmapCenteredAtLocation(cannonPic, paddleX + 75, PADDLE_Y - 10);

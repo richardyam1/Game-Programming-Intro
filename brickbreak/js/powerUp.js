@@ -1,5 +1,4 @@
 var activePowers = [];
-var powerReveal = false;
 var currentPowerAmount = 0;
 var powerCapsuleLimit;
 var powerFire = false;
@@ -18,12 +17,15 @@ const POWER_W = 50;
 const POWER_H = 28;
 
 function powerReset(){
+	//Copy brickGrid 
 	powerGrid = brickGrid.slice();
 
+	//Set every power index to 0
 	for(var i = 0; i < powerGrid.length; i++){
 		powerGrid[i] = 0;
 	}
 
+	//If there's a brick, give it a 1/3 chance of having a power-up and then assign a random number to the index.
 	for(var j = 0; j < brickGrid.length; j++){
 		if(brickGrid[j] > 0){
 			if(Math.round(Math.random() * 2) === 0){
@@ -44,6 +46,7 @@ function powerClass(col, row){
 	this.active = false;
 }
 
+//Goes through powerGrid and assigns a power based on the number in the index
 function setPowers(){
 	for(var eachCol = 0; eachCol < POWER_COLS; eachCol++){
 		for(var eachRow = 0; eachRow < POWER_ROWS; eachRow++){
@@ -78,6 +81,7 @@ function setPowers(){
 	}
 }
 
+//Draws the power
 function drawPower(){
 	for(var i = 0; i < activePowers.length; i++){
 		if(activePowers[i].active === true){
@@ -87,7 +91,7 @@ function drawPower(){
 }
 
 
-
+//When ball hits the brick the power resides in, the power becomes active
 function makeActive(col, row){
 	for(var j = 0; j < activePowers.length; j++){
 		if(activePowers[j].col === col && activePowers[j].row === row){
@@ -100,6 +104,7 @@ function makeActive(col, row){
 	}
 }
 
+//Moves the power if it's active.  Activates power if it contacts the paddle
 function movePower(){
 	for(var k = 0; k < activePowers.length; k++){
 		if(activePowers[k].active === true){
@@ -112,6 +117,7 @@ function movePower(){
 					}
 					else if(activePowers[k].powerType === CANNON){
 						powerCannon = true;
+						laserAmmo = 10;
 					}
 					else if(activePowers[k].powerType === MULTI){
 						numBalls = 3;
@@ -120,10 +126,12 @@ function movePower(){
 					}
 					else if(activePowers[k].powerType === STICKY){
 						powerSticky = true;
+						ballSuspendedAmount = 3;
 					}
 					else if(activePowers[k].powerType === POINTS){
 						score += 1000;
 					}
+					//Removes power from array when it contacts the paddle so it will not be drawn anymore.
 					activePowers.splice(k, 1);
 				}
 			}
@@ -131,28 +139,24 @@ function movePower(){
 	}
 }
 
+
 function createPowerAtPixelCoord(powerCol, powerRow){
 	var powerIndex = brickTileToIndex(powerCol, powerRow);
 	if(powerGrid[powerIndex] > 0){
 		makeActive(powerCol, powerRow);
-
 	}	
 }
 
+//Checks if there's power in the brick
 function isPowerAtTileCoord(powerTileCol, powerTileRow){
 	var powerIndex = powerTileCol + POWER_COLS*powerTileRow;
 	var powerType = powerGrid[powerIndex];
 	return powerType;
 }
 
+
 function setPowerType(power, col, row){
-	
 	drawBitmapCenteredAtLocation(power, col, row);
-
-}
-
-function powerMove(){
-	powerDrop +=2;
 }
 
 

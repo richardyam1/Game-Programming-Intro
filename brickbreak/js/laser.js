@@ -1,4 +1,5 @@
 var laserActive = [];
+var laserAmmo;
 
 function createLaser(){
 	var laser1 = new laserClass();
@@ -28,7 +29,6 @@ function laserClass(){
 
 	this.laserDraw = function(){
 		drawBitmapCenteredAtLocation(laserPic, this.x, this.y);		
-		//document.getElementById("debugText").innerHTML 	
 	};
 
 	this.laserInitX = function(x){
@@ -66,8 +66,6 @@ function laserBreakBrick(pixelX, pixelY){
 	
 	if(brickGrid[brickIndex] > 0){
 		//Checks the previous col or row of the ball
-		
-
 		hitBrickSound.play();
 		if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
 			if(brickGrid[brickIndex] === 1){

@@ -79,14 +79,17 @@ var	brickStage3	=       	[	0,	0,	4,	0,	0,	0,	4,	0,	0,	0,
 								];
 
 
-
+//Create first stage
 var brickGrid = (eval("brickStage" + stageNumber.toString())).slice();
+//Counts how many bricks in the stage
 countBricks();
 
 function drawBricks(){
+	//Draws the next stage when all bricks are cleared
 	if(bricksLeft === 0){
 		resetBricks();
 		countBricks();
+		//place ball back on paddle when stage is cleared
 		resetBall();
 
 	}

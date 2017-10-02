@@ -120,7 +120,6 @@ function ballMove(){
 			}
 			
 			breakAndBounceOffBrickAtPixelCoord(j);
-			
 			ball.x += ball.dx;
 			ball.y += ball.dy;
 		}
