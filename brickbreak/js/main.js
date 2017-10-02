@@ -33,7 +33,6 @@ $(document).ready(function(){
 	canvasContext.textAlign = "center";
 	powerReset();
 	setPowers();
-	//resetBricks();
 });
 
 function loadingDoneSoStartGame(){
@@ -170,7 +169,6 @@ function breakAndBounceOffBrickAtPixelCoord(index){
 			balls[index].dx *= -1;
 			balls[index].dy *= -1;
 		}
-		powerReveal = true;
 
 		hitBrickSound.play();
 		if(brickGrid[brickIndex] === 1 || brickGrid[brickIndex] === 2 || brickGrid[brickIndex] === 3){
@@ -184,7 +182,7 @@ function breakAndBounceOffBrickAtPixelCoord(index){
 					extraLifeCounter--;
 					extraLifeGained = true;
 				}
-
+				createPowerAtPixelCoord(tileCol, tileRow);
 			}
 			brickGrid[brickIndex] -= 1;
 			return true;
