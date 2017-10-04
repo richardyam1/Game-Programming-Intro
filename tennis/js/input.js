@@ -80,7 +80,5 @@ function setKeyHoldState(key,setTo){
 function initInput(){
     document.addEventListener("keydown", keyPressed);
     document.addEventListener("keyup", keyReleased);
-    canvas.addEventListener("mousemove", mousemoveHandler);
-    canvas.addEventListener("mousemove", mousedownHandler);
-    
+    canvas.addEventListener("mousemove", mousemoveHandler);    
 }
