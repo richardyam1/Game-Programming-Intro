@@ -32,3 +32,7 @@
         scoreBoardContext.fillStyle = fillColor;
         scoreBoardContext.fillText(words, textX, textY);
     }
+
+   
+
+    
