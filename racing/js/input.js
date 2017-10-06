@@ -6,12 +6,14 @@ const KEY_LETTER_W  = 87;
 const KEY_LETTER_A = 65;
 const KEY_LETTER_S = 83;
 const KEY_LETTER_D = 68;
+const KEY_NUMBER_1 = 49;
 
 
 
 function keyPressed(evt){
 	setKeyHoldState(evt.keyCode, p1, true);
 	setKeyHoldState(evt.keyCode, p2, true);
+	toggleDayAndNight(evt.keyCode);
 	//prevents keys from performing its normal function when pressed(scrolling, typing)
 	evt.preventDefault();
 }
@@ -36,6 +38,19 @@ function setKeyHoldState(thisKey, thisCar, setTo){
 		thisCar.keyHeld_Reverse = setTo;
 	}
 }
+
+function toggleDayAndNight(thisKey){
+	if(thisKey === KEY_NUMBER_1){
+		if(currentTime === 0){
+			currentTime = 1;
+		}
+		else{
+			currentTime = 0;
+		}
+		loadImages();
+	}
+}
+
 
 function initInput(){
 	document.addEventListener("keydown", keyPressed);

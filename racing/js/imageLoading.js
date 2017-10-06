@@ -1,6 +1,7 @@
 var picsToLoad = 0;
 var carPic = document.createElement("img");
 var car2Pic = document.createElement("img");
+var carsLoaded = 0;
 //will contain all track tile images
 var trackPics = [];
 
@@ -13,7 +14,7 @@ function countLoadedImageAndLaunchIfReady(){
 }
 
 function loadImages(){
-	var imageList = [];
+	//var imageList = [];
 	var imageListSet = [[
 		{varName: carPic, theFile: "player1_day.png"},
 		{varName: car2Pic, theFile: "player2_day.png"},
@@ -35,6 +36,7 @@ function loadImages(){
 		{trackType: TRACK_GRASS, theFile: "track_grass_night.png"},
 		{trackType: TRACK_OIL, theFile: "track_oil_night.png"}]
 	];
+	
 	imageList = imageListSet[currentTime]; 
 	picsToLoad = imageList.length;
 
@@ -43,10 +45,16 @@ function loadImages(){
 			loadImageForTrackCode(imageList[i].trackType, imageList[i].theFile);
 		}
 		else{
-			beginLoadingImage(imageList[i].varName, imageList[i].theFile);
+			if(carsLoaded !== 2){
+				beginLoadingImage(imageList[i].varName, imageList[i].theFile);
+				carsLoaded++;
+			}
 		}
 	}
+
 	
+
+
 }
 
 function beginLoadingImage(imgVar, fileName){
