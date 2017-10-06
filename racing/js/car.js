@@ -34,6 +34,7 @@ function carClass (){
 			}
 		}
 		if(this.keyHeld_Gas){
+			raceStarted = true;
 			this.carSpeed += DRIVE_POWER;
 		}
 		if(this.keyHeld_Reverse){
@@ -97,6 +98,7 @@ function carClass (){
 		}
 		this.carX = this.homeX;
 		this.carY = this.homeY;
+		raceStarted = false;
 	};
 
 	//Initialize car for p1 and p2

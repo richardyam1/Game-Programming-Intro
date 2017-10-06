@@ -19,3 +19,8 @@ function drawBitmapCenteredAtLocationWithRotation(graphic, atX, atY, withAngle){
 	canvasContext.restore(); //undo the translation movement and rotation since save()
 	
 }
+
+function colorText(words, textX, textY, fillColor){
+        canvasContext.fillStyle = fillColor;
+        canvasContext.fillText(words, textX, textY);
+}

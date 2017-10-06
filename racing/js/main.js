@@ -3,7 +3,7 @@ var p2 = new carClass();
 var canvas;
 var convasContext;
 var currentTime = 0;
-
+var raceStarted = false;
 
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
@@ -31,7 +31,9 @@ function drawEverything(){
 	//draw cars
 	p1.carDraw();
 	p2.carDraw();	
-
+	if(raceStarted === false){
+		colorText("Press the 1 Key to change the time of day", canvas.width/2 - 100, canvas.height/2, "white");
+	}
 }
 
 function moveEverything(){
