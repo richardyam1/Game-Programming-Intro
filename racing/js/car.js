@@ -52,12 +52,18 @@ function carClass (){
 			this.carY = nextY;
 		}
 
-		else if(drivingIntoTileType ===TRACK_GRASS){
-			nextX = this.carX + Math.cos(this.carAng) * this.carSpeed/2;
-			nextY = this.carY + Math.sin(this.carAng) * this.carSpeed/2;
-			this.carX = nextX;
-			this.carY = nextY;
+		else if(drivingIntoTileType === TRACK_PLAYER){
+			this.carOnOil = false;
+			this.carX = this.carX - Math.cos(this.carAng) * this.carSpeed;
+			this.carY = this.carY - Math.sin(this.carAng) * this.carSpeed
 		}
+
+		else if(drivingIntoTileType ===TRACK_GRASS){
+			this.carOnOil = false;
+			this.carX = this.carX + Math.cos(this.carAng) * this.carSpeed/2;
+			this.carY = this.carY + Math.sin(this.carAng) * this.carSpeed/2;
+		}
+
 		else if(drivingIntoTileType === TRACK_OIL){
 			this.carOnOil = true;
 			this.carX = nextX;
@@ -74,7 +80,6 @@ function carClass (){
 		else{
 			this.carSpeed = 0.0;
 		}
-		
 		
 		//slows down the car when key is not pressed
 		this.carSpeed *= GROUNDSPEED_DECAY_MULT;
@@ -108,3 +113,41 @@ function carClass (){
 		this.carReset();
 	};
 }
+
+function detectCollision(car1, car2){
+	//Distance between 2 cars on x-axis
+	var dx = (car1.carX + carPic.width/2) - (car2.carX + car2Pic.width/2);
+	//Distance between 2 cars on y-axis
+	var dy = (car1.carY + carPic.height/2) - (car2.carY + car2Pic.height/2);
+	var width = (carPic.width + car2Pic.width)/2;
+	var height = (carPic.height + car2Pic.height)/2;
+	var crossWidth = width * dy;
+	var crossHeight = height * dx;
+	var collision = "none"; 
+
+	if(Math.abs(dx) <= width && Math.abs(dy) <= height){
+        if(crossWidth>crossHeight){
+            collision=(crossWidth>(-crossHeight))?'bottom':'left';
+        }else{
+            collision=(crossWidth>-(crossHeight))?'right':'top';
+        }
+    }
+    
+    if(collision === "bottom"){
+    	car1.carY += 10;
+    	car2.carY -= 10;
+    }
+    else if(collision === "left"){
+		car1.carX += 10;
+		car2.carX -= 10;
+    }
+    else if(collision === "right"){
+		car1.carX -= 10;
+		car2.carX += 10;
+    }
+    else if(collision === "top"){
+		car1.carY -= 10;
+		car2.carY += 10;
+    }
+}
+	

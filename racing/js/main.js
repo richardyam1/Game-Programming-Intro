@@ -39,8 +39,9 @@ function drawEverything(){
 function moveEverything(){
 	//moves cares
 	p1.carMove();
-	p2.carMove();
+	p2.carMove();	
+	detectCollision(p1, p2);
 }
 
-	
+
 		
