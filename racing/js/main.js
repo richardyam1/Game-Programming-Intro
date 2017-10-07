@@ -4,6 +4,7 @@ var canvas;
 var convasContext;
 var currentTime = 0;
 var raceStarted = false;
+var cpuCar = true;
 
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");

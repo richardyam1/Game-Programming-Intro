@@ -12,7 +12,9 @@ const KEY_NUMBER_1 = 49;
 
 function keyPressed(evt){
 	setKeyHoldState(evt.keyCode, p1, true);
-	setKeyHoldState(evt.keyCode, p2, true);
+	if(cpuCar === false){
+		setKeyHoldState(evt.keyCode, p2, true);
+	}
 	toggleDayAndNight(evt.keyCode);
 	//prevents keys from performing its normal function when pressed(scrolling, typing)
 	evt.preventDefault();
