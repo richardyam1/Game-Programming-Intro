@@ -150,4 +150,89 @@ function detectCollision(car1, car2){
 		car2.carY += 10;
     }
 }
+
+function cpuCarMove(cpu){
+
+	var carRandom = Math.floor(Math.random() * 3);
+
+	if(carRandom === 0){
+		cpu.keyHeld_Reverse = false;
+		cpu.keyHeld_Gas = true;
+	}
+	else if(carRandom === 1){
+		cpu.keyHeld_TurnRight = false;
+		cpu.keyHeld_TurnLeft = true;
+	}
+	else if(carRandom === 2){
+		cpu.keyHeld_TurnLeft = false;
+		cpu.keyHeld_TurnRight = true;
+	}
+	else if(carRandom === 3){
+		cpu.keyHeld_Gas = false;
+		cpu.keyHeld_Reverse = true;
+	}
 	
+	if(cpu.keyHeld_Gas){
+		raceStarted = true;
+		cpu.carSpeed += DRIVE_POWER;
+	}
+	if(cpu.keyHeld_Reverse){
+		cpu.carSpeed += -REVERSE_POWER;
+	}
+
+
+	var nextX = cpu.carX + Math.cos(cpu.carAng) * cpu.carSpeed;
+	var nextY = cpu.carY + Math.sin(cpu.carAng) * cpu.carSpeed;
+
+	var drivingIntoTileType = getTrackAtPixelCoord(nextX, nextY);
+	//check if next tile is a road.
+	if(drivingIntoTileType === TRACK_ROAD){
+		cpu.carOnOil = false;
+		cpu.carX = nextX;
+		cpu.carY = nextY;
+	}
+
+	else if(drivingIntoTileType === TRACK_PLAYER){
+		cpu.carOnOil = false;
+		cpu.carX = cpu.carX - Math.cos(cpu.carAng) * cpu.carSpeed;
+		cpu.carY = cpu.carY - Math.sin(cpu.carAng) * cpu.carSpeed
+	}
+
+	else if(drivingIntoTileType ===TRACK_GRASS){
+		cpu.carOnOil = false;
+		cpu.carX = cpu.carX + Math.cos(cpu.carAng) * cpu.carSpeed/2;
+		cpu.carY = cpu.carY + Math.sin(cpu.carAng) * cpu.carSpeed/2;
+	}
+
+	else if(drivingIntoTileType === TRACK_OIL){
+		cpu.carOnOil = true;
+		cpu.carX = nextX;
+		cpu.carY = nextY;
+	}
+	
+	//check if next tile is the goal line
+	else if(drivingIntoTileType === TRACK_GOAL){
+		document.getElementById("debugText").innerHTML = cpu.myName + " won the race";
+		p1.carReset();
+		p2.carReset();
+	}
+	//if car hits a wall
+	else{
+		cpu.carSpeed = 0.0;
+	}
+	
+	//slows down the car when key is not pressed
+	cpu.carSpeed *= GROUNDSPEED_DECAY_MULT;
+	
+	setTimeout(function(){
+		cpuCarMoving = false;
+	}, 1000);
+
+	function cpuCarKeyReset(){
+		cpu.keyHeld_Gas = false;
+		cpu.keyHeld_Reverse = false;
+		cpu.keyHeld_TurnLeft = false;
+		cpu.keyHeld_TurnRight = false;
+	}
+}
+

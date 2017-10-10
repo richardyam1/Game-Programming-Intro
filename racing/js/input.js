@@ -9,7 +9,6 @@ const KEY_LETTER_D = 68;
 const KEY_NUMBER_1 = 49;
 
 
-
 function keyPressed(evt){
 	setKeyHoldState(evt.keyCode, p1, true);
 	if(cpuCar === false){

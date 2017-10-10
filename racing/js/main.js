@@ -5,6 +5,7 @@ var convasContext;
 var currentTime = 0;
 var raceStarted = false;
 var cpuCar = true;
+var cpuCarMoving = false;
 
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
@@ -41,6 +42,10 @@ function moveEverything(){
 	//moves cares
 	p1.carMove();
 	p2.carMove();	
+	if(cpuCar === true && cpuCarMoving === false){
+		cpuCarMove(p2);
+		cpuCarMoving = true;
+	}
 	detectCollision(p1, p2);
 }
 
