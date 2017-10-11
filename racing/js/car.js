@@ -59,6 +59,7 @@ function carClass (){
 		}
 
 		else if(drivingIntoTileType ===TRACK_GRASS){
+
 			this.carOnOil = false;
 			this.carX = this.carX + Math.cos(this.carAng) * this.carSpeed/2;
 			this.carY = this.carY + Math.sin(this.carAng) * this.carSpeed/2;
@@ -72,6 +73,7 @@ function carClass (){
 		
 		//check if next tile is the goal line
 		else if(drivingIntoTileType === TRACK_GOAL){
+			stopTime();
 			document.getElementById("debugText").innerHTML = this.myName + " won the race";
 			p1.carReset();
 			p2.carReset();
@@ -199,6 +201,7 @@ function cpuCarMove(cpu){
 	}
 
 	else if(drivingIntoTileType ===TRACK_GRASS){
+		stopTime();
 		cpu.carOnOil = false;
 		cpu.carX = cpu.carX + Math.cos(cpu.carAng) * cpu.carSpeed/2;
 		cpu.carY = cpu.carY + Math.sin(cpu.carAng) * cpu.carSpeed/2;
@@ -226,7 +229,7 @@ function cpuCarMove(cpu){
 	
 	setTimeout(function(){
 		cpuCarMoving = false;
-	}, 1000);
+	}, 100);
 
 	function cpuCarKeyReset(){
 		cpu.keyHeld_Gas = false;

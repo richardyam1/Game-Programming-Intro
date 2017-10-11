@@ -10,10 +10,12 @@ function checkTime(time){
 
 function startTime(){
 	startTime = new Date();
-
 	timeStarted = setInterval(runTime, 10);
 }
 
+function stopTime(){
+	clearInterval(timeStarted);
+}
 
 function runTime(){
 	var currentTime = new Date();
@@ -23,6 +25,6 @@ function runTime(){
 	var ms = timeElapsed .getMilliseconds(); 
 	min = checkTime(min);
 	sec = checkTime(sec);
-
-	console.log(min + ":" + sec);
+	ms = Math.floor(ms/100);
+	document.getElementById("timer").innerHTML = min + ":" + sec + "." + ms;
 }

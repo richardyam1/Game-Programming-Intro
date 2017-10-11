@@ -1,15 +1,21 @@
 var p1 = new carClass();
 var p2 = new carClass();
 var canvas;
-var convasContext;
+var canvasContext;
+var stopWatch;
+var stopWatchContext;
 var currentTime = 0;
 var raceStarted = false;
 var cpuCar = true;
 var cpuCarMoving = false;
+startTime();
+
 
 $(document).ready(function(){
 	canvas = document.getElementById("gameCanvas");
 	canvasContext = canvas.getContext("2d");
+	stopWatch = document.getElementById("stopWatch");
+	stopWatchContext = canvas.getContext("2d");
 	//fully loads images before starting program	
 	loadImages();
 });
@@ -36,6 +42,7 @@ function drawEverything(){
 	if(raceStarted === false){
 		colorText("Press the 1 Key to change the time of day", canvas.width/2 - 100, canvas.height/2, "white");
 	}
+
 }
 
 function moveEverything(){
