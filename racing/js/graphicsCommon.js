@@ -21,6 +21,8 @@ function drawBitmapCenteredAtLocationWithRotation(graphic, atX, atY, withAngle){
 }
 
 function colorText(words, textX, textY, fillColor){
-        canvasContext.fillStyle = fillColor;
-        canvasContext.fillText(words, textX, textY);
+    canvasContext.fillStyle = fillColor;
+    canvasContext.fillText(words, textX, textY);
 }
+
+
