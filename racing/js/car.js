@@ -13,11 +13,14 @@ function carClass (){
 	this.keyHeld_TurnLeft = false;
 	this.keyHeld_TurnRight = false;
 	this.carOnOil = false;
-	this.setupControls = function(forwardKey, backKey, leftKey, rightKey){
+	this.nitroBoost = false;
+	this.usedNitro = false;
+	this.setupControls = function(forwardKey, backKey, leftKey, rightKey, nitroKey){
 			this.controlKeyForGas = forwardKey;
 			this.controlKeyForReverse = backKey;
 			this.controlKeyForTurnLeft = leftKey;
 			this.controlKeyForTurnRight = rightKey;
+			this.controlKeyForNitro = nitroKey;
 		}
 
 	this.carDraw = function(){
@@ -35,11 +38,17 @@ function carClass (){
 		}
 		if(this.keyHeld_Gas){
 			raceStarted = true;
-			this.carSpeed += DRIVE_POWER;
+			if(this.nitroBoost === true && this.usedNitro === false){
+				this.carSpeed += DRIVE_POWER * 2;
+			}
+			else{
+				this.carSpeed += DRIVE_POWER;
+			}
 		}
 		if(this.keyHeld_Reverse){
 			this.carSpeed += -REVERSE_POWER;
 		}
+		
 
 		var nextX = this.carX + Math.cos(this.carAng) * this.carSpeed;
 		var nextY = this.carY + Math.sin(this.carAng) * this.carSpeed;

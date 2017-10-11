@@ -7,7 +7,8 @@ const KEY_LETTER_A = 65;
 const KEY_LETTER_S = 83;
 const KEY_LETTER_D = 68;
 const KEY_NUMBER_1 = 49;
-
+const KEY_NUMPAD_0 = 96;
+const KEY_SHIFT = 16;
 
 function keyPressed(evt){
 	setKeyHoldState(evt.keyCode, p1, true);
@@ -38,6 +39,10 @@ function setKeyHoldState(thisKey, thisCar, setTo){
 	if(thisKey === thisCar.controlKeyForReverse){
 		thisCar.keyHeld_Reverse = setTo;
 	}
+	if(thisKey === thisCar.controlKeyForNitro && thisCar.usedNitro === false){
+		thisCar.nitroBoost = true;
+		setTimeout(function(){thisCar.nitroBoost = false; thisCar.usedNitro = true;}, 5000)
+	}
 }
 
 function toggleDayAndNight(thisKey){
@@ -58,6 +63,6 @@ function initInput(){
 	document.addEventListener("keyup", keyReleased);
 
 	//sets up control keys for p1 and p2
-	p1.setupControls(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW);
-	p2.setupControls(KEY_LETTER_W, KEY_LETTER_S, KEY_LETTER_A, KEY_LETTER_D);
+	p1.setupControls(KEY_UP_ARROW, KEY_DOWN_ARROW, KEY_LEFT_ARROW, KEY_RIGHT_ARROW, KEY_NUMPAD_0);
+	p2.setupControls(KEY_LETTER_W, KEY_LETTER_S, KEY_LETTER_A, KEY_LETTER_D, KEY_SHIFT);
 }
