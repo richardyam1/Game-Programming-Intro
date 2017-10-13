@@ -83,6 +83,7 @@ function carClass (){
 		//check if next tile is the goal line
 		else if(drivingIntoTileType === TRACK_GOAL){
 			stopTime();
+			resetTracks();
 			document.getElementById("debugText").innerHTML = this.myName + " won the race";
 			p1.carReset();
 			p2.carReset();

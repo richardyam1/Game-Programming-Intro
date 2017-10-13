@@ -6,7 +6,7 @@ var stopWatch;
 var stopWatchContext;
 var currentTime = 0;
 var raceStarted = false;
-var cpuCar = true;
+var cpuCar = false;
 var cpuCarMoving = false;
 startTime();
 
