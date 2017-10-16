@@ -25,7 +25,8 @@ function loadImages(){
 		{trackType: TRACK_TREE, theFile: "track_tree_day.png"},
 		{trackType: TRACK_FLAG, theFile: "track_flag_day.png"},
 		{trackType: TRACK_GRASS, theFile: "track_grass_day.png"},
-		{trackType: TRACK_OIL, theFile: "track_oil_day.png"}],
+		{trackType: TRACK_OIL, theFile: "track_oil_day.png"},
+		{trackType: TRACK_RAMP, theFile: "track_ramp.png"}],
 		
 		[{varName: carPic, theFile: "player1_night.png"},
 		{varName: car2Pic, theFile: "player2_night.png"},
@@ -35,7 +36,8 @@ function loadImages(){
 		{trackType: TRACK_TREE, theFile: "track_tree_night.png"},
 		{trackType: TRACK_FLAG, theFile: "track_flag_night.png"},
 		{trackType: TRACK_GRASS, theFile: "track_grass_night.png"},
-		{trackType: TRACK_OIL, theFile: "track_oil_night.png"}]
+		{trackType: TRACK_OIL, theFile: "track_oil_night.png"},
+		{trackType: TRACK_RAMP, theFile: "track_ramp.png"}]
 	];
 	
 	imageList = imageListSet[currentTime]; 

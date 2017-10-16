@@ -25,7 +25,7 @@ var	trackStage1	=       [	4,	4,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	
 							1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,
 							1,	0,	0,	0,	0,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	0,	0,	0,	1,
 							1,	0,	0,	0,	1,	1,	1,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	0,	0,	1,
-							1,	0,	3,	1,	1,	0,	0,	1,	4,	4,	1,	1,	0,	0,	0,	1,	1,	0,	0,	1,
+							1,	8,	8,	1,	1,	0,	0,	1,	4,	4,	1,	1,	0,	0,	0,	1,	1,	0,	0,	1,
 							1,	0,	0,	1,	0,	0,	0,	0,	1,	4,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,
 							1,	0,	0,	1,	0,	0,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	1,	0,	0,	1,
 							1,	2,	2,	1,	0,	0,	0,	0,	0,	0,	1,	0,	0,	5,	0,	0,	1,	0,	0,	1,	
@@ -60,6 +60,7 @@ const TRACK_TREE = 4;
 const TRACK_FLAG = 5;
 const TRACK_GRASS = 6;
 const TRACK_OIL = 7;
+const TRACK_RAMP = 8;
 
 
 function drawTracks(){
@@ -86,10 +87,7 @@ function drawTracks(){
 function resetTracks(){
 	if(stageNumber < 3){
 		stageNumber++;
-		p1.homeX = undefined;
-		p1.homeY = undefined;
-		p2.homeX = undefined;
-		p2.homeY = undefined;
+		resetCarStartingPosition();
 		trackGrid = (eval("trackStage" + stageNumber.toString())).slice();
 		p1.carReset();
 		p2.carReset();
