@@ -1,15 +1,16 @@
 var picsToLoad = 0;
 var carPic = document.createElement("img");
 var car2Pic = document.createElement("img");
-var carsLoaded = 0;
+var gameStarted = false;
 //will contain all track tile images
 var trackPics = [];
 
 
 function countLoadedImageAndLaunchIfReady(){
 	picsToLoad--;
-	if(picsToLoad === 0){
+	if(picsToLoad === 0 & gameStarted === false){
 		loadingDoneSoStartGame();
+		gameStarted = true;
 	}
 }
 
@@ -45,10 +46,7 @@ function loadImages(){
 			loadImageForTrackCode(imageList[i].trackType, imageList[i].theFile);
 		}
 		else{
-			if(carsLoaded !== 2){
-				beginLoadingImage(imageList[i].varName, imageList[i].theFile);
-				carsLoaded++;
-			}
+			beginLoadingImage(imageList[i].varName, imageList[i].theFile);
 		}
 	}
 
