@@ -3,6 +3,7 @@ const DRIVE_POWER = 0.5;
 const REVERSE_POWER = 0.2;
 const TURN_RATE = 0.03;
 const MIN_TURN_SPEED = 0.5;
+var carJump = false;
 
 //Use class so both cars have access to code below.
 function carClass (){
@@ -15,6 +16,10 @@ function carClass (){
 	this.carOnOil = false;
 	this.nitroBoost = false;
 	this.usedNitro = false;
+	this.carAirborne = false;
+	this.currentJumpHeight = 0;
+	this.maxJumpHeight = 50;
+
 	this.setupControls = function(forwardKey, backKey, leftKey, rightKey, nitroKey){
 			this.controlKeyForGas = forwardKey;
 			this.controlKeyForReverse = backKey;
@@ -24,77 +29,95 @@ function carClass (){
 		}
 
 	this.carDraw = function(){
-		drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.carX, this.carY, this.carAng );	
+		if(currentTime === 0){
+			drawBitmapCenteredAtLocationWithRotation(carShadow, this.carX, this.carY, this.carAng);	
+		}
+		drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.carX, this.carY, this.carAng, this.myBitmap.width + this.currentJumpHeight, this.myBitmap.height + this.currentJumpHeight);
+
 	};
 
 	this.carMove = function(){
-		if(Math.abs(this.carSpeed) >= MIN_TURN_SPEED){
-			if(this.keyHeld_TurnLeft && this.carOnOil === false){
-				this.carAng += -TURN_RATE*Math.PI;
-			}
-			if(this.keyHeld_TurnRight && this.carOnOil === false){
-				this.carAng += TURN_RATE*Math.PI;
-			}
-		}
-		if(this.keyHeld_Gas){
-			raceStarted = true;
-			if(this.nitroBoost === true && this.usedNitro === false){
-				this.carSpeed += DRIVE_POWER * 2;
-			}
-			else{
-				this.carSpeed += DRIVE_POWER;
-			}
-		}
-		if(this.keyHeld_Reverse){
-			this.carSpeed += -REVERSE_POWER;
-		}
-		
 
 		var nextX = this.carX + Math.cos(this.carAng) * this.carSpeed;
 		var nextY = this.carY + Math.sin(this.carAng) * this.carSpeed;
-
 		var drivingIntoTileType = getTrackAtPixelCoord(nextX, nextY);
-		//check if next tile is a road.
-		if(drivingIntoTileType === TRACK_ROAD){
-			this.carOnOil = false;
+
+		if(this.carAirborne === true){
+			if(this.currentJumpHeight < 25){
+				this.currentJumpHeight += 2;
+			}
 			this.carX = nextX;
 			this.carY = nextY;
+			//check if next tile is the goal line
+			if(drivingIntoTileType === TRACK_GOAL){
+				stopTime();
+				resetTracks();
+				document.getElementById("debugText").innerHTML = this.myName + " won the race";
+				p1.carReset();
+				p2.carReset();
+			}
 		}
 
-		else if(drivingIntoTileType === TRACK_PLAYER){
-			this.carOnOil = false;
-			this.carX = this.carX - Math.cos(this.carAng) * this.carSpeed;
-			this.carY = this.carY - Math.sin(this.carAng) * this.carSpeed
-		}
+		else if (this.carAirborne === false){
+			if(Math.abs(this.carSpeed) >= MIN_TURN_SPEED){
+				if(this.keyHeld_TurnLeft && this.carOnOil === false){
+					this.carAng += -TURN_RATE*Math.PI;
+				}
+				if(this.keyHeld_TurnRight && this.carOnOil === false){
+					this.carAng += TURN_RATE*Math.PI;
+				}
+			}
+			if(this.keyHeld_Gas){
+				raceStarted = true;
+				if(this.nitroBoost === true && this.usedNitro === false){
+					this.carSpeed += DRIVE_POWER * 2;
+				}
+				else{
+					this.carSpeed += DRIVE_POWER;
+				}
+			}
+			if(this.keyHeld_Reverse){
+				this.carSpeed += -REVERSE_POWER;
+			}
+			//check if next tile is a road.
+			if(drivingIntoTileType === TRACK_ROAD){
+				this.carOnOil = false;
+				this.carX = nextX;
+				this.carY = nextY;
+			}
 
-		else if(drivingIntoTileType ===TRACK_GRASS){
+			else if(drivingIntoTileType === TRACK_PLAYER){
+				this.carOnOil = false;
+				this.carX = this.carX - Math.cos(this.carAng) * this.carSpeed;
+				this.carY = this.carY - Math.sin(this.carAng) * this.carSpeed;
+			}
 
-			this.carOnOil = false;
-			this.carX = this.carX + Math.cos(this.carAng) * this.carSpeed/2;
-			this.carY = this.carY + Math.sin(this.carAng) * this.carSpeed/2;
-		}
+			else if(drivingIntoTileType === TRACK_GRASS){
+				this.carOnOil = false;
+				this.carX = this.carX + Math.cos(this.carAng) * this.carSpeed/2;
+				this.carY = this.carY + Math.sin(this.carAng) * this.carSpeed/2;
+			}
 
-		else if(drivingIntoTileType === TRACK_OIL){
-			this.carOnOil = true;
-			this.carX = nextX;
-			this.carY = nextY;
+			else if(drivingIntoTileType === TRACK_OIL){
+				this.carOnOil = true;
+				this.carX = nextX;
+				this.carY = nextY;
+			}
+
+			else if(drivingIntoTileType === TRACK_RAMP){
+				this.carAirborne = true;
+			}
+			
+			
+			//if car hits a wall
+			else{
+				this.carSpeed = 0.0;
+			}
+			//slows down the car when key is not pressed
+			this.carSpeed *= GROUNDSPEED_DECAY_MULT;
 		}
 		
-		//check if next tile is the goal line
-		else if(drivingIntoTileType === TRACK_GOAL){
-			stopTime();
-			resetTracks();
-			document.getElementById("debugText").innerHTML = this.myName + " won the race";
-			p1.carReset();
-			p2.carReset();
-		}
-		//if car hits a wall
-		else{
-			this.carSpeed = 0.0;
-		}
 		
-		//slows down the car when key is not pressed
-		this.carSpeed *= GROUNDSPEED_DECAY_MULT;
 	};
 	//reset car to starting position when goal line is reached
 	this.carReset = function(){
@@ -247,5 +270,16 @@ function cpuCarMove(cpu){
 		cpu.keyHeld_TurnLeft = false;
 		cpu.keyHeld_TurnRight = false;
 	}
+}
+
+function resetCarStartingPosition(){
+	p1.homeX = undefined;
+	p1.homeY = undefined;
+	p2.homeX = undefined;
+	p2.homeY = undefined;
+}
+
+function carJump(){
+
 }
 
