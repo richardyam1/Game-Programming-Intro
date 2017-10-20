@@ -1,6 +1,7 @@
 var picsToLoad = 0;
 var carPic = document.createElement("img");
 var car2Pic = document.createElement("img");
+var carShadow = document.createElement("img");
 var gameStarted = false;
 //will contain all track tile images
 var trackPics = [];
@@ -19,6 +20,7 @@ function loadImages(){
 	var imageListSet = [[
 		{varName: carPic, theFile: "player1_day.png"},
 		{varName: car2Pic, theFile: "player2_day.png"},
+		{varName: carShadow, theFile: "player_shadow.png"},
 		{trackType: TRACK_ROAD, theFile: "track_road_day.png"},
 		{trackType: TRACK_WALL, theFile: "track_wall_day.png"},
 		{trackType: TRACK_GOAL, theFile: "track_goal_day.png"},
@@ -30,6 +32,7 @@ function loadImages(){
 		
 		[{varName: carPic, theFile: "player1_night.png"},
 		{varName: car2Pic, theFile: "player2_night.png"},
+		{varName: carShadow, theFile: "player_shadow.png"},
 		{trackType: TRACK_ROAD, theFile: "track_road_night.png"},
 		{trackType: TRACK_WALL, theFile: "track_wall_night.png"},
 		{trackType: TRACK_GOAL, theFile: "track_goal_night.png"},
