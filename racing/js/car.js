@@ -30,7 +30,7 @@ function carClass (){
 
 	this.carDraw = function(){
 		if(currentTime === 0){
-			drawBitmapCenteredAtLocationWithRotation(carShadow, this.carX, this.carY, this.carAng);	
+			drawBitmapCenteredAtLocationWithRotation(carShadow, this.carX - 10, this.carY, this.carAng, this.myBitmap.width, this.myBitmap.height);	
 		}
 		drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.carX, this.carY, this.carAng, this.myBitmap.width + this.currentJumpHeight, this.myBitmap.height + this.currentJumpHeight);
 
@@ -46,6 +46,9 @@ function carClass (){
 			if(this.currentJumpHeight < 25){
 				this.currentJumpHeight += 2;
 			}
+			else{
+				this.carAirborne = false;
+			}
 			this.carX = nextX;
 			this.carY = nextY;
 			//check if next tile is the goal line
@@ -59,6 +62,10 @@ function carClass (){
 		}
 
 		else if (this.carAirborne === false){
+			if(this.currentJumpHeight > 0){
+				this.currentJumpHeight -=2;
+			}
+
 			if(Math.abs(this.carSpeed) >= MIN_TURN_SPEED){
 				if(this.keyHeld_TurnLeft && this.carOnOil === false){
 					this.carAng += -TURN_RATE*Math.PI;
@@ -108,7 +115,14 @@ function carClass (){
 				this.carAirborne = true;
 			}
 			
-			
+			//check if next tile is the goal line
+			else if(drivingIntoTileType === TRACK_GOAL){
+				stopTime();
+				resetTracks();
+				document.getElementById("debugText").innerHTML = this.myName + " won the race";
+				p1.carReset();
+				p2.carReset();
+			}
 			//if car hits a wall
 			else{
 				this.carSpeed = 0.0;
