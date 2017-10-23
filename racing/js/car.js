@@ -18,7 +18,7 @@ function carClass (){
 	this.usedNitro = false;
 	this.carAirborne = false;
 	this.currentJumpHeight = 0;
-	this.maxJumpHeight = 50;
+	
 
 	this.setupControls = function(forwardKey, backKey, leftKey, rightKey, nitroKey){
 			this.controlKeyForGas = forwardKey;
@@ -33,17 +33,17 @@ function carClass (){
 			drawBitmapCenteredAtLocationWithRotation(carShadow, this.carX - 10, this.carY, this.carAng, this.myBitmap.width, this.myBitmap.height);	
 		}
 		drawBitmapCenteredAtLocationWithRotation(this.myBitmap, this.carX, this.carY, this.carAng, this.myBitmap.width + this.currentJumpHeight, this.myBitmap.height + this.currentJumpHeight);
-
 	};
 
 	this.carMove = function(){
+		document.getElementById("debugText").innerHTML = this.carSpeed;
 
 		var nextX = this.carX + Math.cos(this.carAng) * this.carSpeed;
 		var nextY = this.carY + Math.sin(this.carAng) * this.carSpeed;
 		var drivingIntoTileType = getTrackAtPixelCoord(nextX, nextY);
 
 		if(this.carAirborne === true){
-			if(this.currentJumpHeight < 25){
+			if(this.currentJumpHeight < this.carSpeed * 3){
 				this.currentJumpHeight += 2;
 			}
 			else{
@@ -63,7 +63,7 @@ function carClass (){
 
 		else if (this.carAirborne === false){
 			if(this.currentJumpHeight > 0){
-				this.currentJumpHeight -=2;
+				this.currentJumpHeight -= 2;
 			}
 
 			if(Math.abs(this.carSpeed) >= MIN_TURN_SPEED){
