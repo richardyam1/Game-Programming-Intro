@@ -32,7 +32,6 @@ function loadImages(){
 		
 		[{varName: carPic, theFile: "player1_night.png"},
 		{varName: car2Pic, theFile: "player2_night.png"},
-		{varName: carShadow, theFile: "player_shadow.png"},
 		{trackType: TRACK_ROAD, theFile: "track_road_night.png"},
 		{trackType: TRACK_WALL, theFile: "track_wall_night.png"},
 		{trackType: TRACK_GOAL, theFile: "track_goal_night.png"},
