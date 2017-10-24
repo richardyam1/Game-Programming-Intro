@@ -112,6 +112,7 @@ function carClass (){
 			}
 
 			else if(drivingIntoTileType === TRACK_RAMP){
+				carJump.play();
 				this.carAirborne = true;
 			}
 			
@@ -183,18 +184,22 @@ function detectCollision(car1, car2){
     }
     
     if(collision === "bottom"){
+    	carCollision.play();
     	car1.carY += 10;
     	car2.carY -= 10;
     }
     else if(collision === "left"){
+    	carCollision.play();
 		car1.carX += 10;
 		car2.carX -= 10;
     }
     else if(collision === "right"){
+    	carCollision.play();
 		car1.carX -= 10;
 		car2.carX += 10;
     }
     else if(collision === "top"){
+    	carCollision.play();
 		car1.carY -= 10;
 		car2.carY += 10;
     }

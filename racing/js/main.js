@@ -8,6 +8,11 @@ var currentTime = 0;
 var raceStarted = false;
 var cpuCar = false;
 var cpuCarMoving = false;
+var backgroundMusic = new BackgroundMusicClass();
+var carEngine = new SoundOverlapsClass("audio/carEngine");
+var carBrake = new SoundOverlapsClass("audio/carBrake");
+var carCollision = new SoundOverlapsClass("audio/carCollision");
+var carJump = new SoundOverlapsClass("audio/carJump");
 startTime();
 
 
@@ -46,6 +51,7 @@ function drawEverything(){
 }
 
 function moveEverything(){
+	carEngine.play();
 	//moves cares
 	p1.carMove();
 	p2.carMove();	

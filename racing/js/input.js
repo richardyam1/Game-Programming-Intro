@@ -37,11 +37,15 @@ function setKeyHoldState(thisKey, thisCar, setTo){
 		thisCar.keyHeld_Gas = setTo;
 	}
 	if(thisKey === thisCar.controlKeyForReverse){
+		carBrake.play();
 		thisCar.keyHeld_Reverse = setTo;
 	}
 	if(thisKey === thisCar.controlKeyForNitro && thisCar.usedNitro === false){
 		thisCar.nitroBoost = true;
-		setTimeout(function(){thisCar.nitroBoost = false; thisCar.usedNitro = true;}, 5000)
+		setTimeout(function(){
+			thisCar.nitroBoost = false; 
+			thisCar.usedNitro = true;
+		}, 5000)
 	}
 }
 
@@ -53,6 +57,7 @@ function toggleDayAndNight(thisKey){
 		else{
 			currentTime = 0;
 		}
+		imageList = [];
 		loadImages();
 	}
 }
