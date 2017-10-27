@@ -18,6 +18,8 @@ function carClass (){
 	this.usedNitro = false;
 	this.carAirborne = false;
 	this.currentJumpHeight = 0;
+	this.lapsTaken = 0;
+	this.lapProgress = 0;
 	
 
 	this.setupControls = function(forwardKey, backKey, leftKey, rightKey, nitroKey){
@@ -53,11 +55,24 @@ function carClass (){
 			this.carY = nextY;
 			//check if next tile is the goal line
 			if(drivingIntoTileType === TRACK_GOAL){
-				stopTime();
-				resetTracks();
-				document.getElementById("debugText").innerHTML = this.myName + " won the race";
-				p1.carReset();
-				p2.carReset();
+				if(this.lapProgress > 1 && this.lapsTaken === 3){
+					stopTime();
+					resetTracks();
+					document.getElementById("debugText").innerHTML = this.myName + " won the race";
+					p1.carReset();
+					p2.carReset();
+				}
+				else{
+					this.lapsTaken++;
+					this.lapProgress = 0;
+				}
+				
+			}
+			else if(drivingIntoTileType === TRACK_CHECKPOINT1){
+				this.lapProgress = 1;
+			}
+			else if(drivingIntoTileType === TRACK_CHECKPOINT2){
+				this.lapProgress = 2;
 			}
 		}
 
@@ -115,15 +130,51 @@ function carClass (){
 				carJump.play();
 				this.carAirborne = true;
 			}
+
+			else if(drivingIntoTileType === TRACK_CHECKPOINT1){
+				this.lapProgress = 1;
+				this.carOnOil = false;
+				this.carX = nextX;
+				this.carY = nextY;
+			}
+
+			else if(drivingIntoTileType === TRACK_CHECKPOINT2){
+				this.lapProgress = 2;
+				this.carOnOil = false;
+				this.carX = nextX;
+				this.carY = nextY;
+			}
 			
 			//check if next tile is the goal line
 			else if(drivingIntoTileType === TRACK_GOAL){
-				stopTime();
-				resetTracks();
-				document.getElementById("debugText").innerHTML = this.myName + " won the race";
-				p1.carReset();
-				p2.carReset();
+				if(this.lapProgress === 2){
+					if(this.lapsTaken === 3){
+						stopTime();
+						resetTracks();
+						document.getElementById("debugText").innerHTML = this.myName + " won the race";
+						p1.carReset();
+						p2.carReset();
+					}
+					else{
+						if(this.lapsTaken === 0){
+							this.lapsTaken = 1;
+						}
+						else if(this.lapsTaken === 1){
+							this.lapsTaken = 2;
+						}
+						else if(this.lapsTaken === 2){
+							this.lapsTaken = 3;
+						}
+						this.lapProgress = 0;
+						this.carOnOil = false;
+						
+					}
+				}
+				this.carX = nextX;
+				this.carY = nextY;
 			}
+
+			
 			//if car hits a wall
 			else{
 				this.carSpeed = 0.0;
@@ -153,6 +204,8 @@ function carClass (){
 		}
 		this.carX = this.homeX;
 		this.carY = this.homeY;
+		this.lapProgress = 0;
+		this.lapsTaken = 0;
 		raceStarted = false;
 	};
 
@@ -298,7 +351,5 @@ function resetCarStartingPosition(){
 	p2.homeY = undefined;
 }
 
-function carJump(){
 
-}
 
