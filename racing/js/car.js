@@ -148,8 +148,9 @@ function carClass (){
 			//check if next tile is the goal line
 			else if(drivingIntoTileType === TRACK_GOAL){
 				if(this.lapProgress === 2){
-					if(this.lapsTaken === 3){
+					if(this.lapsTaken === 2){
 						stopTime();
+						resetCarStartingPosition();
 						resetTracks();
 						document.getElementById("debugText").innerHTML = this.myName + " won the race";
 						p1.carReset();
@@ -162,16 +163,16 @@ function carClass (){
 						else if(this.lapsTaken === 1){
 							this.lapsTaken = 2;
 						}
-						else if(this.lapsTaken === 2){
-							this.lapsTaken = 3;
-						}
+						
 						this.lapProgress = 0;
 						this.carOnOil = false;
 						
 					}
 				}
-				this.carX = nextX;
-				this.carY = nextY;
+				else{
+					this.carX = nextX;
+					this.carY = nextY;
+				}
 			}
 
 			
