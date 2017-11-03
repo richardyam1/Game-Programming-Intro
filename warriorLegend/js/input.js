@@ -16,24 +16,30 @@
 
 	function keyReleased(evt){
 		setKeyHoldState(evt.keyCode, p1, false);
-
 	}
 
 	function setKeyHoldState(thisKey, thisPlayer, setTo){
 		if(thisKey === thisPlayer.controlKeyForNorth){
 			thisPlayer.keyHeld_North = setTo;
+			p1.myBitmap = playerPicUp;
 		}
 
 		if(thisKey === thisPlayer.controlKeyForEast){
 			thisPlayer.keyHeld_East = setTo;
+			p1.myBitmap = playerPicRight;
+
 		}
 		
 		if(thisKey === thisPlayer.controlKeyForSouth){
 			thisPlayer.keyHeld_South = setTo;
+			p1.myBitmap = playerPicDown;
+
 		}
 		
 		if(thisKey === thisPlayer.controlKeyForWest){
 			thisPlayer.keyHeld_West = setTo;
+			p1.myBitmap = playerPicLeft;
+
 		}
 		
 	}

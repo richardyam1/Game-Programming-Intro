@@ -1,5 +1,9 @@
 	var picsToLoad = 0;
-	var playerPic = document.createElement("img");
+	var playerPicRight = document.createElement("img");
+	var playerPicDown = document.createElement("img");
+	var playerPicLeft = document.createElement("img");
+	var playerPicUp = document.createElement("img");
+
 	var tilePics = [];
 	
 
@@ -12,7 +16,11 @@
 
 	function loadImages(){
 		var imageList = [
-			{varName: playerPic, theFile: "warrior.png"},
+			{varName: playerPicRight, theFile: "warrior_right.png"},
+			{varName: playerPicDown, theFile: "warrior_down.png"},
+			{varName: playerPicLeft, theFile: "warrior_left.png"},
+			{varName: playerPicUp, theFile: "warrior_up.png"},
+
 			
 			{tileType: TILE_GROUND, theFile: "world_ground.png"},
 			{tileType: TILE_WALL, theFile: "world_wall.png"},

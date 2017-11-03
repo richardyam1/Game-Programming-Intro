@@ -17,7 +17,7 @@ $(document).ready(function(){
 			drawEverything(); 
 			moveEverything();
     	}, 1000/framesPerSecond);
-    	p1.init(playerPic, "Blue Car");
+    	p1.init(playerPicRight, "Blue Car");
 		initInput();
 	}
 
